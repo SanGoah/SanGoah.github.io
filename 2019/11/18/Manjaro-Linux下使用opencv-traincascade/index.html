@@ -46,13 +46,13 @@
   };
 </script>
 
-  <meta name="description" content="OpenCV中有个神奇的AdaBoost，通过读入一个xml即可识别出目标区域。此物中文名唤“级联分类器”，“级联”指它由简单分类器级联组成，通过所有分类器的区域即为目标区域。训练时通过对样本的一定操作可生成样本的Haar&#x2F;LBP&#x2F;HOG等特征，检测时遍历待识别图片各区域进行特征匹配。 训练文件准备训练文件夹的结构应当如下：  &amp;lt;训练文件夹&amp;gt; data（训练结果文件夹） vec（样本集">
+  <meta name="description" content="OpenCV中有个神奇的AdaBoost，通过读入一个xml即可识别出目标区域。此物中文名唤“级联分类器”，“级联”指它由简单分类器级联组成，通过所有分类器的区域即为目标区域。训练时通过对样本的一定操作可生成样本的Haar&#x2F;LBP&#x2F;HOG等特征，检测时遍历待识别图片各区域进行特征匹配。 训练 文件准备 训练文件夹的结构应当如下：    data（训练结果文件夹） vec（样本集文件夹） bg（背景">
 <meta name="keywords" content="OpenCV,AdaBoost,cascade">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Manjaro Linux下使用opencv_traincascade">
 <meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;18&#x2F;Manjaro-Linux%E4%B8%8B%E4%BD%BF%E7%94%A8opencv-traincascade&#x2F;index.html">
 <meta property="og:site_name" content="Mech_Mind‘s blog">
-<meta property="og:description" content="OpenCV中有个神奇的AdaBoost，通过读入一个xml即可识别出目标区域。此物中文名唤“级联分类器”，“级联”指它由简单分类器级联组成，通过所有分类器的区域即为目标区域。训练时通过对样本的一定操作可生成样本的Haar&#x2F;LBP&#x2F;HOG等特征，检测时遍历待识别图片各区域进行特征匹配。 训练文件准备训练文件夹的结构应当如下：  &amp;lt;训练文件夹&amp;gt; data（训练结果文件夹） vec（样本集">
+<meta property="og:description" content="OpenCV中有个神奇的AdaBoost，通过读入一个xml即可识别出目标区域。此物中文名唤“级联分类器”，“级联”指它由简单分类器级联组成，通过所有分类器的区域即为目标区域。训练时通过对样本的一定操作可生成样本的Haar&#x2F;LBP&#x2F;HOG等特征，检测时遍历待识别图片各区域进行特征匹配。 训练 文件准备 训练文件夹的结构应当如下：    data（训练结果文件夹） vec（样本集文件夹） bg（背景">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2019-12-02T14:49:35.890Z">
 <meta name="twitter:card" content="summary">
@@ -278,9 +278,12 @@
 
       
         <p>OpenCV中有个神奇的AdaBoost，通过读入一个xml即可识别出目标区域。此物中文名唤“级联分类器”，“级联”指它由简单分类器级联组成，通过所有分类器的区域即为目标区域。训练时通过对样本的一定操作可生成样本的Haar/LBP/HOG等特征，检测时遍历待识别图片各区域进行特征匹配。</p>
-<h1 id="训练"><a href="#训练" class="headerlink" title="训练"></a>训练</h1><h2 id="文件准备"><a href="#文件准备" class="headerlink" title="文件准备"></a>文件准备</h2><p>训练文件夹的结构应当如下：</p>
+<h1 id="训练">训练</h1>
+<h2 id="文件准备">文件准备</h2>
+<p>训练文件夹的结构应当如下：</p>
 <ul>
-<li>&lt;训练文件夹&gt;<ul>
+<li><训练文件夹>
+<ul>
 <li><code>data</code>（训练结果文件夹）</li>
 <li><code>vec</code>（样本集文件夹）</li>
 <li><code>bg</code>（背景集文件夹）</li>
@@ -289,8 +292,7 @@
 <li><code>bg.txt</code>（背景集相关信息）</li>
 <li><code>opencv_createsamples</code>（生成<code>pos.vec</code>的工具）</li>
 <li><code>opencv_traincascade</code>（训练的工具）</li>
-</ul>
-</li>
+</ul></li>
 </ul>
 <p>其中这些东西的名字都可以变。</p>
 <p>首先建立训练文件夹和三个子文件夹，并分别放入样本集图片和背景集图片。样本的大小大约应当几十见方，太大会爆栈；背景应当远大于训练图片，几百见方，且内容较复杂。这是因为程序将训练图片作为滑动窗口在背景上滑动来采集训练图像，如果无法采集到足够多的样本就会报<code>Train dataset for temp stage can not be filled. Branch training terminated.</code>错误。</p>
@@ -306,20 +308,23 @@
 <p>除此之外，还要指出样本图片（背景不需要）的该样本数目、起始坐标和表示样本宽高</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">vec&#x2F;xxx.xxx 1 0 0 xx xx</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">vec&#x2F;xxx.xxx 1 0 0 xx xx</span></pre></td></tr></table></figure>
 <p>那两个工具在电脑里查找一下，通过anaconda装的就是在anaconda文件夹里某个角落，复制过去即可。</p>
-<h2 id="创建样本"><a href="#创建样本" class="headerlink" title="创建样本"></a>创建样本</h2><p><code>./opencv_createsamples -vec vec.vec -info vec.bat -bg bg.txt -w xx -h xx</code></p>
+<h2 id="创建样本">创建样本</h2>
+<p><code>./opencv_createsamples -vec vec.vec -info vec.bat -bg bg.txt -w xx -h xx</code></p>
 <p>注意图片尺寸要对，否则报<code>Error: Assertion failed (_img.rows * _img.cols == vecSize)</code>。</p>
 <p>这里的工具是直接拉过来用的，配套环境可能跟不上。如果报错他想找个啥库找不到之类，以<code>libopencv_core.so.3.2</code>为例：</p>
 <blockquote>
-<p>Find the folder containing the shared library <code>libopencv_core.so.3.2</code>using the following command line.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&gt;sudo find &#x2F; -name&quot;libopencv_core.so.3.2*&quot;</span></pre></td></tr></table></figure><br>Then I got the result: <code>/usr/local/&gt;lib/libopencv_core.so.3.2</code>.</p>
+<p>Find the folder containing the shared library <code>libopencv_core.so.3.2</code>using the following command line. <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&gt;sudo find &#x2F; -name&quot;libopencv_core.so.3.2*&quot;</span></pre></td></tr></table></figure> Then I got the result: <code>/usr/local/&gt;lib/libopencv_core.so.3.2</code>.</p>
 <p>Create a file called <code>/etc/ld.so.conf.d/opencv.conf</code> and write to it the path to the folder where the binary is stored.For example, I wrote <code>/usr/local/lib/</code> to my opencv.conf file.</p>
-<p>Run the command line as follows.<br>  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">sudo ldconfig -v</span></pre></td></tr></table></figure><br>Try to run the test binary again.</p>
+<p>Run the command line as follows. <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">sudo ldconfig -v</span></pre></td></tr></table></figure> Try to run the test binary again.</p>
 </blockquote>
 <p>生成<code>vec.vec</code>就是好了。</p>
 <p>可能需要给工具一个执行权限。</p>
-<h2 id="训练-1"><a href="#训练-1" class="headerlink" title="训练"></a>训练</h2><p><code>./opencv_traincascade -data data -vec vec.vec -bg bg.txt -numPos xxx -numNeg xxx -numStages 20 -w xx -h xx -minHitRate 0.9999 -maxFalseAlarmRate 0.5 -mode ALL</code>，其中<code>numPos</code>和<code>numNeg</code>是每次训练使用的样本数量，而非你提供了多少样本。这个数量应当足够多（样本数应当大于10，否则报<code>Cascade classifier can’t be trained. Check the used training parameters.</code>），和提供的数量一样保持一比三，并且少于提供的样本数（否则报<code>Traincascade Error:Bad argument(Can not get new positive sample.The most possible reason is insufficient count of samples in given vec-file.</code>）；<code>numStage</code>是训练的级数，默认为20；<code>minHitRate</code>指“分类器的每一级希望得到最小检测率”，一般0.9999；<code>maxFalseAlarmRate</code>，最大虚警率，“影响弱分类器的阈值，表示每个弱分类器将负样本误分为正样本的比例”，一般默认值为0.5。还有其它贼多参数，用到再去查吧。</p>
+<h2 id="训练-1">训练</h2>
+<p><code>./opencv_traincascade -data data -vec vec.vec -bg bg.txt -numPos xxx -numNeg xxx -numStages 20 -w xx -h xx -minHitRate 0.9999 -maxFalseAlarmRate 0.5 -mode ALL</code>，其中<code>numPos</code>和<code>numNeg</code>是每次训练使用的样本数量，而非你提供了多少样本。这个数量应当足够多（样本数应当大于10，否则报<code>Cascade classifier can’t be trained. Check the used training parameters.</code>），和提供的数量一样保持一比三，并且少于提供的样本数（否则报<code>Traincascade Error:Bad argument(Can not get new positive sample.The most possible reason is insufficient count of samples in given vec-file.</code>）；<code>numStage</code>是训练的级数，默认为20；<code>minHitRate</code>指“分类器的每一级希望得到最小检测率”，一般0.9999；<code>maxFalseAlarmRate</code>，最大虚警率，“影响弱分类器的阈值，表示每个弱分类器将负样本误分为正样本的比例”，一般默认值为0.5。还有其它贼多参数，用到再去查吧。</p>
 <p>官方给的<code>numPos</code>和<code>numNeg</code>计算方法是<code>vec-file number &gt;= (numPos + (numStages-1) * (1 – minHitRate) * numPos) + S</code>。<code>vec-file number</code>是指提供的样本数。</p>
 <p>训练过程中经常报<code>Train dataset for temp stage can not be filled. Branch training terminated.</code>，排除背景信息那个文本文档格式问题的话就是需要更多更大更复杂的背景的意思。</p>
-<h1 id="检测"><a href="#检测" class="headerlink" title="检测"></a>检测</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">xx = cv2.CascadeClassifier(&lt;xml路径&gt;)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">xxx = xx.detectMultiScale(&lt;图片&gt;, scaleFactor=<span class="number">1.1</span>, minNeighbors=<span class="number">55</span>, minSize=(<span class="number">10</span>, <span class="number">10</span>),maxSize=(<span class="number">90</span>,<span class="number">90</span>),flags=cv2.CASCADE_SCALE_IMAGE)</span></pre></td></tr></table></figure>
+<h1 id="检测">检测</h1>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">xx = cv2.CascadeClassifier(&lt;xml路径&gt;)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">xxx = xx.detectMultiScale(&lt;图片&gt;, scaleFactor=<span class="number">1.1</span>, minNeighbors=<span class="number">55</span>, minSize=(<span class="number">10</span>, <span class="number">10</span>),maxSize=(<span class="number">90</span>,<span class="number">90</span>),flags=cv2.CASCADE_SCALE_IMAGE)</span></pre></td></tr></table></figure>
 <p><code>scaleFactor</code>指每次检测区域扩大多少，1.1就是每次扩大百分之十；<code>minNeighbors</code>大概意思是一个目标区域附近允许有多少目标区域——因为往往对同一个目标，程序会识别出许多临近的目标区域，看情况调调这个参数留一个就行。</p>
 
     </div>
@@ -547,6 +552,54 @@
   
 
   
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
 
   
 

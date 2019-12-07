@@ -46,13 +46,13 @@
   };
 </script>
 
-  <meta name="description" content="因尝试更换显卡驱动为nVIDIA 430xx导致重启后无法进入图形界面，只是黑屏并在屏幕左上角显示一个光标。 0. 环境 Manjaro Linux 18.1.0 video-hybrid-intel-nvidia-430xx-bumblebee VERSION 2019.08.24  1. 进入tty界面tty，源于Teletypes，原指电传打字机，对于现在的电脑来讲可以叫终端。可以使用w查看">
+  <meta name="description" content="因尝试更换显卡驱动为nVIDIA 430xx导致重启后无法进入图形界面，只是黑屏并在屏幕左上角显示一个光标。 0. 环境  Manjaro Linux 18.1.0 video-hybrid-intel-nvidia-430xx-bumblebee VERSION 2019.08.24  1. 进入tty界面 tty，源于Teletypes，原指电传打字机，对于现在的电脑来讲可以叫终端。可以使用w">
 <meta name="keywords" content="Manjaro,BumbleBee">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Manjaro Linux因显卡驱动无法进入图形界面之处理方法">
 <meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;09&#x2F;30&#x2F;Manjaro-Linux%E5%9B%A0%E6%98%BE%E5%8D%A1%E9%A9%B1%E5%8A%A8%E6%97%A0%E6%B3%95%E8%BF%9B%E5%85%A5%E5%9B%BE%E5%BD%A2%E7%95%8C%E9%9D%A2%E4%B9%8B%E5%A4%84%E7%90%86%E6%96%B9%E6%B3%95&#x2F;index.html">
 <meta property="og:site_name" content="Mech_Mind‘s blog">
-<meta property="og:description" content="因尝试更换显卡驱动为nVIDIA 430xx导致重启后无法进入图形界面，只是黑屏并在屏幕左上角显示一个光标。 0. 环境 Manjaro Linux 18.1.0 video-hybrid-intel-nvidia-430xx-bumblebee VERSION 2019.08.24  1. 进入tty界面tty，源于Teletypes，原指电传打字机，对于现在的电脑来讲可以叫终端。可以使用w查看">
+<meta property="og:description" content="因尝试更换显卡驱动为nVIDIA 430xx导致重启后无法进入图形界面，只是黑屏并在屏幕左上角显示一个光标。 0. 环境  Manjaro Linux 18.1.0 video-hybrid-intel-nvidia-430xx-bumblebee VERSION 2019.08.24  1. 进入tty界面 tty，源于Teletypes，原指电传打字机，对于现在的电脑来讲可以叫终端。可以使用w">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2019-10-18T08:47:09.703Z">
 <meta name="twitter:card" content="summary">
@@ -272,30 +272,36 @@
 
       
         <p>因尝试更换显卡驱动为nVIDIA 430xx导致重启后无法进入图形界面，只是黑屏并在屏幕左上角显示一个光标。</p>
-<h1 id="0-环境"><a href="#0-环境" class="headerlink" title="0. 环境"></a>0. 环境</h1><ul>
+<h1 id="环境">0. 环境</h1>
+<ul>
 <li>Manjaro Linux 18.1.0</li>
 <li>video-hybrid-intel-nvidia-430xx-bumblebee VERSION 2019.08.24</li>
 </ul>
-<h1 id="1-进入tty界面"><a href="#1-进入tty界面" class="headerlink" title="1. 进入tty界面"></a>1. 进入tty界面</h1><p>tty，源于Teletypes，原指电传打字机，对于现在的电脑来讲可以叫终端。可以使用<code>w</code>查看当前使用的终端。在使用GNOME+GDM的manjaro下，共有6个tty。登录界面在tty1运行，登录成功后进入在tty2运行的图形界面（登录界面仍保持在tty1运行）。其余界面为文本界面。现在的问题在于由于显卡驱动问题无法进入tty2，因此只需在文字界面下解决驱动问题即可。</p>
+<h1 id="进入tty界面">1. 进入tty界面</h1>
+<p>tty，源于Teletypes，原指电传打字机，对于现在的电脑来讲可以叫终端。可以使用<code>w</code>查看当前使用的终端。在使用GNOME+GDM的manjaro下，共有6个tty。登录界面在tty1运行，登录成功后进入在tty2运行的图形界面（登录界面仍保持在tty1运行）。其余界面为文本界面。现在的问题在于由于显卡驱动问题无法进入tty2，因此只需在文字界面下解决驱动问题即可。</p>
 <p>使用<code>ctrl+alt+Fx</code>可以切换到ttyx，现在切换到tty3，输入用户名，回车，密码，回车，即可进入tty3。</p>
-<h1 id="2-修改语言配置"><a href="#2-修改语言配置" class="headerlink" title="2. 修改语言配置"></a>2. 修改语言配置</h1><p>tty3-6不能支持中文，而配置的语言是中文的，因此凡是中文会显示为方块。其实在输命令的时候没太大影响，但后面连Wifi的界面全是中文，所以要改成英文。</p>
+<h1 id="修改语言配置">2. 修改语言配置</h1>
+<p>tty3-6不能支持中文，而配置的语言是中文的，因此凡是中文会显示为方块。其实在输命令的时候没太大影响，但后面连Wifi的界面全是中文，所以要改成英文。</p>
 <p>使用export命令可以修改语言，且仅对当次进入终端有效。</p>
 <blockquote>
 <p>Linux export 命令用于设置或显示环境变量。</p>
 <p>在 shell 中执行程序时，shell 会提供一组环境变量。export 可新增，修改或删除环境变量，供后续执行的程序使用。export 的效力仅限于该次登陆操作。</p>
 </blockquote>
-<p>通过<code>export -p</code>可以查看当前的环境变量，有关语言的环境变量（也就是locale，也可以直接用<code>locale</code>查看，根据计算机用户所使用的语言、所在国家或地区以及当地的文化传统所定义的一个软件运行时的语言环境。locale的命名规则为&lt;语言&gt;_&lt;地区&gt;.&lt;字符集编码&gt;，如zh_CN.UTF-8，zh代表中文，CN代表大陆地区，UTF-8表示字符集）默认都是“zh_CN.UTF-8”，执行<code>export xxx=xxx</code>可以修改变量的值。</p>
+<p>通过<code>export -p</code>可以查看当前的环境变量，有关语言的环境变量（也就是locale，也可以直接用<code>locale</code>查看，根据计算机用户所使用的语言、所在国家或地区以及当地的文化传统所定义的一个软件运行时的语言环境。locale的命名规则为<语言>_<地区>.<字符集编码>，如zh_CN.UTF-8，zh代表中文，CN代表大陆地区，UTF-8表示字符集）默认都是“zh_CN.UTF-8”，执行<code>export xxx=xxx</code>可以修改变量的值。</p>
 <p>印象中当时是使用<code>export LC_ALL=en_US.UTF-8</code>和<code>export LANG=en_US.UTF-8</code>。这堆LC_xxx有一堆优先级规则，显而易见LC_ALL是老大。它是一个宏，如果该值设置了，则该值会覆盖所有LC_xxx的设置值。注意，LANG的值不受该宏影响。</p>
 <p>【其它有关内容】</p>
 <ul>
 <li><code>locale -a</code>：查看本机可选的配置。可通过诸如<code>sudo locale-gen &quot;zh_CN.gbk&quot;</code>增加。</li>
 <li>C和POSIX：默认配置，例如<code>export LC_ALL=C</code>。</li>
 </ul>
-<h1 id="3-连接Wifi"><a href="#3-连接Wifi" class="headerlink" title="3. 连接Wifi"></a>3. 连接Wifi</h1><p>因为需要下载安装原本使用的驱动，所以先连Wifi。</p>
+<h1 id="连接wifi">3. 连接Wifi</h1>
+<p>因为需要下载安装原本使用的驱动，所以先连Wifi。</p>
 <p>一些Linux中连接Wlan专门有个界面，叫nmtui，即“Network Manager TextUI”，<code>nmtui</code>即可进入。</p>
 <p>其中中间的三个选项，第一个是编辑保存的链接，第二个是进行连接。进去第二个等一会，扫描出来之后连上即可。</p>
-<h1 id="4-更换驱动"><a href="#4-更换驱动" class="headerlink" title="4. 更换驱动"></a>4. 更换驱动</h1><p>manjaro提供了方便的驱动管理工具，叫mhwd，即“Manjaro Hardware Detection”，<code>mhwd</code>即可进入，<code>mhwd-tui</code>可进入TUI。在TUI中很方便地选择“Use nonfree graphics”就好了。更新引导<code>sudo mkinitcpio -P</code>即可。</p>
-<h1 id="5-尾声"><a href="#5-尾声" class="headerlink" title="5. 尾声"></a>5. 尾声</h1><p>这个默认的闭源驱动是真的不错。</p>
+<h1 id="更换驱动">4. 更换驱动</h1>
+<p>manjaro提供了方便的驱动管理工具，叫mhwd，即“Manjaro Hardware Detection”，<code>mhwd</code>即可进入，<code>mhwd-tui</code>可进入TUI。在TUI中很方便地选择“Use nonfree graphics”就好了。更新引导<code>sudo mkinitcpio -P</code>即可。</p>
+<h1 id="尾声">5. 尾声</h1>
+<p>这个默认的闭源驱动是真的不错。</p>
 <p>NVIDIA的Optimus（擎天柱）技术可让笔记本根据性能需要在英特尔集成显卡和NVIDIA独显之间自动切换（其实不是切换而是“是否开启独显”，显示一直都是由集显完成的，只是独立显卡按需渲染并传输给集成显卡显示功能），以达到节约能耗与平衡性能双需求，但此项技术仅仅支持Windows系统。</p>
 <p>而默认的“video-hybrid-intel-nvidia-bumblebee”，也就是那个著名的把<code>rm -rf /usr/lib/nvidia-current/xorg/xorg</code>写成<code>rm -rf /usr /lib/nvidia-current/xorg/xorg</code>的软件，可以实现手动的切换。只需在命令前添加<code>optirun</code>即可指定该命令由独显执行。在Steam下，修改游戏属性中的高级启动选项为<code>optirun %command%</code>可指定游戏运行在独立显卡上。原本我的古墓丽影只能以720P全低特效运行，添加这一选项后可以1080P全最高特效丝般顺滑。可惜不知道为啥存档没能继承Windows上的……</p>
 <p>不过Bumblebee不兼容Vulkan。可能可以通过“nvidia-xrun”解决，还未尝试。</p>
@@ -305,7 +311,8 @@
 </blockquote>
 <p>需要<code>gpasswd -a &lt;user&gt; bumblebee</code>。</p>
 <p>使用<code>bumblebeed --version</code>查看bumblebee版本，<code>optirun nvidia-settings -c :8</code>以设置N卡，<code>optirun glxgears -info</code>进行测试，<code>vblank_mode=0 glxgears</code>查看关闭垂直同步后的帧数。</p>
-<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>安装Manjaro后的第一次更新之后，再次出现了无法使用<code>optirun %command%</code>命令进入游戏的情况。从终端通过<code>optirun steam</code>进入游戏，则将以集显进入；通过<code>primusrun steam</code>进入，则报错“glXChooseVisual failed”。</p>
+<h1 id="后记">后记</h1>
+<p>安装Manjaro后的第一次更新之后，再次出现了无法使用<code>optirun %command%</code>命令进入游戏的情况。从终端通过<code>optirun steam</code>进入游戏，则将以集显进入；通过<code>primusrun steam</code>进入，则报错“glXChooseVisual failed”。</p>
 <p>尝试卸载显卡驱动重装，无效。尝试安装网上的驱动前置的东西<code>sudo pacman -S virtualgl lib32-virtualgl lib32-primus primus</code>，无效。有说法认为报错原因是“libGL.so.1指向mesa和nvidia提供的模糊libGL”，因此删除这些（<code>sudo ldconfig -p | grep -i gl.so</code>中查看）指向mesa的.so即可，但我未找到指向mesa的.so。</p>
 <p>最后的处理方案是<code>sudo systemctl disable bumblebeed.service</code>禁用了大黄蜂，安装了另一个管理软件<code>sudo pacman -S optimus-manager</code>并reboot后启用<code>systemctl enable optimus-manager.service</code>。该软件可<code>optimus-manager --switch nvidia</code>切换为N卡。但会注销，还是不如大黄蜂好用……</p>
 <p>【第二天的更新】操，不能用，切完之后<code>optimus-manager --status</code>显示还是用的Intel，昨天断电了玩着卡还以为是断电的原因。似乎是因为GDM与之不兼容，还需要装兼容的版本。游戏啥的，戒了算了。</p>
@@ -399,7 +406,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#0-环境"><span class="nav-number">1.</span> <span class="nav-text">0. 环境</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-进入tty界面"><span class="nav-number">2.</span> <span class="nav-text">1. 进入tty界面</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-修改语言配置"><span class="nav-number">3.</span> <span class="nav-text">2. 修改语言配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-连接Wifi"><span class="nav-number">4.</span> <span class="nav-text">3. 连接Wifi</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-更换驱动"><span class="nav-number">5.</span> <span class="nav-text">4. 更换驱动</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-尾声"><span class="nav-number">6.</span> <span class="nav-text">5. 尾声</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#后记"><span class="nav-number">7.</span> <span class="nav-text">后记</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#环境"><span class="nav-number">1.</span> <span class="nav-text">0. 环境</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#进入tty界面"><span class="nav-number">2.</span> <span class="nav-text">1. 进入tty界面</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#修改语言配置"><span class="nav-number">3.</span> <span class="nav-text">2. 修改语言配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#连接wifi"><span class="nav-number">4.</span> <span class="nav-text">3. 连接Wifi</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#更换驱动"><span class="nav-number">5.</span> <span class="nav-text">4. 更换驱动</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#尾声"><span class="nav-number">6.</span> <span class="nav-text">5. 尾声</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#后记"><span class="nav-number">7.</span> <span class="nav-text">后记</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -534,6 +541,54 @@
   
 
   
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
 
   
 

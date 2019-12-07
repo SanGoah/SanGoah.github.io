@@ -46,13 +46,13 @@
   };
 </script>
 
-  <meta name="description" content="0. 环境 Manjaro Linux 18.1.0 JDK 8u221 tomcat 9.0 Myeclipse 2017 ci10  1. 安装JDK从官网https:&#x2F;&#x2F;www.oracle.com&#x2F;technetwork&#x2F;java&#x2F;javase&#x2F;downloads&#x2F;index.html下载JavaSE的tar.gz格式，完成后提取到随便什么地方，例如家目录下。 在~&#x2F;.bashrc中添加：">
+  <meta name="description" content="0. 环境  Manjaro Linux 18.1.0 JDK 8u221 tomcat 9.0 Myeclipse 2017 ci10  1. 安装JDK 从官网https:&#x2F;&#x2F;www.oracle.com&#x2F;technetwork&#x2F;java&#x2F;javase&#x2F;downloads&#x2F;index.html下载JavaSE的tar.gz格式，完成后提取到随便什么地方，例如家目录下。 在~&#x2F;.bashrc中添">
 <meta name="keywords" content="MyEclipse,Java,JSP">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Manjaro Linux下配置JSP开发环境">
 <meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;09&#x2F;26&#x2F;Manjaro-Linux%E4%B8%8B%E9%85%8D%E7%BD%AEJSP%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83&#x2F;index.html">
 <meta property="og:site_name" content="Mech_Mind‘s blog">
-<meta property="og:description" content="0. 环境 Manjaro Linux 18.1.0 JDK 8u221 tomcat 9.0 Myeclipse 2017 ci10  1. 安装JDK从官网https:&#x2F;&#x2F;www.oracle.com&#x2F;technetwork&#x2F;java&#x2F;javase&#x2F;downloads&#x2F;index.html下载JavaSE的tar.gz格式，完成后提取到随便什么地方，例如家目录下。 在~&#x2F;.bashrc中添加：">
+<meta property="og:description" content="0. 环境  Manjaro Linux 18.1.0 JDK 8u221 tomcat 9.0 Myeclipse 2017 ci10  1. 安装JDK 从官网https:&#x2F;&#x2F;www.oracle.com&#x2F;technetwork&#x2F;java&#x2F;javase&#x2F;downloads&#x2F;index.html下载JavaSE的tar.gz格式，完成后提取到随便什么地方，例如家目录下。 在~&#x2F;.bashrc中添">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2019-10-16T06:10:29.327Z">
 <meta name="twitter:card" content="summary">
@@ -271,23 +271,27 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="0-环境"><a href="#0-环境" class="headerlink" title="0. 环境"></a>0. 环境</h1><ul>
+        <h1 id="环境">0. 环境</h1>
+<ul>
 <li>Manjaro Linux 18.1.0</li>
 <li>JDK 8u221</li>
 <li>tomcat 9.0</li>
 <li>Myeclipse 2017 ci10</li>
 </ul>
-<h1 id="1-安装JDK"><a href="#1-安装JDK" class="headerlink" title="1. 安装JDK"></a>1. 安装JDK</h1><p>从官网<code>https://www.oracle.com/technetwork/java/javase/downloads/index.html</code>下载JavaSE的tar.gz格式，完成后提取到随便什么地方，例如家目录下。</p>
+<h1 id="安装jdk">1. 安装JDK</h1>
+<p>从官网<code>https://www.oracle.com/technetwork/java/javase/downloads/index.html</code>下载JavaSE的tar.gz格式，完成后提取到随便什么地方，例如家目录下。</p>
 <p>在<code>~/.bashrc</code>中添加：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">export PATH&#x3D;&#x2F;home&#x2F;oiljhihai&#x2F;jdk1.8.0_221bin:$PATH</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">export JAVA_HOME&#x3D;&#x2F;home&#x2F;oiljhihai&#x2F;jdk1.8.0_221&#x2F;</span></pre></td></tr></table></figure>
 <p>此时运行<code>java -version</code>可判断安装情况。</p>
-<h1 id="2-安装MyEclipse"><a href="#2-安装MyEclipse" class="headerlink" title="2. 安装MyEclipse"></a>2. 安装MyEclipse</h1><p>MyEclipse是集成了一些包的Eclipse，与后者不同，这是一个收费软件。</p>
+<h1 id="安装myeclipse">2. 安装MyEclipse</h1>
+<p>MyEclipse是集成了一些包的Eclipse，与后者不同，这是一个收费软件。</p>
 <p>获取Myeclipse的<code>.run</code>文件、破解包和汉化包，进入<code>.run</code>文件目录打开终端，<code>chmod +x myeclipse-2017-ci-10-offline-installer-linux.run</code>增加权限，<code>./myeclipse-2017-ci-10-offline-installer-linux.run</code>运行程序安装。装好后取消勾选launch，不要打开。</p>
 <p>打开破解包的<code>patch</code>，使用里面的文件替换掉MyEclipse安装目录下的plugins内的同名文件，再进入破解包另一个文件夹打开终端运行<code>java -jar cracker2017.jar</code>，注意该安装包只能运行在java8下，如果最开始安装的JDK是更新的版本，需要用同样的方法安装java8并修改PATH。进入破解软件界面后输入Usercode（任意字母或者数字），后面的下拉列表选择Blue，点击SystemId两次，点击Active，点击菜单栏-&gt;Tools-&gt;saveProperties。此时启动MyEclipse，在help-&gt;subscription information可见产品已激活。</p>
 <p>直接使用汉化包中的文件夹合并MyEclipse安装目录中的同名文件夹并替换其中同名文件即可完成汉化。</p>
 <p>在首选项中Maven项下关闭一个什么启动更新的项关掉它。</p>
-<h1 id="3-安装tomcat并将之与MyEclipse关联"><a href="#3-安装tomcat并将之与MyEclipse关联" class="headerlink" title="3. 安装tomcat并将之与MyEclipse关联"></a>3. 安装tomcat并将之与MyEclipse关联</h1><p>从官网<code>http://tomcat.apache.org/</code>下载tar.gz包并提取，例如提取到家目录，可在终端执行<code>bin</code>下的<code>startup.sh</code>和<code>shutdown.sh</code>开启和关闭，开启后通过访问<code>http://localhost:8080/</code>可以看到一个页面。</p>
-<p>在首选项中服务器项下的运行时环境项下点击”add”的添加按钮，弹出选项，选择与下载的相同的Tomcat版本，”Next”，选择Tomcat的安装目录，并选择安装的Java环境，”Finish”，完成配置。</p>
+<h1 id="安装tomcat并将之与myeclipse关联">3. 安装tomcat并将之与MyEclipse关联</h1>
+<p>从官网<code>http://tomcat.apache.org/</code>下载tar.gz包并提取，例如提取到家目录，可在终端执行<code>bin</code>下的<code>startup.sh</code>和<code>shutdown.sh</code>开启和关闭，开启后通过访问<code>http://localhost:8080/</code>可以看到一个页面。</p>
+<p>在首选项中服务器项下的运行时环境项下点击&quot;add&quot;的添加按钮，弹出选项，选择与下载的相同的Tomcat版本，&quot;Next&quot;，选择Tomcat的安装目录，并选择安装的Java环境，&quot;Finish&quot;，完成配置。</p>
 <p>新建Web Project时注意一下选项中的Target Runtime是否已经自动配制好了。如果不是刚才配制的则需要点后面的<code>New Runtime</code>再添加一次。创建项目时记得在最后一个选项卡勾选<code>Generate Web.xml...</code>那一项。运行新建的Web Project，可以看到一个有一行文字的网页。</p>
 
     </div>
@@ -380,7 +384,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#0-环境"><span class="nav-number">1.</span> <span class="nav-text">0. 环境</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-安装JDK"><span class="nav-number">2.</span> <span class="nav-text">1. 安装JDK</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-安装MyEclipse"><span class="nav-number">3.</span> <span class="nav-text">2. 安装MyEclipse</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-安装tomcat并将之与MyEclipse关联"><span class="nav-number">4.</span> <span class="nav-text">3. 安装tomcat并将之与MyEclipse关联</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#环境"><span class="nav-number">1.</span> <span class="nav-text">0. 环境</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装jdk"><span class="nav-number">2.</span> <span class="nav-text">1. 安装JDK</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装myeclipse"><span class="nav-number">3.</span> <span class="nav-text">2. 安装MyEclipse</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装tomcat并将之与myeclipse关联"><span class="nav-number">4.</span> <span class="nav-text">3. 安装tomcat并将之与MyEclipse关联</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -515,6 +519,54 @@
   
 
   
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
 
   
 
