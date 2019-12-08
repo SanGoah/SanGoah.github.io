@@ -12,7 +12,7 @@
 
 <link rel="stylesheet" href="/css/main.css">
 
-
+<link rel="stylesheet" href="//fonts.lug.ustc.edu.cn/css?family=Courier New:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
 <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
 
 
@@ -46,15 +46,15 @@
   };
 </script>
 
-  <meta name="description" content="struts2中，传统的servlet中的request和response传递参数法仍可使用（但略有不同），并且增加了船新的传值方式。 0. 环境  Tomcat 9.0 MyEclipse 2017 ci10 Struts 2.5.20 Manjaro Linux 18.1.0 JDK 1.8u221  1. request&#x2F;response  为避免与Servlet API耦合在一起，方便Ac">
+  <meta name="description" content="struts2中，传统的servlet中的request和response传递参数法仍可使用（但略有不同），并且增加了船新的传值方式。">
 <meta name="keywords" content="MyEclipse,JSP,Struts">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Struts2中Action的几种传值方式">
 <meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;07&#x2F;Struts2%E4%B8%ADAction%E7%9A%84%E5%87%A0%E7%A7%8D%E4%BC%A0%E5%80%BC%E6%96%B9%E5%BC%8F&#x2F;index.html">
 <meta property="og:site_name" content="Mech_Mind‘s blog">
-<meta property="og:description" content="struts2中，传统的servlet中的request和response传递参数法仍可使用（但略有不同），并且增加了船新的传值方式。 0. 环境  Tomcat 9.0 MyEclipse 2017 ci10 Struts 2.5.20 Manjaro Linux 18.1.0 JDK 1.8u221  1. request&#x2F;response  为避免与Servlet API耦合在一起，方便Ac">
+<meta property="og:description" content="struts2中，传统的servlet中的request和response传递参数法仍可使用（但略有不同），并且增加了船新的传值方式。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-12-02T14:24:21.860Z">
+<meta property="og:updated_time" content="2019-12-08T12:47:57.023Z">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="http://yoursite.com/2019/11/07/Struts2%E4%B8%ADAction%E7%9A%84%E5%87%A0%E7%A7%8D%E4%BC%A0%E5%80%BC%E6%96%B9%E5%BC%8F/">
@@ -239,7 +239,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-12-02 22:24:21" itemprop="dateModified" datetime="2019-12-02T22:24:21+08:00">2019-12-02</time>
+                <time title="Modified: 2019-12-08 20:47:57" itemprop="dateModified" datetime="2019-12-08T20:47:57+08:00">2019-12-08</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -278,6 +278,7 @@
 
       
         <p>struts2中，传统的servlet中的request和response传递参数法仍可使用（但略有不同），并且增加了船新的传值方式。</p>
+<a id="more"></a>
 <h1 id="环境">0. 环境</h1>
 <ul>
 <li>Tomcat 9.0</li>

@@ -12,7 +12,7 @@
 
 <link rel="stylesheet" href="/css/main.css">
 
-
+<link rel="stylesheet" href="//fonts.lug.ustc.edu.cn/css?family=Courier New:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
 <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
 
 
@@ -46,15 +46,15 @@
   };
 </script>
 
-  <meta name="description" content="首先新建一个Web Project，在WebRoot下新建一个html、一个js和一个css文件。将html自动生成的添加css文件的那段注释改成能用的，再添加&amp;lt;script type&#x3D;&amp;quot;text&#x2F;javascript&amp;quot; src&#x3D;&amp;quot;.&#x2F;js.js&amp;quot;&amp;gt;&amp;lt;&#x2F;script&amp;gt;引入js文件。 body中就是一个表格，action是跳转，单击时希">
+  <meta name="description" content="首先新建一个Web Project，在WebRoot下新建一个html、一个js和一个css文件。将html自动生成的添加css文件的那段注释改成能用的，再添加&amp;lt;script type&#x3D;&amp;quot;text&#x2F;javascript&amp;quot; src&#x3D;&amp;quot;.&#x2F;js.js&amp;quot;&amp;gt;&amp;lt;&#x2F;script&amp;gt;引入js文件。 body中就是一个表格，action是跳转，单击时">
 <meta name="keywords" content="JavaScript,Html">
 <meta property="og:type" content="article">
 <meta property="og:title" content="编写一个注册页面并使用JS函数校验">
 <meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;10&#x2F;11&#x2F;%E7%BC%96%E5%86%99%E4%B8%80%E4%B8%AA%E6%B3%A8%E5%86%8C%E9%A1%B5%E9%9D%A2%E5%B9%B6%E4%BD%BF%E7%94%A8JS%E5%87%BD%E6%95%B0%E6%A0%A1%E9%AA%8C&#x2F;index.html">
 <meta property="og:site_name" content="Mech_Mind‘s blog">
-<meta property="og:description" content="首先新建一个Web Project，在WebRoot下新建一个html、一个js和一个css文件。将html自动生成的添加css文件的那段注释改成能用的，再添加&amp;lt;script type&#x3D;&amp;quot;text&#x2F;javascript&amp;quot; src&#x3D;&amp;quot;.&#x2F;js.js&amp;quot;&amp;gt;&amp;lt;&#x2F;script&amp;gt;引入js文件。 body中就是一个表格，action是跳转，单击时希">
+<meta property="og:description" content="首先新建一个Web Project，在WebRoot下新建一个html、一个js和一个css文件。将html自动生成的添加css文件的那段注释改成能用的，再添加&amp;lt;script type&#x3D;&amp;quot;text&#x2F;javascript&amp;quot; src&#x3D;&amp;quot;.&#x2F;js.js&amp;quot;&amp;gt;&amp;lt;&#x2F;script&amp;gt;引入js文件。 body中就是一个表格，action是跳转，单击时">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-12-02T14:26:29.317Z">
+<meta property="og:updated_time" content="2019-12-08T12:44:20.370Z">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="http://yoursite.com/2019/10/11/%E7%BC%96%E5%86%99%E4%B8%80%E4%B8%AA%E6%B3%A8%E5%86%8C%E9%A1%B5%E9%9D%A2%E5%B9%B6%E4%BD%BF%E7%94%A8JS%E5%87%BD%E6%95%B0%E6%A0%A1%E9%AA%8C/">
@@ -239,7 +239,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-12-02 22:26:29" itemprop="dateModified" datetime="2019-12-02T22:26:29+08:00">2019-12-02</time>
+                <time title="Modified: 2019-12-08 20:44:20" itemprop="dateModified" datetime="2019-12-08T20:44:20+08:00">2019-12-08</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -277,7 +277,8 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>首先新建一个Web Project，在WebRoot下新建一个html、一个js和一个css文件。将html自动生成的添加css文件的那段注释改成能用的，再添加<code>&lt;script type=&quot;text/javascript&quot; src=&quot;./js.js&quot;&gt;&lt;/script&gt;</code>引入js文件。</p>
+        <a id="more"></a>
+<p>首先新建一个Web Project，在WebRoot下新建一个html、一个js和一个css文件。将html自动生成的添加css文件的那段注释改成能用的，再添加<code>&lt;script type=&quot;text/javascript&quot; src=&quot;./js.js&quot;&gt;&lt;/script&gt;</code>引入js文件。</p>
 <p>body中就是一个表格，action是跳转，单击时希望使用js文件中的函数进行校验。</p>
 <p>在表单中加上<code>οnsubmit=&quot;return false;&quot;</code>可以阻止表单提交。但是对于如下的代码<code>οnsubmit=&quot;submitTest();&quot;</code>，如果提交表单时submitTest()返回false，实际情况是表单正常提交。原因在于如果这样写，相当于：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">Form.prototype.onsubmit &#x3D; function() &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    submitTest();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">&#125;;</span></pre></td></tr></table></figure>

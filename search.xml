@@ -3,7 +3,8 @@
   <entry>
     <title>Manjaro Linux下配置DosBox+MASM汇编环境</title>
     <url>/2019/11/24/Manjaro-Linux%E4%B8%8B%E9%85%8D%E7%BD%AEDosBox-MASM%E6%B1%87%E7%BC%96%E7%8E%AF%E5%A2%83/</url>
-    <content><![CDATA[<p>sudo pacman -S dosbox</p>
+    <content><![CDATA[<a id="more"></a>
+<p>sudo pacman -S dosbox</p>
 <p>mount c ~/Workspaces/MASM</p>
 <p>MASM5.0，更高的版本需要Win行命令提示符环境才能运行</p>
 <p>masm hw.asm</p>
@@ -24,6 +25,7 @@
     <title>Manjaro Linux下使用opencv_traincascade</title>
     <url>/2019/11/18/Manjaro-Linux%E4%B8%8B%E4%BD%BF%E7%94%A8opencv-traincascade/</url>
     <content><![CDATA[<p>OpenCV中有个神奇的AdaBoost，通过读入一个xml即可识别出目标区域。此物中文名唤“级联分类器”，“级联”指它由简单分类器级联组成，通过所有分类器的区域即为目标区域。训练时通过对样本的一定操作可生成样本的Haar/LBP/HOG等特征，检测时遍历待识别图片各区域进行特征匹配。</p>
+<a id="more"></a>
 <h1 id="训练">训练</h1>
 <h2 id="文件准备">文件准备</h2>
 <p>训练文件夹的结构应当如下：</p>
@@ -86,7 +88,9 @@
   <entry>
     <title>有关摆脱祸乱之源的尝试</title>
     <url>/2019/11/11/%E6%9C%89%E5%85%B3%E6%91%86%E8%84%B1%E7%A5%B8%E4%B9%B1%E4%B9%8B%E6%BA%90%E7%9A%84%E5%B0%9D%E8%AF%95/</url>
-    <content><![CDATA[<p>因为整天昏昏欲睡，玩Dota的同学称我为啥啥之主记不清了，刚刚查了下可能是叫祸乱之源？</p>
+    <content><![CDATA[<p><img src="https://blog-1256194686.cos.ap-shanghai.myqcloud.com/atropos.jpg" /></p>
+<a id="more"></a>
+<p>因为整天昏昏欲睡，玩Dota的同学称我为啥啥之主记不清了，刚刚查了下可能是叫祸乱之源？</p>
 <p>知乎上有一些类似“如何保持精力旺盛”的问题，答者众，然而翻翻回答，要么是一些傻逼励志书的类似读书笔记的东西（这些书有一个算一个都是傻逼，引用这玩意的答主也是傻逼，有不同意见的请将本网址添加至<code>C:\WINDOWS\system32\drivers\etc\host</code>，自己搭博客写字的好处就是特么的不用管这些友善度），要么是一些莫名其妙似是而非八成就是为了推销保健品的科学术语使劲堆，还有就是分好几十条小tips每一条都令人无法理解这玩意有啥用的例如想着待会你要去吃个啥啥一直想吃的小点心然后你就精神了我觉得我想着待会就能去把你打一顿了比较有用点。</p>
 <p>与其看网上这些编出来骗赞的“经验贴”，不如自己实验。毕竟就算真的是答主发自肺腑的经验之谈，由于人与人之间生活环境、个人身体条件巨大的差别恐怕也很难直接套用，有个答主说他找了女朋友就好了，一想woc真特么有道理，问题是国家不给发我去哪找，充一万话费送吗那我充十万。</p>
 <h1 id="睡眠">1. 睡眠</h1>
@@ -126,13 +130,15 @@
   <entry>
     <title>虚拟存储器</title>
     <url>/2019/11/11/%E8%99%9A%E6%8B%9F%E5%AD%98%E5%82%A8%E5%99%A8/</url>
-    <content><![CDATA[<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"> +-----------------------+          +-----------------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line"> |1 2 3 4 1 2 5 1 2 3 4 5|          |1 2 3 4 1 2 5 1 2 3 4 5|</span></pre></td></tr><tr><td class="code"><pre><span class="line">++----------------------++         ++----------------------++</span></pre></td></tr><tr><td class="code"><pre><span class="line">|1|1|1|4|4|4|5| | |5|5| |          |1|1|1|1| | |5|5|5|5|4|4|</span></pre></td></tr><tr><td class="code"><pre><span class="line">| |2|2|2|1|1|1| | |3|3| |          | |2|2|2| | |2|1|1|1|1|5|</span></pre></td></tr><tr><td class="code"><pre><span class="line">| | |3|3|3|2|2| | |2|4| |          | | |3|3| | |3|3|2|2|2|2|</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------------+          | | | |4| | |4|4|4|3|3|3|</span></pre></td></tr><tr><td class="code"><pre><span class="line">       1 2 3 4     5 6             +-----------------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">                                                1 2 3 4 5 6</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"> +-----------------------+          +-----------------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line"> |1 2 3 4 1 2 5 1 2 3 4 5|          |1 2 3 4 1 2 5 1 2 3 4 5|</span></pre></td></tr><tr><td class="code"><pre><span class="line">++----------------------++         ++----------------------++</span></pre></td></tr><tr><td class="code"><pre><span class="line">|1|1|1|4|4|4|5| | |3|3|3|          |1|1|1|1| | |1| | |1|1|5|</span></pre></td></tr><tr><td class="code"><pre><span class="line">| |2|2|2|1|1|1| | |1|4|4|          | |2|2|2| | |2| | |2|2|2|</span></pre></td></tr><tr><td class="code"><pre><span class="line">| | |3|3|3|2|2| | |2|2|5|          | | |3|3| | |5| | |5|4|4|</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------------+          | | | |4| | |4| | |3|3|3|</span></pre></td></tr><tr><td class="code"><pre><span class="line">       1 2 3 4     5 6 7           +-----------------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">                                                1     2 3 4</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">  +-----------------------------------------------------------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">  |5  0  1  2  0  3  0  4  2  3  0  3  2  1  2  0  1  5  0  1       |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-+---------------------------------------------------------+-------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|51|51|51|21|  |20|01|00|21|  |20|31|21|20|  |01|  |00|  |  |</span></pre></td></tr><tr><td class="code"><pre><span class="line">|  |01|01|00|  |31|31|30|30|  |01|01|00|11|  |11|  |10|  |  |</span></pre></td></tr><tr><td class="code"><pre><span class="line">|  |  |11|10|  |10|10|41|41|  |41|41|40|40|  |40|  |51|  |  |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------------------------------------------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">          1     2  3  4  5     6  7  8  9     10    11</span></pre></td></tr></table></figure>
+    <content><![CDATA[<a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"> +-----------------------+          +-----------------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line"> |1 2 3 4 1 2 5 1 2 3 4 5|          |1 2 3 4 1 2 5 1 2 3 4 5|</span></pre></td></tr><tr><td class="code"><pre><span class="line">++----------------------++         ++----------------------++</span></pre></td></tr><tr><td class="code"><pre><span class="line">|1|1|1|4|4|4|5| | |5|5| |          |1|1|1|1| | |5|5|5|5|4|4|</span></pre></td></tr><tr><td class="code"><pre><span class="line">| |2|2|2|1|1|1| | |3|3| |          | |2|2|2| | |2|1|1|1|1|5|</span></pre></td></tr><tr><td class="code"><pre><span class="line">| | |3|3|3|2|2| | |2|4| |          | | |3|3| | |3|3|2|2|2|2|</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------------+          | | | |4| | |4|4|4|3|3|3|</span></pre></td></tr><tr><td class="code"><pre><span class="line">       1 2 3 4     5 6             +-----------------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">                                                1 2 3 4 5 6</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"> +-----------------------+          +-----------------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line"> |1 2 3 4 1 2 5 1 2 3 4 5|          |1 2 3 4 1 2 5 1 2 3 4 5|</span></pre></td></tr><tr><td class="code"><pre><span class="line">++----------------------++         ++----------------------++</span></pre></td></tr><tr><td class="code"><pre><span class="line">|1|1|1|4|4|4|5| | |3|3|3|          |1|1|1|1| | |1| | |1|1|5|</span></pre></td></tr><tr><td class="code"><pre><span class="line">| |2|2|2|1|1|1| | |1|4|4|          | |2|2|2| | |2| | |2|2|2|</span></pre></td></tr><tr><td class="code"><pre><span class="line">| | |3|3|3|2|2| | |2|2|5|          | | |3|3| | |5| | |5|4|4|</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------------+          | | | |4| | |4| | |3|3|3|</span></pre></td></tr><tr><td class="code"><pre><span class="line">       1 2 3 4     5 6 7           +-----------------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">                                                1     2 3 4</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">  +-----------------------------------------------------------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">  |5  0  1  2  0  3  0  4  2  3  0  3  2  1  2  0  1  5  0  1       |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-+---------------------------------------------------------+-------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|51|51|51|21|  |20|01|00|21|  |20|31|21|20|  |01|  |00|  |  |</span></pre></td></tr><tr><td class="code"><pre><span class="line">|  |01|01|00|  |31|31|30|30|  |01|01|00|11|  |11|  |10|  |  |</span></pre></td></tr><tr><td class="code"><pre><span class="line">|  |  |11|10|  |10|10|41|41|  |41|41|40|40|  |40|  |51|  |  |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------------------------------------------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">          1     2  3  4  5     6  7  8  9     10    11</span></pre></td></tr></table></figure>
 ]]></content>
   </entry>
   <entry>
     <title>Struts2中Action的几种传值方式</title>
     <url>/2019/11/07/Struts2%E4%B8%ADAction%E7%9A%84%E5%87%A0%E7%A7%8D%E4%BC%A0%E5%80%BC%E6%96%B9%E5%BC%8F/</url>
     <content><![CDATA[<p>struts2中，传统的servlet中的request和response传递参数法仍可使用（但略有不同），并且增加了船新的传值方式。</p>
+<a id="more"></a>
 <h1 id="环境">0. 环境</h1>
 <ul>
 <li>Tomcat 9.0</li>
@@ -179,7 +185,8 @@
   <entry>
     <title>Struts2中Action的几种Result</title>
     <url>/2019/11/02/Struts2%E4%B8%ADAction%E7%9A%84%E5%87%A0%E7%A7%8DResult/</url>
-    <content><![CDATA[<p>Struts中调用Action后应当获得一个Result。它告诉Struts接下来该干啥。它的属性可以是以下类型：</p>
+    <content><![CDATA[<a id="more"></a>
+<p>Struts中调用Action后应当获得一个Result。它告诉Struts接下来该干啥。它的属性可以是以下类型：</p>
 <ul>
 <li>dispatcher：请求转发，用于整合JSP的结果类型。</li>
 <li>redirect：请求重定向。值为一个请求URL。</li>
@@ -235,7 +242,9 @@
   <entry>
     <title>自底向上语法分析</title>
     <url>/2019/10/28/%E8%87%AA%E5%BA%95%E5%90%91%E4%B8%8A%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90/</url>
-    <content><![CDATA[<h1 id="概述">概述</h1>
+    <content><![CDATA[<p><img src="https://blog-1256194686.cos.ap-shanghai.myqcloud.com/ZiDiXlUhYuFaFfXi.png" /></p>
+<a id="more"></a>
+<h1 id="概述">概述</h1>
 <p>基本思想：从输入符号串出发，在每一分析步对相应句型中的某个简单短语进行归约。如果最终能归约到识别符号，则该输入符号串是相应文法的句子，否则就不是。</p>
 <p>基本问题：（假设句型分析过程中每个分析步都对最左的简单短语进行直接归约）如何找出句柄及把此句柄直接归约为哪个非终结符号。</p>
 <p>基本思路： + 找出句柄u + 找出规则U∷=u + 把u直接归约成U</p>
@@ -858,6 +867,7 @@ E\rightarrow E+E|E\times E
     <title>在MyEclipse中使用Struts框架</title>
     <url>/2019/10/24/%E5%9C%A8MyEclipse%E4%B8%AD%E4%BD%BF%E7%94%A8Struts%E6%A1%86%E6%9E%B6/</url>
     <content><![CDATA[<p>CSDN——尤其是CSDN论坛，是好东西，也是坏东西。里面有许许多多大神分享有用的经验，但更多的是半吊子误人子弟，给出一些过时的、没用的建议。小白面对茫茫多的信息只能一边望洋兴叹，祈祷下一个看到的解决方案能稍微粘点边；一边对遇到的每行代码、每条命令追根究底，努力摆脱NOOB的身份。</p>
+<a id="more"></a>
 <h1 id="环境">0. 环境</h1>
 <ul>
 <li>Tomcat 9.0</li>
@@ -913,7 +923,8 @@ E\rightarrow E+E|E\times E
   <entry>
     <title>编写一个注册页面并使用JS函数校验</title>
     <url>/2019/10/11/%E7%BC%96%E5%86%99%E4%B8%80%E4%B8%AA%E6%B3%A8%E5%86%8C%E9%A1%B5%E9%9D%A2%E5%B9%B6%E4%BD%BF%E7%94%A8JS%E5%87%BD%E6%95%B0%E6%A0%A1%E9%AA%8C/</url>
-    <content><![CDATA[<p>首先新建一个Web Project，在WebRoot下新建一个html、一个js和一个css文件。将html自动生成的添加css文件的那段注释改成能用的，再添加<code>&lt;script type=&quot;text/javascript&quot; src=&quot;./js.js&quot;&gt;&lt;/script&gt;</code>引入js文件。</p>
+    <content><![CDATA[<a id="more"></a>
+<p>首先新建一个Web Project，在WebRoot下新建一个html、一个js和一个css文件。将html自动生成的添加css文件的那段注释改成能用的，再添加<code>&lt;script type=&quot;text/javascript&quot; src=&quot;./js.js&quot;&gt;&lt;/script&gt;</code>引入js文件。</p>
 <p>body中就是一个表格，action是跳转，单击时希望使用js文件中的函数进行校验。</p>
 <p>在表单中加上<code>οnsubmit=&quot;return false;&quot;</code>可以阻止表单提交。但是对于如下的代码<code>οnsubmit=&quot;submitTest();&quot;</code>，如果提交表单时submitTest()返回false，实际情况是表单正常提交。原因在于如果这样写，相当于：</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Form.prototype.onsubmit &#x3D; function() &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    submitTest();</span></pre></td></tr><tr><td class="code"><pre><span class="line">&#125;;</span></pre></td></tr></table></figure>
@@ -939,6 +950,7 @@ E\rightarrow E+E|E\times E
     <title>Manjaro Linux下配置JS&amp;jQuery开发环境</title>
     <url>/2019/10/11/Manjaro-Linux%E4%B8%8B%E9%85%8D%E7%BD%AEJS-jQuery%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</url>
     <content><![CDATA[<p>javaScript是一种脚本语言。可以以<code>&lt;script&gt; code &lt;/script&gt;</code>的形式混合在HTML页面中编写动态网页。之前的JSP环境直接就可以拿来写JS,但是并没有语法提示等,因此需要装个插件解决这个问题。</p>
+<a id="more"></a>
 <h1 id="环境">0. 环境</h1>
 <ul>
 <li>MyEclipse 2017 Ci10</li>
@@ -965,8 +977,10 @@ E\rightarrow E+E|E\times E
   <entry>
     <title>《城市：天际线》中的有用模组</title>
     <url>/2019/10/07/%E3%80%8A%E5%9F%8E%E5%B8%82%EF%BC%9A%E5%A4%A9%E9%99%85%E7%BA%BF%E3%80%8B%E4%B8%AD%E7%9A%84%E6%9C%89%E7%94%A8%E6%A8%A1%E7%BB%84/</url>
-    <content><![CDATA[<p>本文记录好用的《发际线》模组。尽管即使打开蓝灯也无法在steam客户端和游戏内访问创意工房，但在浏览器中的订阅也可以立即生效。因此可以在游戏中打开游戏内浏览器，再将地址复制至浏览器进行订阅操作。</p>
+    <content><![CDATA[<p><img src="https://blog-1256194686.cos.ap-shanghai.myqcloud.com/skyline.jpg" /></p>
+<p>本文记录好用的《发际线》模组。尽管即使打开蓝灯也无法在steam客户端和游戏内访问创意工房，但在浏览器中的订阅也可以立即生效。因此可以在游戏中打开游戏内浏览器，再将地址复制至浏览器进行订阅操作。</p>
 <p><strong>感谢所有模组的作者！</strong></p>
+<a id="more"></a>
 <h1 id="影响建造的模组">影响建造的模组</h1>
 <h2 id="fine-road-anarchy和fine-road-tool">fine road anarchy和fine road tool</h2>
 <p>前者屏蔽道路的碰撞判定。是极重要的前置模组。后者 强化了道路编辑模式下那个调整每次抬升高度的功能，点开后分为三行，除第一行保留原有功能外，第二行允许强制道路类型，第三行四个功能分别为取消道路角度限制、智能弯曲道路、自动吸附和道路与其它元素的无冲突（例如开启后升级道路不会挤没建筑）。</p>
@@ -1047,6 +1061,7 @@ E\rightarrow E+E|E\times E
     <title>Manjaro Linux因显卡驱动无法进入图形界面之处理方法</title>
     <url>/2019/09/30/Manjaro-Linux%E5%9B%A0%E6%98%BE%E5%8D%A1%E9%A9%B1%E5%8A%A8%E6%97%A0%E6%B3%95%E8%BF%9B%E5%85%A5%E5%9B%BE%E5%BD%A2%E7%95%8C%E9%9D%A2%E4%B9%8B%E5%A4%84%E7%90%86%E6%96%B9%E6%B3%95/</url>
     <content><![CDATA[<p>因尝试更换显卡驱动为nVIDIA 430xx导致重启后无法进入图形界面，只是黑屏并在屏幕左上角显示一个光标。</p>
+<a id="more"></a>
 <h1 id="环境">0. 环境</h1>
 <ul>
 <li>Manjaro Linux 18.1.0</li>
@@ -1103,7 +1118,8 @@ E\rightarrow E+E|E\times E
   <entry>
     <title>Manjaro Linux下配置MySQL并在MyEclipse中使用</title>
     <url>/2019/09/30/Manjaro-Linux%E4%B8%8B%E9%85%8D%E7%BD%AEMySQL%E5%B9%B6%E5%9C%A8MyEclipse%E4%B8%AD%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h1 id="环境">0. 环境</h1>
+    <content><![CDATA[<a id="more"></a>
+<h1 id="环境">0. 环境</h1>
 <ul>
 <li>MyEclipse 2017 ci10</li>
 <li>Tomcat 9.0</li>
@@ -1156,7 +1172,8 @@ E\rightarrow E+E|E\times E
   <entry>
     <title>Manjaro Linux下配置JSP开发环境</title>
     <url>/2019/09/26/Manjaro-Linux%E4%B8%8B%E9%85%8D%E7%BD%AEJSP%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</url>
-    <content><![CDATA[<h1 id="环境">0. 环境</h1>
+    <content><![CDATA[<a id="more"></a>
+<h1 id="环境">0. 环境</h1>
 <ul>
 <li>Manjaro Linux 18.1.0</li>
 <li>JDK 8u221</li>
@@ -1191,7 +1208,9 @@ E\rightarrow E+E|E\times E
   <entry>
     <title>Manjaro Linux主力机的安装与及基本环境配置</title>
     <url>/2019/09/23/Manjaro-Linux%E4%B8%BB%E5%8A%9B%E6%9C%BA%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E5%8F%8A%E5%9F%BA%E6%9C%AC%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/</url>
-    <content><![CDATA[<h1 id="环境">环境</h1>
+    <content><![CDATA[<p>双显卡笔记本电脑写代码环境的全配置，包括VSCode、Hexo和日常软件。</p>
+<a id="more"></a>
+<h1 id="环境">环境</h1>
 <p>本文时效性较强，许多配置方式会因软件的更新与迭代而发生变化。</p>
 <p>戴尔Inspiron 15-7567笔记本，英特尔i7-7700HQ（集成HD630）+英伟达GTX1050Ti，三星970EVO500G（NVMe）。</p>
 <p>使用32G闪迪酷刃U盘引导安装manjaro-GNOME-18.1.0-rc10-stable-x86_64，经测试兼容良好，触控板灵敏，所有功能键均可正常使用（第一次装的时候<code>Fx</code>键直接按是功能键，按<code>Fn</code>键是<code>Fx</code>，第二次装的时候按<code>Fx</code>直接就是<code>Fx</code>，按住<code>Fn</code>才是功能键，奇怪）。</p>
@@ -1377,8 +1396,9 @@ E\rightarrow E+E|E\times E
 <p>除默认配置外，有必要添加如下内容。</p>
 <p><code>categories:</code>，分级目录属性。与<code>tags</code>属性不同，其可以划分父子级关系。例如：</p>
 <figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="meta">---</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="attr">title:</span> <span class="string">怎么拿长老知识</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="string">...</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="attr">categories:</span>	</span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="bullet">-</span> <span class="string">游戏</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="bullet">-</span> <span class="string">遗迹：灰烬重生</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="string">...</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="meta">---</span></span></pre></td></tr></table></figure>
-<p><code>thumbnail:</code>（如果主题支持文章封面），后跟图片链接即可。经测试，使用450*212的图片作为主题“Hueman”的封面可以获得比较好的画质，体积也只有20至30KB。</p>
+<p>~~<code>thumbnail:</code>（如果主题支持文章封面），后跟图片链接即可。经测试，使用450*212的图片作为主题“Hueman”的封面可以获得比较好的画质，体积也只有20至30KB。~~之前用的Hueman，现在NexT不支持，散了吧。</p>
 <p><code>updated: 1569245658000</code>更新日期。</p>
+<p><code>&lt;!--more--&gt;</code>，此标签之后的部分将被隐藏，点进去才能看，对NexT很有用。</p>
 <h3 id="站点的配置">站点的配置</h3>
 <p>在<code>blog/</code>有一<code>_config.yml</code>文件，其保存有站点相关的设置。</p>
 <p>开头是Site模块：</p>
@@ -1412,6 +1432,7 @@ E\rightarrow E+E|E\times E
 <p>如果想要开启RSS订阅，首先需要安装RSS插件<code>npm install hexo-generator-feed --save</code>，并在站点配置文件中添加RSS支持：</p>
 <figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># RSS订阅支持</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="attr">plugin:</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">  <span class="bullet">-</span> <span class="string">hexo-generator-feed</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="attr">feed:</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">  <span class="attr">type:</span> <span class="string">atom</span>                <span class="comment">#RSS的类型(atom/rss2)</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">  <span class="attr">path:</span> <span class="string">atom.xml</span>            <span class="comment">#文件路径,默认atom.xml/rss2.xml</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">  <span class="attr">limit:</span> <span class="number">20</span>                 <span class="comment">#展示文章的数量,0或false展示全部</span></span></pre></td></tr></table></figure>
 <p>最后将主题配置文件中的<code>rss</code>项改为<code>rss: /atom.xml</code>可开启RSS订阅，可在<code>public/</code>见<code>atom.xml</code>。</p>
+<p>字体配置：找到<code>font</code>并启用，这样就可以自定义字体怎么用而不是通过默认的谷歌字库外链加载默认字体。所有选项置空即可，用户装的啥字体就显示啥字体，但是注意<code>code</code>要以等宽字体显示所以需要设置为等宽字体，如“Courier New”。可选择字库外链，但置空默认使用谷歌只加载代码块一个字体还是挺快的。</p>
 <h3 id="部署至github">部署至GitHub</h3>
 <p>安装hexo的插件：<code>npm install hexo-deployer-git --save</code>。</p>
 <p>在github中建立一个以自己名字命名的仓库，建好后将<code>_config.yml</code>中的`deploy项替换为：</p>

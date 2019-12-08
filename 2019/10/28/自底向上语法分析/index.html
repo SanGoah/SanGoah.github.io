@@ -12,7 +12,7 @@
 
 <link rel="stylesheet" href="/css/main.css">
 
-
+<link rel="stylesheet" href="//fonts.lug.ustc.edu.cn/css?family=Courier New:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
 <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
 
 
@@ -46,16 +46,16 @@
   };
 </script>
 
-  <meta name="description" content="概述 基本思想：从输入符号串出发，在每一分析步对相应句型中的某个简单短语进行归约。如果最终能归约到识别符号，则该输入符号串是相应文法的句子，否则就不是。 基本问题：（假设句型分析过程中每个分析步都对最左的简单短语进行直接归约）如何找出句柄及把此句柄直接归约为哪个非终结符号。 基本思路： + 找出句柄u + 找出规则U∷&#x3D;u + 把u直接归约成U 基本概念： 活前缀: 右句型（最右推导可得到的句型）">
-<meta name="keywords" content="编译原理,语法分析">
+  <meta name="keywords" content="编译原理,语法分析">
 <meta property="og:type" content="article">
 <meta property="og:title" content="自底向上语法分析">
 <meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;10&#x2F;28&#x2F;%E8%87%AA%E5%BA%95%E5%90%91%E4%B8%8A%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90&#x2F;index.html">
 <meta property="og:site_name" content="Mech_Mind‘s blog">
-<meta property="og:description" content="概述 基本思想：从输入符号串出发，在每一分析步对相应句型中的某个简单短语进行归约。如果最终能归约到识别符号，则该输入符号串是相应文法的句子，否则就不是。 基本问题：（假设句型分析过程中每个分析步都对最左的简单短语进行直接归约）如何找出句柄及把此句柄直接归约为哪个非终结符号。 基本思路： + 找出句柄u + 找出规则U∷&#x3D;u + 把u直接归约成U 基本概念： 活前缀: 右句型（最右推导可得到的句型）">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-12-02T14:33:20.337Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;blog-1256194686.cos.ap-shanghai.myqcloud.com&#x2F;ZiDiXlUhYuFaFfXi.png">
+<meta property="og:updated_time" content="2019-12-08T12:46:24.643Z">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;blog-1256194686.cos.ap-shanghai.myqcloud.com&#x2F;ZiDiXlUhYuFaFfXi.png">
 
 <link rel="canonical" href="http://yoursite.com/2019/10/28/%E8%87%AA%E5%BA%95%E5%90%91%E4%B8%8A%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90/">
 
@@ -239,7 +239,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-12-02 22:33:20" itemprop="dateModified" datetime="2019-12-02T22:33:20+08:00">2019-12-02</time>
+                <time title="Modified: 2019-12-08 20:46:24" itemprop="dateModified" datetime="2019-12-08T20:46:24+08:00">2019-12-08</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -277,7 +277,9 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="概述">概述</h1>
+        <p><img src="https://blog-1256194686.cos.ap-shanghai.myqcloud.com/ZiDiXlUhYuFaFfXi.png" /></p>
+<a id="more"></a>
+<h1 id="概述">概述</h1>
 <p>基本思想：从输入符号串出发，在每一分析步对相应句型中的某个简单短语进行归约。如果最终能归约到识别符号，则该输入符号串是相应文法的句子，否则就不是。</p>
 <p>基本问题：（假设句型分析过程中每个分析步都对最左的简单短语进行直接归约）如何找出句柄及把此句柄直接归约为哪个非终结符号。</p>
 <p>基本思路： + 找出句柄u + 找出规则U∷=u + 把u直接归约成U</p>

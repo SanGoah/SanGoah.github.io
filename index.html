@@ -12,7 +12,7 @@
 
 <link rel="stylesheet" href="/css/main.css">
 
-
+<link rel="stylesheet" href="//fonts.lug.ustc.edu.cn/css?family=Courier New:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
 <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
 
 
@@ -238,7 +238,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-12-02 22:20:19" itemprop="dateModified" datetime="2019-12-02T22:20:19+08:00">2019-12-02</time>
+                <time title="Modified: 2019-12-08 20:46:37" itemprop="dateModified" datetime="2019-12-08T20:46:37+08:00">2019-12-08</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -263,7 +263,8 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>sudo pacman -S dosbox</p>
+          <a id="more"></a>
+<p>sudo pacman -S dosbox</p>
 <p>mount c ~/Workspaces/MASM</p>
 <p>MASM5.0，更高的版本需要Win行命令提示符环境才能运行</p>
 <p>masm hw.asm</p>
@@ -320,7 +321,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-12-02 22:49:35" itemprop="dateModified" datetime="2019-12-02T22:49:35+08:00">2019-12-02</time>
+                <time title="Modified: 2019-12-08 20:47:35" itemprop="dateModified" datetime="2019-12-08T20:47:35+08:00">2019-12-08</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -352,55 +353,14 @@
 
       
           <p>OpenCV中有个神奇的AdaBoost，通过读入一个xml即可识别出目标区域。此物中文名唤“级联分类器”，“级联”指它由简单分类器级联组成，通过所有分类器的区域即为目标区域。训练时通过对样本的一定操作可生成样本的Haar/LBP/HOG等特征，检测时遍历待识别图片各区域进行特征匹配。</p>
-<h1 id="训练">训练</h1>
-<h2 id="文件准备">文件准备</h2>
-<p>训练文件夹的结构应当如下：</p>
-<ul>
-<li><训练文件夹>
-<ul>
-<li><code>data</code>（训练结果文件夹）</li>
-<li><code>vec</code>（样本集文件夹）</li>
-<li><code>bg</code>（背景集文件夹）</li>
-<li><code>vec.bat</code>（样本集相关信息）</li>
-<li><code>vec.vec</code>（样本集相关信息）</li>
-<li><code>bg.txt</code>（背景集相关信息）</li>
-<li><code>opencv_createsamples</code>（生成<code>pos.vec</code>的工具）</li>
-<li><code>opencv_traincascade</code>（训练的工具）</li>
-</ul></li>
-</ul>
-<p>其中这些东西的名字都可以变。</p>
-<p>首先建立训练文件夹和三个子文件夹，并分别放入样本集图片和背景集图片。样本的大小大约应当几十见方，太大会爆栈；背景应当远大于训练图片，几百见方，且内容较复杂。这是因为程序将训练图片作为滑动窗口在背景上滑动来采集训练图像，如果无法采集到足够多的样本就会报<code>Train dataset for temp stage can not be filled. Branch training terminated.</code>错误。</p>
-<p>关于样本集与背景集的比例，有帖子认为一比三是比较合适的，我理解是生活中没有样本的情况（背景）多于有样本，但如果给太多背景影响训练效率。</p>
-<p>放好后在训练文件夹下进入终端，<code>ls ./bg/&gt;bg.txt</code>生成背景集相关信息，<code>ls ./vec/&gt;vec.bat</code>生成样本集相关信息。自动生成的文件最后有个空行需要删掉。有帖子指出这里的文件对换行格式也有要求，实测VSCode中的“LF”格式没问题。</p>
-<p>此时生成的两个文件内应当是形如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">xxx.xxx</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">xxx.xxx</span></pre></td></tr></table></figure>
-<p>将之改为：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">vec&#x2F;xxx.xxx</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">vec&#x2F;xxx.xxx</span></pre></td></tr></table></figure>
-<p>和</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">bg&#x2F;xxx.xxx</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">bg&#x2F;xxx.xxx</span></pre></td></tr></table></figure>
-<p>这是因为待会调用训练程序时无法指定图片地址，所以地址要在这两个文件中显式指出。</p>
-<p>除此之外，还要指出样本图片（背景不需要）的该样本数目、起始坐标和表示样本宽高</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">vec&#x2F;xxx.xxx 1 0 0 xx xx</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">vec&#x2F;xxx.xxx 1 0 0 xx xx</span></pre></td></tr></table></figure>
-<p>那两个工具在电脑里查找一下，通过anaconda装的就是在anaconda文件夹里某个角落，复制过去即可。</p>
-<h2 id="创建样本">创建样本</h2>
-<p><code>./opencv_createsamples -vec vec.vec -info vec.bat -bg bg.txt -w xx -h xx</code></p>
-<p>注意图片尺寸要对，否则报<code>Error: Assertion failed (_img.rows * _img.cols == vecSize)</code>。</p>
-<p>这里的工具是直接拉过来用的，配套环境可能跟不上。如果报错他想找个啥库找不到之类，以<code>libopencv_core.so.3.2</code>为例：</p>
-<blockquote>
-<p>Find the folder containing the shared library <code>libopencv_core.so.3.2</code>using the following command line. <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&gt;sudo find &#x2F; -name&quot;libopencv_core.so.3.2*&quot;</span></pre></td></tr></table></figure> Then I got the result: <code>/usr/local/&gt;lib/libopencv_core.so.3.2</code>.</p>
-<p>Create a file called <code>/etc/ld.so.conf.d/opencv.conf</code> and write to it the path to the folder where the binary is stored.For example, I wrote <code>/usr/local/lib/</code> to my opencv.conf file.</p>
-<p>Run the command line as follows. <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">sudo ldconfig -v</span></pre></td></tr></table></figure> Try to run the test binary again.</p>
-</blockquote>
-<p>生成<code>vec.vec</code>就是好了。</p>
-<p>可能需要给工具一个执行权限。</p>
-<h2 id="训练-1">训练</h2>
-<p><code>./opencv_traincascade -data data -vec vec.vec -bg bg.txt -numPos xxx -numNeg xxx -numStages 20 -w xx -h xx -minHitRate 0.9999 -maxFalseAlarmRate 0.5 -mode ALL</code>，其中<code>numPos</code>和<code>numNeg</code>是每次训练使用的样本数量，而非你提供了多少样本。这个数量应当足够多（样本数应当大于10，否则报<code>Cascade classifier can’t be trained. Check the used training parameters.</code>），和提供的数量一样保持一比三，并且少于提供的样本数（否则报<code>Traincascade Error:Bad argument(Can not get new positive sample.The most possible reason is insufficient count of samples in given vec-file.</code>）；<code>numStage</code>是训练的级数，默认为20；<code>minHitRate</code>指“分类器的每一级希望得到最小检测率”，一般0.9999；<code>maxFalseAlarmRate</code>，最大虚警率，“影响弱分类器的阈值，表示每个弱分类器将负样本误分为正样本的比例”，一般默认值为0.5。还有其它贼多参数，用到再去查吧。</p>
-<p>官方给的<code>numPos</code>和<code>numNeg</code>计算方法是<code>vec-file number &gt;= (numPos + (numStages-1) * (1 – minHitRate) * numPos) + S</code>。<code>vec-file number</code>是指提供的样本数。</p>
-<p>训练过程中经常报<code>Train dataset for temp stage can not be filled. Branch training terminated.</code>，排除背景信息那个文本文档格式问题的话就是需要更多更大更复杂的背景的意思。</p>
-<h1 id="检测">检测</h1>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">xx = cv2.CascadeClassifier(&lt;xml路径&gt;)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">xxx = xx.detectMultiScale(&lt;图片&gt;, scaleFactor=<span class="number">1.1</span>, minNeighbors=<span class="number">55</span>, minSize=(<span class="number">10</span>, <span class="number">10</span>),maxSize=(<span class="number">90</span>,<span class="number">90</span>),flags=cv2.CASCADE_SCALE_IMAGE)</span></pre></td></tr></table></figure>
-<p><code>scaleFactor</code>指每次检测区域扩大多少，1.1就是每次扩大百分之十；<code>minNeighbors</code>大概意思是一个目标区域附近允许有多少目标区域——因为往往对同一个目标，程序会识别出许多临近的目标区域，看情况调调这个参数留一个就行。</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/11/18/Manjaro-Linux%E4%B8%8B%E4%BD%BF%E7%94%A8opencv-traincascade/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -450,7 +410,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-11-18 16:41:56" itemprop="dateModified" datetime="2019-11-18T16:41:56+08:00">2019-11-18</time>
+                <time title="Modified: 2019-12-08 20:45:27" itemprop="dateModified" datetime="2019-12-08T20:45:27+08:00">2019-12-08</time>
               </span>
 
           
@@ -464,42 +424,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>因为整天昏昏欲睡，玩Dota的同学称我为啥啥之主记不清了，刚刚查了下可能是叫祸乱之源？</p>
-<p>知乎上有一些类似“如何保持精力旺盛”的问题，答者众，然而翻翻回答，要么是一些傻逼励志书的类似读书笔记的东西（这些书有一个算一个都是傻逼，引用这玩意的答主也是傻逼，有不同意见的请将本网址添加至<code>C:\WINDOWS\system32\drivers\etc\host</code>，自己搭博客写字的好处就是特么的不用管这些友善度），要么是一些莫名其妙似是而非八成就是为了推销保健品的科学术语使劲堆，还有就是分好几十条小tips每一条都令人无法理解这玩意有啥用的例如想着待会你要去吃个啥啥一直想吃的小点心然后你就精神了我觉得我想着待会就能去把你打一顿了比较有用点。</p>
-<p>与其看网上这些编出来骗赞的“经验贴”，不如自己实验。毕竟就算真的是答主发自肺腑的经验之谈，由于人与人之间生活环境、个人身体条件巨大的差别恐怕也很难直接套用，有个答主说他找了女朋友就好了，一想woc真特么有道理，问题是国家不给发我去哪找，充一万话费送吗那我充十万。</p>
-<h1 id="睡眠">1. 睡眠</h1>
-<p>精力不好最大的表现就是昏昏欲睡，所以第一反应是研究睡眠。</p>
-<h2 id="时间">1.1. 时间</h2>
-<p>目前11点到2点间睡，具体没规律。典型的情况是11点半上床，十二点半或更晚些睡着——话说怎么知道自己是几点睡着的啊百度搜出来全是怎么知道自己电脑是32位还是64位。早晨会在上课前半小时起床，无论是几点的课。如果上午没课的话就11点到2点起，不一定。</p>
-<p>如果上午没课睡到中午自然是没有午睡的，否则会有。时间大致是从回到宿舍睡到再不起就迟到，时间根据季节、课表可能从不到20分钟到3小时以上。</p>
-<p>早晨或中午醒来后通常会感觉没睡够，大部分情况下会坚持不睡去上课也就慢慢清醒些，但如果决定趴倒接着睡的话睡他个两节课也无压力。所以必修课选睡选修课必睡——可能是在教室睡也可能是在宿舍，取决于教室与宿舍的距离。</p>
-<h2 id="入睡情况">1.2. 入睡情况</h2>
-<p>午觉通常能迅速睡着，晚上则大概率不可以。说起来我应该算是夜里精神的一类人，即使在全国大学生天文爱好者——勉强算是世界上最能熬夜的一批人——云集的活动里也是少数能连续通宵的……不过毕竟野外天冷，刺激肾上腺素分泌，而且鼓捣些器材啥的也不算废脑子，熬夜难度比不上修福报的程序员。</p>
-<p>晚上临睡会刷B站，上床后入睡前没有玩手机的习惯，但通常会听些什么，郭德纲、唱间小姐姐直播、音声故事和ASMR都有听，主要是为了遮蔽舍友闹出的动静。大晚上的跟那洗衣服洗头也就算了，一会嘿嘿嘿嘿一会哈哈哈哈一会输钱了砸桌子的。</p>
-<h2 id="计划">1.3. 计划</h2>
-<p>睡午觉可能是导致晚上难以迅速入睡的重要原因，大约从高一或略微更早养成的这个习惯，考虑戒掉。其实从三五天前起就开始强制自己不睡午觉了——上课也不睡——目前感受不太好，尤其是下午的课，别说听课，连网络小说都看不太懂了，晚上会有好转，写写作业看看书的智力水平勉强能保持。再过一段时间看看。</p>
-<p><strong>【W+1】</strong>好像现在影响不大了。但还是有影响而且想睡。试试中午看人文社科类的书。</p>
-<p>不睡午觉的话晚上的睡眠时间可能需要相应增加。暂且尝试11点前出现在床上，如果不睡午觉达成了晚上可以快速入眠的目的的话就是可以睡7个半到八个小时，早晨早起些，把晚上刷B站放在早晨，也算是刺激刺激大脑。</p>
-<p>另外有人整天讲什么蓝光什么褪黑素什么的，强烈怀疑是为了卖保健品。听说蓝色可以使人冷静而理性，所以码代码时把编辑器调成深蓝色背景，蓝色够多吧抑制褪黑素吧，照样困。</p>
-<h1 id="饮食">2. 饮食</h1>
-<h2 id="概况">2.1. 概况</h2>
-<p>早餐10点吃（起得晚来不及只能抽课间），1点以后吃午餐（人少不用排队）。晚餐5点到7点间吃，内容都是食堂标配。</p>
-<p>基本不喝牛奶，每天都吃水果。</p>
-<h2 id="计划-1">2.2. 计划</h2>
-<p>有一些人提到饮食的影响，尤其是具体到午睡时比较常见的说法是“中国人午餐吃米高碳水血糖高所以下午困”，早餐上的建议与之类似，也是高蛋白低碳水啥啥啥的。另外也有讨论高油盐、喝水少的影响的。</p>
-<p>高碳水、高油盐这些问题几乎不可能解决，食堂里能顶饱的也就是米饭了，而肉类主要是炸鸡腿、炸鸡排、炸鸡块，少见的家常做法的肉通常比较咸。另外——某些人每顿饭都强调要低碳水、高蛋白——这是不把膳食指南放在眼里吗？</p>
-<p>多喝水是容易做到的。另外可以一定程度上考虑早晨和中午时减少碳水摄入以期在下午获得更好的表现。</p>
-<p>考虑早餐分开两次在8点和10点吃茶鸡蛋，午餐以肉类为主，已屯三箱王光烧牛肉，晚餐照常。</p>
-<p><strong>【W+1】</strong>午餐只吃肉胃受不了，挺难受的。王光烧牛肉的油冬天会冻成粉状，超级恶心。</p>
-<p>保持吃水果的习惯，另外临睡加一包奶。</p>
-<p>吃上的开销几乎不会增加。</p>
-<h1 id="运动">3. 运动</h1>
-<h2 id="概况-1">3.1. 概况</h2>
-<p>通常不专门运动，但学校大，日常上课破万步。</p>
-<h2 id="计划-2">3.2. 计划</h2>
-<p>把每天晚上刷B站的时间用来跑步试试。</p>
-<p><strong>【W+1】</strong>也不一定跑步，总之晚上不要娱乐，放在早晨起来不太清醒的时候加速清醒。</p>
-
+          <p><img src="https://blog-1256194686.cos.ap-shanghai.myqcloud.com/atropos.jpg" /></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/11/11/%E6%9C%89%E5%85%B3%E6%91%86%E8%84%B1%E7%A5%B8%E4%B9%B1%E4%B9%8B%E6%BA%90%E7%9A%84%E5%B0%9D%E8%AF%95/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -541,10 +474,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2019-11-11 15:35:40 / Modified: 15:56:37" itemprop="dateCreated datePublished" datetime="2019-11-11T15:35:40+08:00">2019-11-11</time>
+              <time title="Created: 2019-11-11 15:35:40" itemprop="dateCreated datePublished" datetime="2019-11-11T15:35:40+08:00">2019-11-11</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-12-08 20:44:35" itemprop="dateModified" datetime="2019-12-08T20:44:35+08:00">2019-12-08</time>
+              </span>
 
           
 
@@ -557,7 +496,8 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"> +-----------------------+          +-----------------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"> |1 2 3 4 1 2 5 1 2 3 4 5|          |1 2 3 4 1 2 5 1 2 3 4 5|</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">++----------------------++         ++----------------------++</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">|1|1|1|4|4|4|5| | |5|5| |          |1|1|1|1| | |5|5|5|5|4|4|</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">| |2|2|2|1|1|1| | |3|3| |          | |2|2|2| | |2|1|1|1|1|5|</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">| | |3|3|3|2|2| | |2|4| |          | | |3|3| | |3|3|2|2|2|2|</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">+-----------------------+          | | | |4| | |4|4|4|3|3|3|</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">       1 2 3 4     5 6             +-----------------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">                                                1 2 3 4 5 6</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line"> +-----------------------+          +-----------------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line"> |1 2 3 4 1 2 5 1 2 3 4 5|          |1 2 3 4 1 2 5 1 2 3 4 5|</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">++----------------------++         ++----------------------++</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">|1|1|1|4|4|4|5| | |3|3|3|          |1|1|1|1| | |1| | |1|1|5|</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">| |2|2|2|1|1|1| | |1|4|4|          | |2|2|2| | |2| | |2|2|2|</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">| | |3|3|3|2|2| | |2|2|5|          | | |3|3| | |5| | |5|4|4|</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">+-----------------------+          | | | |4| | |4| | |3|3|3|</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">       1 2 3 4     5 6 7           +-----------------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">                                                1     2 3 4</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">  +-----------------------------------------------------------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">  |5  0  1  2  0  3  0  4  2  3  0  3  2  1  2  0  1  5  0  1       |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">+-+---------------------------------------------------------+-------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">|51|51|51|21|  |20|01|00|21|  |20|31|21|20|  |01|  |00|  |  |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">|  |01|01|00|  |31|31|30|30|  |01|01|00|11|  |11|  |10|  |  |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">|  |  |11|10|  |10|10|41|41|  |41|41|40|40|  |40|  |51|  |  |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">+-----------------------------------------------------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line">          1     2  3  4  5     6  7  8  9     10    11</span></pre></td></tr></table></figure>
+          <a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"> +-----------------------+          +-----------------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"> |1 2 3 4 1 2 5 1 2 3 4 5|          |1 2 3 4 1 2 5 1 2 3 4 5|</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">++----------------------++         ++----------------------++</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">|1|1|1|4|4|4|5| | |5|5| |          |1|1|1|1| | |5|5|5|5|4|4|</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">| |2|2|2|1|1|1| | |3|3| |          | |2|2|2| | |2|1|1|1|1|5|</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">| | |3|3|3|2|2| | |2|4| |          | | |3|3| | |3|3|2|2|2|2|</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">+-----------------------+          | | | |4| | |4|4|4|3|3|3|</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">       1 2 3 4     5 6             +-----------------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">                                                1 2 3 4 5 6</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line"> +-----------------------+          +-----------------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line"> |1 2 3 4 1 2 5 1 2 3 4 5|          |1 2 3 4 1 2 5 1 2 3 4 5|</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">++----------------------++         ++----------------------++</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">|1|1|1|4|4|4|5| | |3|3|3|          |1|1|1|1| | |1| | |1|1|5|</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">| |2|2|2|1|1|1| | |1|4|4|          | |2|2|2| | |2| | |2|2|2|</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">| | |3|3|3|2|2| | |2|2|5|          | | |3|3| | |5| | |5|4|4|</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">+-----------------------+          | | | |4| | |4| | |3|3|3|</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">       1 2 3 4     5 6 7           +-----------------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">                                                1     2 3 4</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">  +-----------------------------------------------------------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">  |5  0  1  2  0  3  0  4  2  3  0  3  2  1  2  0  1  5  0  1       |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">+-+---------------------------------------------------------+-------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">|51|51|51|21|  |20|01|00|21|  |20|31|21|20|  |01|  |00|  |  |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">|  |01|01|00|  |31|31|30|30|  |01|01|00|11|  |11|  |10|  |  |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">|  |  |11|10|  |10|10|41|41|  |41|41|40|40|  |40|  |51|  |  |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">+-----------------------------------------------------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line">          1     2  3  4  5     6  7  8  9     10    11</span></pre></td></tr></table></figure>
 
       
     </div>
@@ -608,7 +548,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-12-02 22:24:21" itemprop="dateModified" datetime="2019-12-02T22:24:21+08:00">2019-12-02</time>
+                <time title="Modified: 2019-12-08 20:47:57" itemprop="dateModified" datetime="2019-12-08T20:47:57+08:00">2019-12-08</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -640,39 +580,14 @@
 
       
           <p>struts2中，传统的servlet中的request和response传递参数法仍可使用（但略有不同），并且增加了船新的传值方式。</p>
-<h1 id="环境">0. 环境</h1>
-<ul>
-<li>Tomcat 9.0</li>
-<li>MyEclipse 2017 ci10</li>
-<li>Struts 2.5.20</li>
-<li>Manjaro Linux 18.1.0</li>
-<li>JDK 1.8u221</li>
-</ul>
-<h1 id="requestresponse">1. request/response</h1>
-<blockquote>
-<p>为避免与Servlet API耦合在一起，方便Action类做单元测试，Struts2对HttpServletRequest、HttpSession、ServletContext进行了封装，构造了三个Map对象来替代这三种对象。注意，这三个对象与Servlet API中的三个对象是相同的，即，在Action中放入Session中信息，在JSP页面中是可以读出来的。</p>
-</blockquote>
-<p>在Action类中引入上下文类ActionContext，使用<code>getContext()</code>实例化一个对象，就可以通过这个对象获取session和application的map对象，而ActionContext对象本身包含了request的map对象。</p>
-<p>向它们中添加属性只需使用<code>put()</code>方法，若向request添加属性，只需向ActionContext对象中添加。</p>
-<h1 id="getset">2. get/set</h1>
-<p>之前带有传值的示例就是用的这种方式。在action类中定义与jsp页面中上传参数的东西同名的私有成员变量并生成get/set方法即可直接使用，贼方便。</p>
-<p>这种方法的进阶版是传JavaBean——而不是一个个传数据。也非常简单，唯一需要注意的是jsp页面中上传参数的东西的name必须是<code>&lt;JavaBean的名字&gt;.名字</code>。</p>
-<h1 id="示例">3. 示例</h1>
-<p>一个学生登录的界面。用户在<code>index.jsp</code>填写表单，提交后跳转至欢迎界面，在欢迎界面显示输入的信息。</p>
-<h2 id="index.jsp">3.1. index.jsp</h2>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">	<span class="tag">&lt;<span class="name">h1</span>&gt;</span>使用JavaBean传递参数：<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">	<span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"transJB"</span>&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">		<span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"stud.id"</span>&gt;</span>学号<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">		<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"stud.id"</span>&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">		<span class="tag">&lt;<span class="name">br</span>/&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">		<span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"stud.name"</span>&gt;</span>姓名<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">		<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"stud.name"</span>/&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">		<span class="tag">&lt;<span class="name">br</span>/&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">		<span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"stud.school"</span>&gt;</span>学院<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">		<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"stud.school"</span>/&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">		<span class="tag">&lt;<span class="name">br</span>/&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">		<span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"stud.pw"</span>&gt;</span>口令<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">		<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"password"</span> <span class="attr">name</span>=<span class="string">"stud.pw"</span>/&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">		<span class="tag">&lt;<span class="name">br</span>/&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">		<span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"stud.mail"</span>&gt;</span>邮箱<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">		<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"stud.mail"</span>/&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">		<span class="tag">&lt;<span class="name">br</span>/&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">		<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"登录"</span>/&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">	<span class="tag">&lt;/<span class="name">form</span>&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">	<span class="tag">&lt;<span class="name">h1</span>&gt;</span>使用HttpServletRequest传递参数：<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">	<span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"transSERVLET"</span>&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">		<span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"id"</span>&gt;</span>学号<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">		<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"id"</span>&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">		<span class="tag">&lt;<span class="name">br</span>/&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">		<span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"name"</span>&gt;</span>姓名<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">		<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"name"</span>/&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line">		<span class="tag">&lt;<span class="name">br</span>/&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line">		<span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"school"</span>&gt;</span>学院<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">30</span></pre></td><td class="code"><pre><span class="line">		<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"school"</span>/&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">31</span></pre></td><td class="code"><pre><span class="line">		<span class="tag">&lt;<span class="name">br</span>/&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">32</span></pre></td><td class="code"><pre><span class="line">		<span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"pw"</span>&gt;</span>口令<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">33</span></pre></td><td class="code"><pre><span class="line">		<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"password"</span> <span class="attr">name</span>=<span class="string">"pw"</span>/&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">34</span></pre></td><td class="code"><pre><span class="line">		<span class="tag">&lt;<span class="name">br</span>/&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">35</span></pre></td><td class="code"><pre><span class="line">		<span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"mail"</span>&gt;</span>邮箱<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">36</span></pre></td><td class="code"><pre><span class="line">		<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"mail"</span>/&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">37</span></pre></td><td class="code"><pre><span class="line">		<span class="tag">&lt;<span class="name">br</span>/&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">38</span></pre></td><td class="code"><pre><span class="line">		<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"登录"</span>/&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">39</span></pre></td><td class="code"><pre><span class="line">	<span class="tag">&lt;/<span class="name">form</span>&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">40</span></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span></pre></td></tr></table></figure>
-<h2 id="struts.xml">3.2. struts.xml</h2>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">package</span> <span class="attr">name</span>=<span class="string">"TransTestPkg"</span> <span class="attr">extends</span>=<span class="string">"struts-default"</span>&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">        <span class="tag">&lt;<span class="name">action</span> <span class="attr">name</span>=<span class="string">"transJB"</span> <span class="attr">class</span>=<span class="string">"transTest.JBtrans"</span> <span class="attr">method</span>=<span class="string">"execute"</span>&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">            <span class="tag">&lt;<span class="name">result</span> <span class="attr">name</span>=<span class="string">"success"</span>&gt;</span>/succJB.jsp<span class="tag">&lt;/<span class="name">result</span>&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">        <span class="tag">&lt;/<span class="name">action</span>&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">        <span class="tag">&lt;<span class="name">action</span> <span class="attr">name</span>=<span class="string">"transSERVLET"</span> <span class="attr">class</span>=<span class="string">"transTest.SERVLETtrans"</span> <span class="attr">method</span>=<span class="string">"execute"</span>&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">            <span class="tag">&lt;<span class="name">result</span> <span class="attr">name</span>=<span class="string">"success"</span>&gt;</span>/succSERVLET.jsp<span class="tag">&lt;/<span class="name">result</span>&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">        <span class="tag">&lt;/<span class="name">action</span>&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;/<span class="name">package</span>&gt;</span></span></pre></td></tr></table></figure>
-<h2 id="transtest">3.3. transTest</h2>
-<h3 id="servlettrans.java">3.3.1. SERVLETtrans.java</h3>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> transTest;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Map;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletRequest;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.opensymphony.xwork2.ActionContext;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.apache.struts2.ServletActionContext; </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SERVLETtrans</span></span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">execute</span><span class="params">()</span></span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">        ActionContext ctx=ActionContext.getContext();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">        HttpServletRequest request = (HttpServletRequest) ctx.get(ServletActionContext.HTTP_REQUEST);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">        Map&lt;String,Object&gt; application=ctx.getApplication();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">        String id=request.getParameter(<span class="string">"id"</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">        String name = request.getParameter(<span class="string">"name"</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">        String school = request.getParameter(<span class="string">"school"</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">        String pw =  request.getParameter(<span class="string">"pw"</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">        String mail =  request.getParameter(<span class="string">"mail"</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">        System.out.println(<span class="string">"id: "</span> + id);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">        System.out.println(<span class="string">"name: "</span> + name);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">        System.out.println(<span class="string">"school: "</span> + school);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">        System.out.println(<span class="string">"pw: "</span> + pw);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">        System.out.println(<span class="string">"mail: "</span> + mail);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">        </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">        application.put(<span class="string">"id"</span>,id);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">        application.put(<span class="string">"name"</span>,name);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line">        application.put(<span class="string">"school"</span>,school);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line">        application.put(<span class="string">"pw"</span>,pw);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">30</span></pre></td><td class="code"><pre><span class="line">        application.put(<span class="string">"mail"</span>,mail);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">31</span></pre></td><td class="code"><pre><span class="line">        </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">32</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> <span class="string">"success"</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">33</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">34</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
-<h3 id="jbtrans.java">3.3.2. JBtrans.java</h3>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> transTest;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.opensymphony.xwork2.ActionSupport;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> transTest.StudentBean;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JBtrans</span> <span class="keyword">extends</span> <span class="title">ActionSupport</span> </span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">	<span class="comment">/**</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"><span class="comment">	 * </span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line"><span class="comment">	 */</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = <span class="number">1L</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">	</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">	<span class="keyword">private</span> StudentBean stud;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">	<span class="function"><span class="keyword">public</span> StudentBean <span class="title">getStud</span><span class="params">()</span> </span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">		<span class="keyword">return</span> stud;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">	&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setStud</span><span class="params">(StudentBean stud)</span> </span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">		<span class="keyword">this</span>.stud = stud;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">	&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">	</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">	<span class="comment">//public StudentBean stud = new StudentBean();</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">	</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">execute</span><span class="params">()</span></span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">		<span class="comment">/*System.out.println(stud.getName());</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line"><span class="comment">		System.out.println(stud.getSchool());</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line"><span class="comment">		System.out.println(stud.getPw());</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line"><span class="comment">		System.out.println(stud.getMail());</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line"><span class="comment">		System.out.println(stud.getId());*/</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">		<span class="keyword">return</span> <span class="string">"success"</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line">	&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
-<h3 id="studentbean.java">3.3.3. StudentBean.java</h3>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> transTest;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StudentBean</span> </span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">	<span class="keyword">public</span> String name,id,school,pw,mail;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">		<span class="keyword">return</span> name;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">	&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">		<span class="keyword">this</span>.name = name;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">	&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getId</span><span class="params">()</span> </span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">		<span class="keyword">return</span> id;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">	&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setId</span><span class="params">(String id)</span> </span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">		<span class="keyword">this</span>.id = id;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">	&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getSchool</span><span class="params">()</span> </span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">		<span class="keyword">return</span> school;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">	&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setSchool</span><span class="params">(String school)</span> </span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">		<span class="keyword">this</span>.school = school;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">	&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getPw</span><span class="params">()</span> </span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">		<span class="keyword">return</span> pw;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">	&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPw</span><span class="params">(String pw)</span> </span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">		<span class="keyword">this</span>.pw = pw;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line">	&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getMail</span><span class="params">()</span> </span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">30</span></pre></td><td class="code"><pre><span class="line">		<span class="keyword">return</span> mail;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">31</span></pre></td><td class="code"><pre><span class="line">	&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">32</span></pre></td><td class="code"><pre><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setMail</span><span class="params">(String mail)</span> </span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">33</span></pre></td><td class="code"><pre><span class="line">		<span class="keyword">this</span>.mail = mail;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">34</span></pre></td><td class="code"><pre><span class="line">	&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">35</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
-<h2 id="succjb和succservlet.jsp">3.4. succJB和succSERVLET.jsp</h2>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">jb:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">&lt;body&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    &lt;h1&gt;欢迎你，学号&lt;s:property value="stud.id"/&gt;，&lt;s:property value="stud.school"/&gt;学院的&lt;s:property value="stud.name"/&gt;同学！&lt;/h1&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    &lt;p&gt;你登记的邮箱是&lt;s:property value="stud.mail"/&gt;，口令是&lt;s:property value="stud.pw"/&gt;。&lt;/p&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">&lt;/body&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">servlet:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">&lt;body&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">    &lt;h1&gt;欢迎你，学号$&#123;applicationScope.id&#125;，$&#123;applicationScope.school&#125;学院的$&#123;applicationScope.name&#125;同学！&lt;/h1&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">    &lt;p&gt;你登记的邮箱是$&#123;applicationScope.mail&#125;，口令是$&#123;applicationScope.pw&#125;。&lt;/p&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">&lt;/body&gt;</span></pre></td></tr></table></figure>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/11/07/Struts2%E4%B8%ADAction%E7%9A%84%E5%87%A0%E7%A7%8D%E4%BC%A0%E5%80%BC%E6%96%B9%E5%BC%8F/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -722,7 +637,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-12-02 22:24:13" itemprop="dateModified" datetime="2019-12-02T22:24:13+08:00">2019-12-02</time>
+                <time title="Modified: 2019-12-08 20:48:09" itemprop="dateModified" datetime="2019-12-08T20:48:09+08:00">2019-12-08</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -753,7 +668,8 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>Struts中调用Action后应当获得一个Result。它告诉Struts接下来该干啥。它的属性可以是以下类型：</p>
+          <a id="more"></a>
+<p>Struts中调用Action后应当获得一个Result。它告诉Struts接下来该干啥。它的属性可以是以下类型：</p>
 <ul>
 <li>dispatcher：请求转发，用于整合JSP的结果类型。</li>
 <li>redirect：请求重定向。值为一个请求URL。</li>
@@ -845,7 +761,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-12-02 22:33:20" itemprop="dateModified" datetime="2019-12-02T22:33:20+08:00">2019-12-02</time>
+                <time title="Modified: 2019-12-08 20:46:24" itemprop="dateModified" datetime="2019-12-08T20:46:24+08:00">2019-12-08</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -876,616 +792,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="概述">概述</h1>
-<p>基本思想：从输入符号串出发，在每一分析步对相应句型中的某个简单短语进行归约。如果最终能归约到识别符号，则该输入符号串是相应文法的句子，否则就不是。</p>
-<p>基本问题：（假设句型分析过程中每个分析步都对最左的简单短语进行直接归约）如何找出句柄及把此句柄直接归约为哪个非终结符号。</p>
-<p>基本思路： + 找出句柄u + 找出规则U∷=u + 把u直接归约成U</p>
-<p>基本概念：</p>
-<p>活前缀: <strong>右句型</strong>（最右推导可得到的句型）的<strong>前缀</strong>（如<code>abc</code>的前缀为<code>a</code>、<code>ab</code>、<code>abc</code>），而且其右端不会超过该句型的最右边<strong>句柄</strong>（句柄是和某个产生式右部匹配的字符串，可以把句柄归约成产生式左部的非终结符）的末端。</p>
-<p>举例： 设有文法<span class="math inline">\(G[E]\)</span>：</p>
-<p><span class="math display">\[
-E\rightarrow E+E|E\times E
-\]</span></p>
-<p><span class="math inline">\(E+E\times E\)</span>归约成<span class="math inline">\(E+E\)</span>，句柄是<span class="math inline">\(E\times E\)</span>，那么它的活前缀就是<span class="math inline">\(E\)</span>、<span class="math inline">\(E+\)</span>、<span class="math inline">\(E+E\)</span>、<span class="math inline">\(E+E\times\)</span>、<span class="math inline">\(E+E\times E\)</span>。</p>
-<p>这里又可以分为两种情况：</p>
-<p>归态活前缀： 活前缀的尾部正好是句柄之尾，这时可以进行规约，规约之后又成为另一句型的活前缀。</p>
-<p>非归态活前缀：句柄尚未形成，需继续移入若干符号之后才能形成句柄。</p>
-<h1 id="自底向上优先分析">自底向上优先分析</h1>
-<h1 id="lr分析">LR分析</h1>
-<h2 id="概述-1">概述</h2>
-<p>LR(K)分析器包括总控程序和分析表。</p>
-<p>总控程序根据不同的分析表决定下一步的处理动作。不同文法的总控程序相同，只是分析表不同。</p>
-<p>分析表是LR(K)分析技术的核心，根据具体文法按某种规则构造，由分析动作表和转换表构成。</p>
-<p>分析动作表<code>ACTION[S,y]</code>指明当状态<code>S</code>与向前看符号串<code>y</code>相匹配时所应采取的动作。包括：移进、归约、接受、出错 。</p>
-<p>状态转换表<code>GOTO[S,U]</code>指明当状态<code>S</code>与非终结符号<code>U</code>相匹配时所转换到的下一状态。</p>
-<h2 id="分析过程">分析过程</h2>
-<ol type="1">
-<li>将初始状态S0与#压进分析栈</li>
-<li>根据栈顶状态和当前输入符号查动作表进行以下工作
-<ul>
-<li>移进(Si)：当前输入符号进符号栈,新的状态进状态栈,继续扫描.</li>
-<li>归约(rj)：按某规则归约,若规则的右部长度n,则符号栈顶和状态栈顶n个元素同时退栈. 把归约后的左部符号进符号栈,查状态转换表,新的状态进状态栈.</li>
-<li>接受(acc): 分析成功,结束.</li>
-<li>出错(空白): 报告出错信息.</li>
-</ul></li>
-<li>重复(1),直到接受或出错为止.</li>
-</ol>
-<h2 id="lr0分析">LR(0)分析</h2>
-<p>设有文法<span class="math inline">\(G[S]\)</span>：</p>
-<p><span class="math display">\[
-\begin{aligned}
-&amp;(1)S\rightarrow A\\
-&amp;(2)S\rightarrow B\\
-&amp;(3)A\rightarrow aAb\\
-&amp;(4)A\rightarrow c\\
-&amp;(5)B\rightarrow aBb\\
-&amp;(6)B\rightarrow d\\
-\end{aligned}
-\]</span></p>
-<p>为了确保起始符号不出现在产生式右部，并显式地表示EOF，增加一个起始符号S'，得到增广文法<span class="math inline">\(G&#39;[S&#39;]\)</span>：</p>
-<p><span class="math display">\[
-\begin{aligned}
-&amp;(0)S&#39;\rightarrow S\#\\
-&amp;(1)S\rightarrow A\\
-&amp;(2)S\rightarrow B\\
-&amp;(3)A\rightarrow aAb\\
-&amp;(4)A\rightarrow c\\
-&amp;(5)B\rightarrow aBb\\
-&amp;(6)B\rightarrow d\\
-\end{aligned}
-\]</span></p>
-<p>并引入一个“・”记号，这个记号之前的部分为已经读入（并且匹配）的部分，之后的部分为期望为读入的部分匹配的部分。为了便于识别，手写时将点记号写作“<span class="math inline">\(\Delta\)</span>”。</p>
-<p>为了得到想要的两个表，需要先构建这个文法的自动机。</p>
-<p>首先看起始状态，现在面对一个未知的串，期望其匹配G'，也就是未读入的部分匹配<span class="math inline">\(S \#\)</span>。将现在的状态称为<span class="math inline">\(S_0\)</span>，也就是：</p>
-<table>
-<thead>
-<tr class="header">
-<th>状态</th>
-<th>项目</th>
-<th>后继符号</th>
-<th>后继状态</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><span class="math inline">\(S_0\)</span></td>
-<td><span class="math inline">\(S&#39;\rightarrow \Delta S\)</span></td>
-<td><span class="math inline">\(S\)</span></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<p>既然期待<span class="math inline">\(S\)</span>，那左部符号为<span class="math inline">\(S\)</span>的产生式也可以被期待。加进去，就变成：</p>
-<table>
-<thead>
-<tr class="header">
-<th>状态</th>
-<th>项目</th>
-<th>后继符号</th>
-<th>后继状态</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><span class="math inline">\(S_0\)</span></td>
-<td><span class="math inline">\(S&#39;\rightarrow \Delta S\)</span></td>
-<td><span class="math inline">\(S\)</span></td>
-<td></td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\(S_0\)</span></td>
-<td><span class="math inline">\(S\rightarrow \Delta A\)</span></td>
-<td><span class="math inline">\(A\)</span></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">\(S_0\)</span></td>
-<td><span class="math inline">\(S\rightarrow \Delta B\)</span></td>
-<td><span class="math inline">\(B\)</span></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<p>同理，都期待<span class="math inline">\(A\)</span>和<span class="math inline">\(B\)</span>了，那左部符号为<span class="math inline">\(A\)</span>和<span class="math inline">\(B\)</span>的产生式也可以被期待：</p>
-<table>
-<thead>
-<tr class="header">
-<th>状态</th>
-<th>项目</th>
-<th>后继符号</th>
-<th>后继状态</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><span class="math inline">\(S_0\)</span></td>
-<td><span class="math inline">\(S&#39;\rightarrow \Delta S\)</span></td>
-<td><span class="math inline">\(S\)</span></td>
-<td></td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\(S_0\)</span></td>
-<td><span class="math inline">\(S\rightarrow \Delta A\)</span></td>
-<td><span class="math inline">\(A\)</span></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">\(S_0\)</span></td>
-<td><span class="math inline">\(S\rightarrow \Delta B\)</span></td>
-<td><span class="math inline">\(B\)</span></td>
-<td></td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\(S_0\)</span></td>
-<td><span class="math inline">\(A\rightarrow \Delta aAb\)</span></td>
-<td><span class="math inline">\(a\)</span></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">\(S_0\)</span></td>
-<td><span class="math inline">\(A\rightarrow \Delta c\)</span></td>
-<td><span class="math inline">\(c\)</span></td>
-<td></td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\(S_0\)</span></td>
-<td><span class="math inline">\(B\rightarrow \Delta aBb\)</span></td>
-<td><span class="math inline">\(a\)</span></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">\(S_0\)</span></td>
-<td><span class="math inline">\(B\rightarrow \Delta d\)</span></td>
-<td><span class="math inline">\(d\)</span></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<p>现在假设对每个项目，真的都读到了它的后继符号，那将进入新的状态。给它们起名字：</p>
-<table>
-<thead>
-<tr class="header">
-<th>状态</th>
-<th>项目</th>
-<th>后继符号</th>
-<th>后继状态</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><span class="math inline">\(S_0\)</span></td>
-<td><span class="math inline">\(S&#39;\rightarrow \Delta S\)</span></td>
-<td><span class="math inline">\(S\)</span></td>
-<td><span class="math inline">\(S_1\)</span></td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\(S_0\)</span></td>
-<td><span class="math inline">\(S\rightarrow \Delta A\)</span></td>
-<td><span class="math inline">\(A\)</span></td>
-<td><span class="math inline">\(S_2\)</span></td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">\(S_0\)</span></td>
-<td><span class="math inline">\(S\rightarrow \Delta B\)</span></td>
-<td><span class="math inline">\(B\)</span></td>
-<td><span class="math inline">\(S_3\)</span></td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\(S_0\)</span></td>
-<td><span class="math inline">\(A\rightarrow \Delta aAb\)</span></td>
-<td><span class="math inline">\(a\)</span></td>
-<td><span class="math inline">\(S_4\)</span></td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">\(S_0\)</span></td>
-<td><span class="math inline">\(A\rightarrow \Delta c\)</span></td>
-<td><span class="math inline">\(c\)</span></td>
-<td><span class="math inline">\(S_5\)</span></td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\(S_0\)</span></td>
-<td><span class="math inline">\(B\rightarrow \Delta aBb\)</span></td>
-<td><span class="math inline">\(a\)</span></td>
-<td><span class="math inline">\(S_4\)</span></td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">\(S_0\)</span></td>
-<td><span class="math inline">\(B\rightarrow \Delta d\)</span></td>
-<td><span class="math inline">\(d\)</span></td>
-<td><span class="math inline">\(S_6\)</span></td>
-</tr>
-</tbody>
-</table>
-<p>对于两个后继为<span class="math inline">\(a\)</span>的，由于其都是“第一个读到<span class="math inline">\(a\)</span>”的情况，所以对应的下一个状态是相同的。</p>
-<p>现在考虑<span class="math inline">\(S_1\)</span>。现在已经读入了<span class="math inline">\(S\)</span>（或者不能叫读入了，因为<span class="math inline">\(S\)</span>并不是一个终结符，不过意思是这么个意思……），所以<span class="math inline">\(\Delta\)</span>要放在<span class="math inline">\(S\)</span>后面，那就是后面没有没有待匹配的东西了，期望读入EOF：</p>
-<table>
-<thead>
-<tr class="header">
-<th>状态</th>
-<th>项目</th>
-<th>后继符号</th>
-<th>后继状态</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><span class="math inline">\(S_1\)</span></td>
-<td><span class="math inline">\(S&#39;\rightarrow S\Delta\)</span></td>
-<td><span class="math inline">\(\#\)</span></td>
-<td>END</td>
-</tr>
-</tbody>
-</table>
-<p><span class="math inline">\(S_2\)</span>和<span class="math inline">\(S_3\)</span>同理：</p>
-<table>
-<thead>
-<tr class="header">
-<th>状态</th>
-<th>项目</th>
-<th>后继符号</th>
-<th>后继状态</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><span class="math inline">\(S_2\)</span></td>
-<td><span class="math inline">\(S\rightarrow A\Delta\)</span></td>
-<td><span class="math inline">\(\#\)</span></td>
-<td>END</td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\(S_3\)</span></td>
-<td><span class="math inline">\(S\rightarrow B\Delta\)</span></td>
-<td><span class="math inline">\(\#\)</span></td>
-<td>END</td>
-</tr>
-</tbody>
-</table>
-<p>对<span class="math inline">\(S_4\)</span>，已经读入了<span class="math inline">\(a\)</span>，对于<span class="math inline">\(A\rightarrow aAb\)</span>，期望看到<span class="math inline">\(A\)</span>；对于<span class="math inline">\(B\rightarrow aBb\)</span>，期望看到<span class="math inline">\(B\)</span>，所以左部符号为<span class="math inline">\(A\)</span>和<span class="math inline">\(B\)</span>的产生式也可以被期待——注意此时的<span class="math inline">\(\Delta\)</span>在右部式的最左，而不是<span class="math inline">\(a\)</span>后，因为这个期待的<span class="math inline">\(A\)</span>或<span class="math inline">\(B\)</span>还没被读取：</p>
-<table>
-<thead>
-<tr class="header">
-<th>状态</th>
-<th>项目</th>
-<th>后继符号</th>
-<th>后继状态</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><span class="math inline">\(S_4\)</span></td>
-<td><span class="math inline">\(A\rightarrow a\Delta Ab\)</span></td>
-<td><span class="math inline">\(A\)</span></td>
-<td><span class="math inline">\(S_7\)</span></td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\(S_4\)</span></td>
-<td><span class="math inline">\(B\rightarrow a\Delta Bb\)</span></td>
-<td><span class="math inline">\(B\)</span></td>
-<td><span class="math inline">\(S_8\)</span></td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">\(S_4\)</span></td>
-<td><span class="math inline">\(A\rightarrow \Delta aAb\)</span></td>
-<td><span class="math inline">\(a\)</span></td>
-<td><span class="math inline">\(S_4\)</span></td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\(S_4\)</span></td>
-<td><span class="math inline">\(A\rightarrow \Delta c\)</span></td>
-<td><span class="math inline">\(c\)</span></td>
-<td><span class="math inline">\(S_5\)</span></td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">\(S_4\)</span></td>
-<td><span class="math inline">\(B\rightarrow \Delta aBb\)</span></td>
-<td><span class="math inline">\(a\)</span></td>
-<td><span class="math inline">\(S_4\)</span></td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\(S_4\)</span></td>
-<td><span class="math inline">\(B\rightarrow \Delta d\)</span></td>
-<td><span class="math inline">\(d\)</span></td>
-<td><span class="math inline">\(S_6\)</span></td>
-</tr>
-</tbody>
-</table>
-<p>这里头两个项目时已经读入了<span class="math inline">\(a\)</span>，期待<span class="math inline">\(A\)</span>或<span class="math inline">\(B\)</span>，是新状态；之后的是已有的状态。</p>
-<p>对于<span class="math inline">\(S_5\)</span>和<span class="math inline">\(S_6\)</span>，当读到期待的符号后后面就没了，期待EOF：</p>
-<table>
-<thead>
-<tr class="header">
-<th>状态</th>
-<th>项目</th>
-<th>后继符号</th>
-<th>后继状态</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><span class="math inline">\(S_5\)</span></td>
-<td><span class="math inline">\(A\rightarrow c\Delta\)</span></td>
-<td><span class="math inline">\(\#\)</span></td>
-<td>END</td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\(S_6\)</span></td>
-<td><span class="math inline">\(B\rightarrow d\Delta\)</span></td>
-<td><span class="math inline">\(\#\)</span></td>
-<td>END</td>
-</tr>
-</tbody>
-</table>
-<p>对于<span class="math inline">\(S_7\)</span>和<span class="math inline">\(S_8\)</span>，当读到期待的符号后再后还有得读，又多了两种状态：</p>
-<table>
-<thead>
-<tr class="header">
-<th>状态</th>
-<th>项目</th>
-<th>后继符号</th>
-<th>后继状态</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><span class="math inline">\(S_7\)</span></td>
-<td><span class="math inline">\(A\rightarrow aA\Delta b\)</span></td>
-<td><span class="math inline">\(b\)</span></td>
-<td><span class="math inline">\(S_9\)</span></td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\(S_8\)</span></td>
-<td><span class="math inline">\(B\rightarrow aB\Delta b\)</span></td>
-<td><span class="math inline">\(b\)</span></td>
-<td><span class="math inline">\(S_{10}\)</span></td>
-</tr>
-</tbody>
-</table>
-<p>对于<span class="math inline">\(S_9\)</span>和<span class="math inline">\(S_10\)</span>，当读到期待的符号后期待EOF：</p>
-<table>
-<thead>
-<tr class="header">
-<th>状态</th>
-<th>项目</th>
-<th>后继符号</th>
-<th>后继状态</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><span class="math inline">\(S_9\)</span></td>
-<td><span class="math inline">\(A\rightarrow aAb\Delta\)</span></td>
-<td><span class="math inline">\(\#\)</span></td>
-<td>END</td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\(S_10\)</span></td>
-<td><span class="math inline">\(B\rightarrow aBb\Delta\)</span></td>
-<td><span class="math inline">\(\#\)</span></td>
-<td>END</td>
-</tr>
-</tbody>
-</table>
-<p>这样所有的状态都分析完了。整合一下这个表，就是：</p>
-<table>
-<colgroup>
-<col style="width: 2%" />
-<col style="width: 73%" />
-<col style="width: 8%" />
-<col style="width: 14%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>状态</th>
-<th>项目集</th>
-<th>后继符号</th>
-<th>后继状态</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><span class="math inline">\(S_0\)</span></td>
-<td><span class="math inline">\(\{\\S&#39; \rightarrow \Delta S\\S\rightarrow \Delta A\\S\rightarrow \Delta B\\A\rightarrow \Delta aAb\\A\rightarrow \Delta c\\B\rightarrow \Delta aBb\\B\rightarrow \Delta d\\\}\)</span></td>
-<td><span class="math inline">\(S\\A\\B\\a\\c\\a\\d\)</span></td>
-<td><span class="math inline">\(S_1\\S_2\\S_3\\S_4\\S_5\\S_4\\S_6\)</span></td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\(S_1\)</span></td>
-<td><span class="math inline">\(\{\\S&#39;\rightarrow S\Delta\\\}\)</span></td>
-<td><span class="math inline">\(\#\)</span></td>
-<td>END</td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">\(S_2\)</span></td>
-<td><span class="math inline">\(\{\\S\rightarrow A\Delta\\\}\)</span></td>
-<td><span class="math inline">\(\#\)</span></td>
-<td>END</td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\(S_3\)</span></td>
-<td><span class="math inline">\(\{\\S\rightarrow B\Delta\\\}\)</span></td>
-<td><span class="math inline">\(\#\)</span></td>
-<td>END</td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">\(S_4\)</span></td>
-<td><span class="math inline">\(\{\\A\rightarrow a\Delta Ab\\B\rightarrow a\Delta Bb\\A\rightarrow \Delta aAb\\A\rightarrow \Delta c\\B\rightarrow \Delta aBb\\B\rightarrow \Delta d\\\}\)</span></td>
-<td><span class="math inline">\(A\\B\\a\\c\\a\\d\)</span></td>
-<td><span class="math inline">\(S_7\\S_8\\S_4\\S_5\\S_4\\S_6\)</span></td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\(S_5\)</span></td>
-<td><span class="math inline">\(\{\\A\rightarrow c\Delta\\\}\)</span></td>
-<td><span class="math inline">\(\#\)</span></td>
-<td>END</td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">\(S_6\)</span></td>
-<td><span class="math inline">\(\{\\B\rightarrow d\Delta\\\}\)</span></td>
-<td><span class="math inline">\(\#\)</span></td>
-<td>END</td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\(S_7\)</span></td>
-<td><span class="math inline">\(\{\\A\rightarrow aA\Delta b\\\}\)</span></td>
-<td><span class="math inline">\(b\)</span></td>
-<td><span class="math inline">\(S_9\)</span></td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">\(S_8\)</span></td>
-<td><span class="math inline">\(\{\\B\rightarrow aB\Delta b\\\}\)</span></td>
-<td><span class="math inline">\(b\)</span></td>
-<td><span class="math inline">\(S_10\)</span></td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\(S_9\)</span></td>
-<td><span class="math inline">\(\{\\A\rightarrow aAb\Delta\\\}\)</span></td>
-<td><span class="math inline">\(\#\)</span></td>
-<td>END</td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">\(S_{10}\)</span></td>
-<td><span class="math inline">\(\{\\B\rightarrow aBb\Delta\\\}\)</span></td>
-<td><span class="math inline">\(\#\)</span></td>
-<td>END</td>
-</tr>
-<tr class="even">
-<td>END</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<p>这样就获得了这个文法的自动机。分析表与自动机是等价的，但更容易看出遇到啥时要干啥。下面构造分析表。</p>
-<p>当位于状态<span class="math inline">\(S_0\)</span>时，下一位可能的符号有<span class="math inline">\(a\)</span>，<span class="math inline">\(b\)</span>，<span class="math inline">\(c\)</span>，<span class="math inline">\(d\)</span>和<span class="math inline">\(\#\)</span>。由自动机知此时下一位若为<span class="math inline">\(a\)</span>，<span class="math inline">\(c\)</span>，<span class="math inline">\(d\)</span>是符合规则的。因此若下一位是<span class="math inline">\(a\)</span>则移进（shift）一位（就是把<span class="math inline">\(S_0,a\)</span>入分析栈，读入的指针右移一位）并转换到到<span class="math inline">\(S_4\)</span>，<span class="math inline">\(c\)</span>则<span class="math inline">\(S_5\)</span>，<span class="math inline">\(d\)</span>则<span class="math inline">\(S_6\)</span>。</p>
-<table>
-<thead>
-<tr class="header">
-<th>状态</th>
-<th><span class="math inline">\(a\)</span></th>
-<th><span class="math inline">\(b\)</span></th>
-<th><span class="math inline">\(c\)</span></th>
-<th><span class="math inline">\(d\)</span></th>
-<th><span class="math inline">\(\#\)</span></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><span class="math inline">\(S_0\)</span></td>
-<td>s4</td>
-<td></td>
-<td>s5</td>
-<td>s6</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<p>也就是从这样：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">+-----------------+ +----------------------------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">|status  |symble  | |...a...                           |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">+-----------------+ +---^------------------------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">|        |        |     |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">|        |        |     |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">|        |        |     +</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">|S0      |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">|...     |...     |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr></table></figure>
-<p>变成这样：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">+-----------------+ +----------------------------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">|status  |symble  | |...a...                           |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">+-----------------+ +----^-----------------------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">|        |        |      |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">|        |        |      |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">|        |        |      +</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">|S4      |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">|S0      |a       |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">|...     |...     |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr></table></figure>
-<p>当位于状态<span class="math inline">\(S_1\)</span>时，如果遇到<span class="math inline">\(\#\)</span>就是分析完了，称之为“acc(ept)”，其它情况不符合自动机。</p>
-<table>
-<thead>
-<tr class="header">
-<th>状态</th>
-<th><span class="math inline">\(a\)</span></th>
-<th><span class="math inline">\(b\)</span></th>
-<th><span class="math inline">\(c\)</span></th>
-<th><span class="math inline">\(d\)</span></th>
-<th><span class="math inline">\(\#\)</span></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><span class="math inline">\(S_1\)</span></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td>acc</td>
-</tr>
-</tbody>
-</table>
-<p>当位于状态<span class="math inline">\(S_2\)</span>时，栈中的内容是<span class="math inline">\(A\)</span>，虽然右面没有期待的符号了，但由于其左部符号不是起始符号，所以不能像<span class="math inline">\(S_1\)</span>那样直接acc。而是要首先规约（reduce）。</p>
-<p>根据<span class="math inline">\(S_2\)</span>的规则，也就是规则1（因为凡是需要规约的都是后面没有的，也就是不存在一个状态对应多个项目的情况，所以只会对应一条规则），<span class="math inline">\(A\)</span>规约后将变成<span class="math inline">\(S\)</span>。所以在表里填上“r1”表示根据规则1规约，并弹出栈顶的<span class="math inline">\(S_0,A\)</span>，将<span class="math inline">\(S入栈\)</span>。</p>
-<table>
-<thead>
-<tr class="header">
-<th>状态</th>
-<th><span class="math inline">\(a\)</span></th>
-<th><span class="math inline">\(b\)</span></th>
-<th><span class="math inline">\(c\)</span></th>
-<th><span class="math inline">\(d\)</span></th>
-<th><span class="math inline">\(\#\)</span></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><span class="math inline">\(S_2\)</span></td>
-<td>r1</td>
-<td>r1</td>
-<td>r1</td>
-<td>r1</td>
-<td>r1</td>
-</tr>
-</tbody>
-</table>
-<p>也就是由：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">+-----------------+ +----------------------------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">|status  |symble  | |.......                           |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">+-----------------+ +---^------------------------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">|        |        |     |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">|        |        |     |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">|        |        |     +</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">|S2      |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">|S0      |A       |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">|...     |...     |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr></table></figure>
-<p>变成：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">+-----------------+ +----------------------------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">|status  |symble  | |.......                           |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">+-----------------+ +---^------------------------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">|        |        |     |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">|        |        |     |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">|        |        |     +</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">|S0      |S       |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">|...     |...     |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr></table></figure>
-<p>那么问题来了，现在在状态<span class="math inline">\(Sn\)</span>并后面是<span class="math inline">\(S\)</span>，应该进入哪个状态呢？这个时候需要知道<span class="math inline">\(Sn\)</span>遇到S会进入哪个状态。因此在之前将状态与终结符联系起来的表的基础上，还要再搞一个将状态与非终结符联系起来的表，为表区分，前者称为“ACTION”表，后者称为“GOTO”表。这里要找哪个项目的符号栈顶也就是<span class="math inline">\(\Delta\)</span>前的符号是<span class="math inline">\(S\)</span>，这里只有<span class="math inline">\(S_1\)</span>。而只有<span class="math inline">\(S_0\)</span>后继符号是<span class="math inline">\(S\)</span>时后继状态是<span class="math inline">\(S_1\)</span>。所以这里栈里的状态只能是“<span class="math inline">\(S_0\)</span>后继符号是<span class="math inline">\(S\)</span>，递进到<span class="math inline">\(S_1\)</span>”，因此在GOTO表<span class="math inline">\(S_0\)</span>行<span class="math inline">\(S\)</span>列写上1。</p>
-<table>
-<thead>
-<tr class="header">
-<th>状态</th>
-<th><span class="math inline">\(S\)</span></th>
-<th><span class="math inline">\(A\)</span></th>
-<th><span class="math inline">\(B\)</span></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><span class="math inline">\(S_0\)</span></td>
-<td>1</td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<p>操作后栈变成：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">+-----------------+ +----------------------------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">|status  |symble  | |.......                           |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">+-----------------+ +---^------------------------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">|        |        |     |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">|        |        |     |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">|        |        |     +</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">|S1      |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">|S0      |S       |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">|...     |...     |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr></table></figure>
-<p><span class="math inline">\(S_3\)</span>同样是要规约，要从<span class="math inline">\(B\)</span>规约到<span class="math inline">\(S\)</span>也就是按规则2:</p>
-<table>
-<thead>
-<tr class="header">
-<th>状态</th>
-<th><span class="math inline">\(a\)</span></th>
-<th><span class="math inline">\(b\)</span></th>
-<th><span class="math inline">\(c\)</span></th>
-<th><span class="math inline">\(d\)</span></th>
-<th><span class="math inline">\(\#\)</span></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><span class="math inline">\(S_3\)</span></td>
-<td>r2</td>
-<td>r2</td>
-<td>r2</td>
-<td>r2</td>
-<td>r2</td>
-</tr>
-</tbody>
-</table>
-<p>其余同上。</p>
-<p><span class="math inline">\(S_4\)</span>同<span class="math inline">\(S_0\)</span>。</p>
-<p><span class="math inline">\(S_5\)</span>要规约，要从<span class="math inline">\(c\)</span>规约到<span class="math inline">\(A\)</span>也就是按规则4，以<span class="math inline">\(A\)</span>结尾的项目有<span class="math inline">\(S_2\)</span>和<span class="math inline">\(S_7\)</span>，前者由<span class="math inline">\(S_0\)</span>过来，后者由<span class="math inline">\(S_4\)</span>过来，故在GOTO表<span class="math inline">\(S_0\)</span>行<span class="math inline">\(A\)</span>列写上2，<span class="math inline">\(S_4\)</span>行<span class="math inline">\(A\)</span>列写上7。同理，在GOTO表<span class="math inline">\(S_0\)</span>行<span class="math inline">\(B\)</span>列写上3，<span class="math inline">\(S_4\)</span>行<span class="math inline">\(B\)</span>列写上9。</p>
-<p>当然GOTO表用和ACTION表一样的方法也就是根据后继直接填也一样，更方便。</p>
-<p>依此类推即可获得分析表。</p>
-
+          <p><img src="https://blog-1256194686.cos.ap-shanghai.myqcloud.com/ZiDiXlUhYuFaFfXi.png" /></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/10/28/%E8%87%AA%E5%BA%95%E5%90%91%E4%B8%8A%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1535,7 +850,7 @@ E\rightarrow E+E|E\times E
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-12-02 22:22:14" itemprop="dateModified" datetime="2019-12-02T22:22:14+08:00">2019-12-02</time>
+                <time title="Modified: 2019-12-08 20:45:44" itemprop="dateModified" datetime="2019-12-08T20:45:44+08:00">2019-12-08</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1561,49 +876,14 @@ E\rightarrow E+E|E\times E
 
       
           <p>CSDN——尤其是CSDN论坛，是好东西，也是坏东西。里面有许许多多大神分享有用的经验，但更多的是半吊子误人子弟，给出一些过时的、没用的建议。小白面对茫茫多的信息只能一边望洋兴叹，祈祷下一个看到的解决方案能稍微粘点边；一边对遇到的每行代码、每条命令追根究底，努力摆脱NOOB的身份。</p>
-<h1 id="环境">0. 环境</h1>
-<ul>
-<li>Tomcat 9.0</li>
-<li>MyEclipse 2017 ci10</li>
-<li>Struts 2.5.20</li>
-<li>Manjaro Linux 18.1.0</li>
-<li>JDK 1.8u221</li>
-</ul>
-<h1 id="struts2的下载">1. Struts2的下载</h1>
-<p>在<code>http://struts.apache.org/download.cgi</code>下载zip包<code>struts-版本-min-lib.zip</code>和<code>struts-版本-all.zip</code>。</p>
-<p>前者包含的Struts2所必须的最少的包，后者包含了所有的包和例程。</p>
-<h1 id="新建项目与导包">2. 新建项目与导包</h1>
-<p>新建一个动态Web项目——有人说这里对动态Web项目的版本有要求需要2.5，实测没有——然后例如取名为“Struts2_HelloWorld”。先不急着完成，去下一步勾选“Generate Web.xml 啥啥啥”那一项和“Generate index.jsp 啥啥啥”（这个缺省是勾选的）。前者将在WEB-INF下创建一个Web.xml，Struts2请求需要先通过其中定义的过滤器。有人说这里需要将“WebRoot”修改为“WebContent”，实测两者均可，估计改其它名也没影响。</p>
-<p>将前面下载的<code>struts-版本-min-lib.zip</code>中的包丢到<code>WEB-INF/lib/</code>，选中这些包（选中的是包而不是文件夹lib），右键构建路径。随后工作空间栏中项目根目录下将出现一个“Web应用程序库”，里面显示这些包。不要导入ALL版的lib，因为这些包有一些冲突，最简单的冲突原因例如如果两个包中有同样路径的类，此时某包先加载，则后加载的包中同名的类无法加载，导致一些函数无法找到等。网上很多人都介绍了最小需求包集合，但不少都与官方的有出入。</p>
-<p>如果包导多了，由于已经建立了依赖所以无法直接删除。在工作目录视图中右击项目根文件夹，选构建路径，配置构建路径，这里显示了所有已导入的包，移除想删的——或者所有的也行，再移除整个Web应用程序库。然后可以在lib文件夹下删除包，再重新导入即可。</p>
-<h1 id="编写action">3. 编写Action</h1>
-<p>在<code>src/</code>新建一个类，例如包名为“helloWorld.action”，类名为“HelloWorld”。在自动生成的类中添加一个<code>execute()</code>：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">execute</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">	System.out.println(<span class="string">"进入action。"</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">	<span class="keyword">return</span> <span class="string">"success"</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">getText</span><span class="params">()</span> </span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">	System.out.println(<span class="string">"赋值text。"</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">	<span class="keyword">return</span> <span class="string">"Hello World !"</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
-<p>这里HelloWorld类并不需要继承什么东西，有<code>execute()</code>并返回一个String即可。这里希望执行action后跳转到的页面能够根据action的情况决定显示什么内容，而不是一个写死的jsp，所以加一个get函数，命名规则和JavaBean一样，跳转过去后struts2的<code>s:property</code>标签可以通过函数名找到这个函数从中获取值。多加一个<code>println()</code>便于判断是否成功进入action。</p>
-<h1 id="编写页面">4. 编写页面</h1>
-<p>这个测试例程将有两个页面，一个是主页，一个是执行action后将要跳转到的页面。主页已经生成好了，为<code>body</code>添加一个按钮：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"hello"</span>&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">      <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"Say Hello to the World!"</span>/&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span></pre></td></tr></table></figure>
-<p>用户按下这个按钮，将调用<code>hello.action</code>。</p>
-<p>除此之外还需要在jsp第一行加上<code>&lt;%@ taglib prefix=&quot;s&quot; uri=&quot;/struts-tags&quot;%&gt;</code>，这句话指明了这个页面将使用struts2的标签，而且这些标签将在s之前。</p>
-<p>另外再创建action将跳转到的页面，例如命名为helloworld.jsp，与index同样位于<code>WebRoot/</code>。</p>
-<p>在body中添加<code>&lt;h1&gt;&lt;s:property value=&quot;text&quot;/&gt;&lt;/h1&gt;</code>，并在一开始添加<code>&lt;%@ taglib prefix=&quot;s&quot; uri=&quot;/struts-tags&quot;%&gt;</code>。</p>
-<h1 id="添加配置文件">5. 添加配置文件</h1>
-<h2 id="struts.xml">5.1. struts.xml</h2>
-<p><code>struts.xml</code>将URL、action类和jsp页面相关联。它规定了当收到某个URL请求时应当调用哪个类，并根据这个类的返回值决定跳转至哪个jsp页面。</p>
-<p>可以从之前下载的<code>struts-版本-all.zip</code>中的<code>apps/</code>找一个例程，在其<code>WEB-INF/classes/</code>会有一个该文件。将该文件复制到项目的<code>src/</code>——或者什么其它地方，这个似乎无所谓，无论这个文件在项目的哪里IDE都会在<code>WEB-INF/classes/</code>下创建一个对应的配置文件。建议复制例程的该文件而不是自己编写，因为这样更不容易出错。</p>
-<p>复制过来后将<code>&lt;struts&gt;&lt;/struts&gt;</code>中的内容修改为：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">constant</span> <span class="attr">name</span>=<span class="string">"struts.devMode"</span> <span class="attr">value</span>=<span class="string">"true"</span> /&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">package</span> <span class="attr">name</span>=<span class="string">"HelloWorldPkg"</span> <span class="attr">extends</span>=<span class="string">"struts-default"</span>&gt;</span>     </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">	<span class="tag">&lt;<span class="name">action</span> <span class="attr">name</span>=<span class="string">"hello"</span> <span class="attr">class</span>=<span class="string">"helloWorld.action.HelloWorld"</span> <span class="attr">method</span>=<span class="string">"execute"</span>&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">		<span class="tag">&lt;<span class="name">result</span> <span class="attr">name</span>=<span class="string">"success"</span>&gt;</span>/helloworld.jsp<span class="tag">&lt;/<span class="name">result</span>&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">	<span class="tag">&lt;/<span class="name">action</span>&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;/<span class="name">package</span>&gt;</span></span></pre></td></tr></table></figure>
-<p>设置<code>struts.devMode</code>为true可以输出更多日志信息，HelloWorldPkg中的hello这个action规定：当URL为<code>&lt;网站地址&gt;/hello</code>时，调用<code>helloWorld.action</code>包中的<code>HelloWorld</code>类，根据<code>execute()</code>的返回值决定跳转；当返回值为<code>&quot;success&quot;</code>时跳转至<code>/helloworld.jsp</code>。</p>
-<h2 id="web.xml">5.2. Web.xml</h2>
-<p>新建项目时已经自动生成了这个文件。将<code>&lt;Web-app&gt;&lt;/Web-app&gt;</code>内的内容修改为：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">display-name</span>&gt;</span>Struts2_HelloWorld<span class="tag">&lt;/<span class="name">display-name</span>&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">welcome-file-list</span>&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">	<span class="tag">&lt;<span class="name">welcome-file</span>&gt;</span>index.jsp<span class="tag">&lt;/<span class="name">welcome-file</span>&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;/<span class="name">welcome-file-list</span>&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">filter</span>&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">	<span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>struts2<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">	<span class="tag">&lt;<span class="name">filter-class</span>&gt;</span>org.apache.struts2.dispatcher.filter.StrutsPrepareAndExecuteFilter<span class="tag">&lt;/<span class="name">filter-class</span>&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;/<span class="name">filter</span>&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">filter-mapping</span>&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">	<span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>struts2<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">	<span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/*<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;/<span class="name">filter-mapping</span>&gt;</span></span></pre></td></tr></table></figure>
-<p>这一段内容指定index.jsp为welcome文件。然后配置了Struts2的过滤器来运行任何匹配模式/*的URL，即所有的URL都需要拦截后由Struts进行判断，如果程序决定要调用某个action，再由前面的<code>struts.xml</code>决定调用哪一个。这需要使用一个<code>org.apache.struts2.dispatcher.filter.StrutsPrepareAndExecuteFilter</code>类。注意在不同版本中这个类是不同的。</p>
-<p>有帖子指出<code>welcome-file-list</code>必须放在最后。似乎这并不是必须的。</p>
-<h2 id="log4j2.xml">5.3. log4j2.xml</h2>
-<p>这个包似乎与日志生成有关，导入方法类似<code>struts.xml</code>，不导入的话会报错<code>ERROR StatusLogger Log4j2 could not find a logging implementation.</code>，但因为只是日志相关所以不影响使用。我导入了也会报错。可能是因为有依赖没搞好？先不管它。</p>
-<h1 id="尾声">6. 尾声</h1>
-<p>右击项目，运行方式-&gt;在服务器上运行即可。</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/10/24/%E5%9C%A8MyEclipse%E4%B8%AD%E4%BD%BF%E7%94%A8Struts%E6%A1%86%E6%9E%B6/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1653,7 +933,7 @@ E\rightarrow E+E|E\times E
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-12-02 22:26:29" itemprop="dateModified" datetime="2019-12-02T22:26:29+08:00">2019-12-02</time>
+                <time title="Modified: 2019-12-08 20:44:20" itemprop="dateModified" datetime="2019-12-08T20:44:20+08:00">2019-12-08</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1684,7 +964,8 @@ E\rightarrow E+E|E\times E
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>首先新建一个Web Project，在WebRoot下新建一个html、一个js和一个css文件。将html自动生成的添加css文件的那段注释改成能用的，再添加<code>&lt;script type=&quot;text/javascript&quot; src=&quot;./js.js&quot;&gt;&lt;/script&gt;</code>引入js文件。</p>
+          <a id="more"></a>
+<p>首先新建一个Web Project，在WebRoot下新建一个html、一个js和一个css文件。将html自动生成的添加css文件的那段注释改成能用的，再添加<code>&lt;script type=&quot;text/javascript&quot; src=&quot;./js.js&quot;&gt;&lt;/script&gt;</code>引入js文件。</p>
 <p>body中就是一个表格，action是跳转，单击时希望使用js文件中的函数进行校验。</p>
 <p>在表单中加上<code>οnsubmit=&quot;return false;&quot;</code>可以阻止表单提交。但是对于如下的代码<code>οnsubmit=&quot;submitTest();&quot;</code>，如果提交表单时submitTest()返回false，实际情况是表单正常提交。原因在于如果这样写，相当于：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">Form.prototype.onsubmit &#x3D; function() &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    submitTest();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">&#125;;</span></pre></td></tr></table></figure>
@@ -1746,7 +1027,7 @@ E\rightarrow E+E|E\times E
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-12-02 18:15:53" itemprop="dateModified" datetime="2019-12-02T18:15:53+08:00">2019-12-02</time>
+                <time title="Modified: 2019-12-08 20:46:46" itemprop="dateModified" datetime="2019-12-08T20:46:46+08:00">2019-12-08</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1772,20 +1053,14 @@ E\rightarrow E+E|E\times E
 
       
           <p>javaScript是一种脚本语言。可以以<code>&lt;script&gt; code &lt;/script&gt;</code>的形式混合在HTML页面中编写动态网页。之前的JSP环境直接就可以拿来写JS,但是并没有语法提示等,因此需要装个插件解决这个问题。</p>
-<h1 id="环境">0. 环境</h1>
-<ul>
-<li>MyEclipse 2017 Ci10</li>
-<li>jquery-migrate-1.4.1.js</li>
-<li>spket-1.6.23</li>
-</ul>
-<h1 id="安装spket">1. 安装spket</h1>
-<p>spket是一个JS的IDE，但也可以作为eclipse或MyEclipse的插件使用。下载<code>https://spket.com/download.html</code>中的plugin版本得到一个zip，将其中两个文件夹直接与MyEclipse目录下同名文件夹合并即可。</p>
-<p>为了让它可以对jQuery进行智能提示，还需为它指定jQuery的文件，在<code>https://jquery.com/download/</code>右击另存为uncompressed版本。网上说压缩过的min版本会各种报错。</p>
-<h1 id="配置spket">2. 配置spket</h1>
-<p>使用<code>.../&quot;MyEclipse 2017 CI&quot;/myeclipse -clean</code>启动MyEclipse。直接启动会报错，可能是因为插件缓存的缘故。注意因为MyEclipse 2017默认安装目录中间有空格所以要加引号。启动后在窗口-&gt;首选项-&gt;spket-&gt;JavaScript Profiles中new一个profile，比如取名为”jQuery“，点击Add Library，选择jQuery；再点击Add File，选择jQuery的<code>.js</code>。最后点Default。</p>
-<p>在窗口-&gt;首选项–&gt;常规–&gt;编辑器–&gt;文件关联中将<code>*.js</code>的缺省编辑器设为“Spket JavaScript Editor”即可。</p>
-<p>右键项目名称，点击Reload JavaScript Profile然后再打开JS文件（可能需要重启），应当会出现语法提示和智能补全。</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/10/11/Manjaro-Linux%E4%B8%8B%E9%85%8D%E7%BD%AEJS-jQuery%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
