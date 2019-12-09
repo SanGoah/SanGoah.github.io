@@ -284,13 +284,16 @@ action跳转至页面、URL或另一个action。
     <link href="http://yoursite.com/2019/10/11/Manjaro-Linux%E4%B8%8B%E9%85%8D%E7%BD%AEJS-jQuery%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/"/>
     <id>http://yoursite.com/2019/10/11/Manjaro-Linux%E4%B8%8B%E9%85%8D%E7%BD%AEJS-jQuery%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</id>
     <published>2019-10-11T12:07:10.000Z</published>
-    <updated>2019-12-08T12:46:46.790Z</updated>
+    <updated>2019-10-11T12:07:10.000Z</updated>
     
-    <content type="html"><![CDATA[<p>javaScript是一种脚本语言。可以以<code>&lt;script&gt; code &lt;/script&gt;</code>的形式混合在HTML页面中编写动态网页。之前的JSP环境直接就可以拿来写JS,但是并没有语法提示等,因此需要装个插件解决这个问题。</p><a id="more"></a><h1 id="环境">0. 环境</h1><ul><li>MyEclipse 2017 Ci10</li><li>jquery-migrate-1.4.1.js</li><li>spket-1.6.23</li></ul><h1 id="安装spket">1. 安装spket</h1><p>spket是一个JS的IDE，但也可以作为eclipse或MyEclipse的插件使用。下载<code>https://spket.com/download.html</code>中的plugin版本得到一个zip，将其中两个文件夹直接与MyEclipse目录下同名文件夹合并即可。</p><p>为了让它可以对jQuery进行智能提示，还需为它指定jQuery的文件，在<code>https://jquery.com/download/</code>右击另存为uncompressed版本。网上说压缩过的min版本会各种报错。</p><h1 id="配置spket">2. 配置spket</h1><p>使用<code>.../&quot;MyEclipse 2017 CI&quot;/myeclipse -clean</code>启动MyEclipse。直接启动会报错，可能是因为插件缓存的缘故。注意因为MyEclipse 2017默认安装目录中间有空格所以要加引号。启动后在窗口-&gt;首选项-&gt;spket-&gt;JavaScript Profiles中new一个profile，比如取名为”jQuery“，点击Add Library，选择jQuery；再点击Add File，选择jQuery的<code>.js</code>。最后点Default。</p><p>在窗口-&gt;首选项–&gt;常规–&gt;编辑器–&gt;文件关联中将<code>*.js</code>的缺省编辑器设为“Spket JavaScript Editor”即可。</p><p>右键项目名称，点击Reload JavaScript Profile然后再打开JS文件（可能需要重启），应当会出现语法提示和智能补全。</p>]]></content>
+    <content type="html"><![CDATA[<p><img src="https://blog-1256194686.cos.ap-shanghai.myqcloud.com/191011_spket.jpg" /></p><center>之前的JSP环境直接就可以拿来写JS,但是并没有语法提示等,因此需要装个插件解决这个问题。</center><a id="more"></a><p>javaScript是一种脚本语言。可以以<code>&lt;script&gt; code &lt;/script&gt;</code>的形式混合在HTML页面中编写动态网页。</p><h1 id="环境">0. 环境</h1><ul><li>MyEclipse 2017 Ci10</li><li>jquery-migrate-1.4.1.js</li><li>spket-1.6.23</li></ul><h1 id="安装spket">1. 安装spket</h1><p>spket是一个JS的IDE，但也可以作为eclipse或MyEclipse的插件使用。下载<code>https://spket.com/download.html</code>中的plugin版本得到一个zip，将其中两个文件夹直接与MyEclipse目录下同名文件夹合并即可。</p><p>为了让它可以对jQuery进行智能提示，还需为它指定jQuery的文件，在<code>https://jquery.com/download/</code>右击另存为uncompressed版本。网上说压缩过的min版本会各种报错。</p><h1 id="配置spket">2. 配置spket</h1><p>使用<code>.../&quot;MyEclipse 2017 CI&quot;/myeclipse -clean</code>启动MyEclipse。直接启动会报错，可能是因为插件缓存的缘故。注意因为MyEclipse 2017默认安装目录中间有空格所以要加引号。启动后在窗口-&gt;首选项-&gt;spket-&gt;JavaScript Profiles中new一个profile，比如取名为”jQuery“，点击Add Library，选择jQuery；再点击Add File，选择jQuery的<code>.js</code>。最后点Default。</p><p>在窗口-&gt;首选项–&gt;常规–&gt;编辑器–&gt;文件关联中将<code>*.js</code>的缺省编辑器设为“Spket JavaScript Editor”即可。</p><p>右键项目名称，点击Reload JavaScript Profile然后再打开JS文件（可能需要重启），应当会出现语法提示和智能补全。</p>]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;javaScript是一种脚本语言。可以以&lt;code&gt;&amp;lt;script&amp;gt; code &amp;lt;/script&amp;gt;&lt;/code&gt;的形式混合在HTML页面中编写动态网页。之前的JSP环境直接就可以拿来写JS,但是并没有语法提示等,因此需要装个插件解决这个问题。&lt;/p&gt;
+      &lt;p&gt;&lt;img src=&quot;https://blog-1256194686.cos.ap-shanghai.myqcloud.com/191011_spket.jpg&quot; /&gt;&lt;/p&gt;
+&lt;center&gt;
+之前的JSP环境直接就可以拿来写JS,但是并没有语法提示等,因此需要装个插件解决这个问题。
+&lt;/center&gt;
     
     </summary>
     
@@ -298,9 +301,9 @@ action跳转至页面、URL或另一个action。
       <category term="戏法" scheme="http://yoursite.com/categories/%E6%88%8F%E6%B3%95/"/>
     
     
-      <category term="JavaScript" scheme="http://yoursite.com/tags/JavaScript/"/>
-    
       <category term="MyEclipse" scheme="http://yoursite.com/tags/MyEclipse/"/>
+    
+      <category term="JavaScript" scheme="http://yoursite.com/tags/JavaScript/"/>
     
       <category term="jQuery" scheme="http://yoursite.com/tags/jQuery/"/>
     

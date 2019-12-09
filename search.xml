@@ -1225,8 +1225,12 @@ E\rightarrow E+E|E\times E
   <entry>
     <title>Manjaro Linux下配置JS&amp;jQuery开发环境</title>
     <url>/2019/10/11/Manjaro-Linux%E4%B8%8B%E9%85%8D%E7%BD%AEJS-jQuery%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</url>
-    <content><![CDATA[<p>javaScript是一种脚本语言。可以以<code>&lt;script&gt; code &lt;/script&gt;</code>的形式混合在HTML页面中编写动态网页。之前的JSP环境直接就可以拿来写JS,但是并没有语法提示等,因此需要装个插件解决这个问题。</p>
+    <content><![CDATA[<p><img src="https://blog-1256194686.cos.ap-shanghai.myqcloud.com/191011_spket.jpg" /></p>
+<center>
+之前的JSP环境直接就可以拿来写JS,但是并没有语法提示等,因此需要装个插件解决这个问题。
+</center>
 <a id="more"></a>
+<p>javaScript是一种脚本语言。可以以<code>&lt;script&gt; code &lt;/script&gt;</code>的形式混合在HTML页面中编写动态网页。</p>
 <h1 id="环境">0. 环境</h1>
 <ul>
 <li>MyEclipse 2017 Ci10</li>
@@ -1245,8 +1249,8 @@ E\rightarrow E+E|E\times E
         <category>戏法</category>
       </categories>
       <tags>
-        <tag>JavaScript</tag>
         <tag>MyEclipse</tag>
+        <tag>JavaScript</tag>
         <tag>jQuery</tag>
       </tags>
   </entry>
