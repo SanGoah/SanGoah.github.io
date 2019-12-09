@@ -12,7 +12,7 @@
 
 <link rel="stylesheet" href="/css/main.css">
 
-<link rel="stylesheet" href="//fonts.lug.ustc.edu.cn/css?family=Courier New:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="//fonts.lug.ustc.edu.cn/css?family=Noto Sans:300,300italic,400,400italic,700,700italic|Fira Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
 <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
 
 
@@ -54,8 +54,10 @@
 <meta property="og:site_name" content="Mech_Mind‘s blog">
 <meta property="og:description" content="因尝试更换显卡驱动为nVIDIA 430xx导致重启后无法进入图形界面，只是黑屏并在屏幕左上角显示一个光标。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-12-08T12:47:46.207Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;blog-1256194686.cos.ap-shanghai.myqcloud.com&#x2F;190930_bumblebee.jpg">
+<meta property="og:updated_time" content="2019-09-30T08:40:32.000Z">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;blog-1256194686.cos.ap-shanghai.myqcloud.com&#x2F;190930_bumblebee.jpg">
 
 <link rel="canonical" href="http://yoursite.com/2019/09/30/Manjaro-Linux%E5%9B%A0%E6%98%BE%E5%8D%A1%E9%A9%B1%E5%8A%A8%E6%97%A0%E6%B3%95%E8%BF%9B%E5%85%A5%E5%9B%BE%E5%BD%A2%E7%95%8C%E9%9D%A2%E4%B9%8B%E5%A4%84%E7%90%86%E6%96%B9%E6%B3%95/">
 
@@ -234,13 +236,6 @@
 
               <time title="Created: 2019-09-30 16:40:32" itemprop="dateCreated datePublished" datetime="2019-09-30T16:40:32+08:00">2019-09-30</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-12-08 20:47:46" itemprop="dateModified" datetime="2019-12-08T20:47:46+08:00">2019-12-08</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -271,7 +266,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>因尝试更换显卡驱动为nVIDIA 430xx导致重启后无法进入图形界面，只是黑屏并在屏幕左上角显示一个光标。</p>
+        <p><img src="https://blog-1256194686.cos.ap-shanghai.myqcloud.com/190930_bumblebee.jpg" /></p>
+<center>
+因尝试更换显卡驱动为nVIDIA 430xx导致重启后无法进入图形界面，只是黑屏并在屏幕左上角显示一个光标。
+</center>
 <a id="more"></a>
 <h1 id="环境">0. 环境</h1>
 <ul>
@@ -430,13 +428,13 @@
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-count">12</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-count">23</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -542,54 +540,6 @@
   
 
   
-      
-<script type="text/x-mathjax-config">
-
-  MathJax.Hub.Config({
-    tex2jax: {
-      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
-      processEscapes: true,
-      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-    },
-    TeX: {
-      equationNumbers: {
-        autoNumber: 'AMS'
-      }
-    }
-  });
-
-  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
-    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
-      if (data.display) {
-        var next = data.script.nextSibling;
-        while (next && next.nodeName.toLowerCase() === '#text') {
-          next = next.nextSibling;
-        }
-        if (next && next.nodeName.toLowerCase() === 'br') {
-          next.parentNode.removeChild(next);
-        }
-      }
-    });
-  });
-
-  MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-    for (i = 0; i < all.length; i += 1) {
-      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
-      if (element.nodeName.toLowerCase() == 'li') {
-        element = element.parentNode;
-      }
-      element.classList.add('has-jax');
-    }
-  });
-</script>
-<script>
-  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
-    MathJax.Hub.Typeset();
-  }, window.MathJax);
-</script>
-
-    
 
   
 
@@ -609,5 +559,5 @@ NexT.utils.loadComments(() => {
 });
 </script>
 
-<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":200,"height":290},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
 </html>

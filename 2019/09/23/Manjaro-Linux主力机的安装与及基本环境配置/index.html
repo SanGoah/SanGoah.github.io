@@ -12,7 +12,7 @@
 
 <link rel="stylesheet" href="/css/main.css">
 
-<link rel="stylesheet" href="//fonts.lug.ustc.edu.cn/css?family=Courier New:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="//fonts.lug.ustc.edu.cn/css?family=Noto Sans:300,300italic,400,400italic,700,700italic|Fira Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
 <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
 
 
@@ -54,8 +54,10 @@
 <meta property="og:site_name" content="Mech_Mind‘s blog">
 <meta property="og:description" content="双显卡笔记本电脑写代码环境的全配置，包括VSCode、Hexo和日常软件。">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https:&#x2F;&#x2F;blog-1256194686.cos.ap-shanghai.myqcloud.com&#x2F;190923_manjaro.png">
 <meta property="og:updated_time" content="2019-12-07T16:00:00.000Z">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;blog-1256194686.cos.ap-shanghai.myqcloud.com&#x2F;190923_manjaro.png">
 
 <link rel="canonical" href="http://yoursite.com/2019/09/23/Manjaro-Linux%E4%B8%BB%E5%8A%9B%E6%9C%BA%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E5%8F%8A%E5%9F%BA%E6%9C%AC%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">
 
@@ -271,7 +273,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>双显卡笔记本电脑写代码环境的全配置，包括VSCode、Hexo和日常软件。</p>
+        <p><img src="https://blog-1256194686.cos.ap-shanghai.myqcloud.com/190923_manjaro.png" /></p>
+<center>
+双显卡笔记本电脑写代码环境的全配置，包括VSCode、Hexo和日常软件。
+</center>
 <a id="more"></a>
 <h1 id="环境">环境</h1>
 <p>本文时效性较强，许多配置方式会因软件的更新与迭代而发生变化。</p>
@@ -459,9 +464,11 @@
 <p>除默认配置外，有必要添加如下内容。</p>
 <p><code>categories:</code>，分级目录属性。与<code>tags</code>属性不同，其可以划分父子级关系。例如：</p>
 <figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="meta">---</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="attr">title:</span> <span class="string">怎么拿长老知识</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="string">...</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"><span class="attr">categories:</span>	</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">	<span class="bullet">-</span> <span class="string">游戏</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">	<span class="bullet">-</span> <span class="string">遗迹：灰烬重生</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"><span class="string">...</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line"><span class="meta">---</span></span></pre></td></tr></table></figure>
-<p>~~<code>thumbnail:</code>（如果主题支持文章封面），后跟图片链接即可。经测试，使用450*212的图片作为主题“Hueman”的封面可以获得比较好的画质，体积也只有20至30KB。~~之前用的Hueman，现在NexT不支持，散了吧。</p>
-<p><code>updated: 1569245658000</code>更新日期。</p>
 <p><code>&lt;!--more--&gt;</code>，此标签之后的部分将被隐藏，点进去才能看，对NexT很有用。</p>
+<p>~~<code>thumbnail:</code>（如果主题支持文章封面），后跟图片链接即可。经测试，使用450*212的图片作为主题“Hueman”的封面可以获得比较好的画质，体积也只有20至30KB。~~之前用的Hueman，现在NexT不支持，不过可以在<code>&lt;!--more--&gt;</code>前放，格式更随意，横向两百多像素效果就不错，接着用212吧，嗯，水的华氏温标沸点……算是个整数？</p>
+<p><code>updated: 1569245658000</code>更新日期。</p>
+<p>最终效果如下：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="meta">---</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="attr">title:</span> <span class="string">&#123;&#123;</span> <span class="string">title</span> <span class="string">&#125;&#125;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="attr">date:</span> <span class="string">&#123;&#123;</span> <span class="string">date</span> <span class="string">&#125;&#125;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"><span class="attr">updated:</span> <span class="string">&#123;&#123;</span> <span class="string">date</span> <span class="string">&#125;&#125;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"><span class="attr">tags:</span> </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"><span class="attr">categories:</span> </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"><span class="attr">mathjax:</span> <span class="literal">false</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line"><span class="meta">---</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line"><span class="string">![]()</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line"><span class="string">&lt;center&gt;&lt;/center&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line"><span class="string">&lt;!--more--&gt;</span></span></pre></td></tr></table></figure>
 <h3 id="站点的配置">站点的配置</h3>
 <p>在<code>blog/</code>有一<code>_config.yml</code>文件，其保存有站点相关的设置。</p>
 <p>开头是Site模块：</p>
@@ -490,12 +497,12 @@
 <figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="attr">search:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">	<span class="attr">path:</span> <span class="string">search.xml</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">	<span class="attr">field:</span> <span class="string">post</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">	<span class="attr">format:</span> <span class="string">html</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">	<span class="attr">limit:</span> <span class="number">10000</span></span></pre></td></tr></table></figure>
 <p>设置头像只需简单修改<code>Sidebar Avatar</code>字段。</p>
 <p>这个主题还提供了评论功能，有许多可选的服务提供商，不过没什么卵用。国内的要么倒闭了要么需要实名制，国外的又要扶墙……</p>
-<p>【更新】发现了一个比较好用的服务商，棒子的“来必力”<code>https://www.livere.com/</code>。只需正常步骤注册即可获得一段代码<del>，用此代码替换掉主题中的<code>layout/comment/livere.ejs</code>中的内容，再在主题配置文件中禁用<code>comment</code>项下的所有评论工具，在<code>comment</code>项外，比如上面一行添加<code>livere_uid: xxxxxxxx</code>，其中<code>xxxxxxx</code>为获取的代码中提供的UID。再将主题中的<code>layout/common/article.ejs</code>中最后一行<code>&lt;%- partial('comment/index') %&gt;</code>改为<code>&lt;%- partial('comment/livere') %&gt;</code>即可。</del>【更新】划去部分针对Hueman。NexT只需在主题配置文件下找到<code>livere_uid:</code>填上代码中的UID即可。</p>
+<p>【更新】发现了一个比较好用的服务商，棒子的“<a href="https://www.livere.com/" target="_blank" rel="noopener">来必力</a>”。只需正常步骤注册即可获得一段代码<del>，用此代码替换掉主题中的<code>layout/comment/livere.ejs</code>中的内容，再在主题配置文件中禁用<code>comment</code>项下的所有评论工具，在<code>comment</code>项外，比如上面一行添加<code>livere_uid: xxxxxxxx</code>，其中<code>xxxxxxx</code>为获取的代码中提供的UID。再将主题中的<code>layout/common/article.ejs</code>中最后一行<code>&lt;%- partial('comment/index') %&gt;</code>改为<code>&lt;%- partial('comment/livere') %&gt;</code>即可。</del>【更新】划去部分针对Hueman。NexT只需在主题配置文件下找到<code>livere_uid:</code>填上代码中的UID即可。</p>
 <p>添加网站访问数统计只需在<code>xx-analysis</code>项添加从分析网站比如百度分析、谷歌分析等等网站获得的哈希值即可。注册帐号后根据提示操作即可获得一段JS代码，哈希值在其中。但这类网站只能站主登录进去查看自己网站的访问情况。若想在网站中显示访问数，可使用<a href="http://ibruce.info/2015/04/04/busuanzi/" target="_blank" rel="noopener">不算子</a><del>，注意<code>footer</code>文件的位置可能与官方描述有差别。不蒜子自身只提供标签与数字，具体内容由用户编辑。使用官方给出的简易程序对<code>footer</code>做如下修改将统计显示在页脚：</del>【更新】划去部分针对Hueman，Next集成不算子，只需调整<code>busuanzi_count</code>项即可。</p>
 <p>如果想要开启RSS订阅，首先需要安装RSS插件<code>npm install hexo-generator-feed --save</code>，并在站点配置文件中添加RSS支持：</p>
 <figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># RSS订阅支持</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="attr">plugin:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">  <span class="bullet">-</span> <span class="string">hexo-generator-feed</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"><span class="attr">feed:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">  <span class="attr">type:</span> <span class="string">atom</span>                <span class="comment">#RSS的类型(atom/rss2)</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">  <span class="attr">path:</span> <span class="string">atom.xml</span>            <span class="comment">#文件路径,默认atom.xml/rss2.xml</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">  <span class="attr">limit:</span> <span class="number">20</span>                 <span class="comment">#展示文章的数量,0或false展示全部</span></span></pre></td></tr></table></figure>
 <p>最后将主题配置文件中的<code>rss</code>项改为<code>rss: /atom.xml</code>可开启RSS订阅，可在<code>public/</code>见<code>atom.xml</code>。</p>
-<p>字体配置：找到<code>font</code>并启用，这样就可以自定义字体怎么用而不是通过默认的谷歌字库外链加载默认字体。所有选项置空即可，用户装的啥字体就显示啥字体，但是注意<code>code</code>要以等宽字体显示所以需要设置为等宽字体，如“Courier New”。可选择字库外链，但置空默认使用谷歌只加载代码块一个字体还是挺快的。</p>
+<p>字体配置先找到<code>font</code>并启用，这样就可以自定义字体怎么用而不是通过默认的谷歌字库外链加载默认字体。全局设置使用思源黑体，谷歌和奥多比联合开发，品质保证！<code>code</code>要以等宽字体显示所以需要设置为等宽字体，“Fira Code”虽然样子只能说还行，但提供了极好的连字模式，如果只是想表示<span class="math inline">\(\rightarrow\)</span>之类可以直接代码块<code>-&gt;</code>，非常方便。缺点是会给读者造成误解，管它呢，这破博客本身就是写了自嗨的。可选择字库外链，中科大的地址是<code>//fonts.lug.ustc.edu.cn</code>，速度勉强，偶尔会崩。</p>
 <h3 id="部署至github">部署至GitHub</h3>
 <p>安装hexo的插件：<code>npm install hexo-deployer-git --save</code>。</p>
 <p>在github中建立一个以自己名字命名的仓库，建好后将<code>_config.yml</code>中的`deploy项替换为：</p>
@@ -510,14 +517,15 @@
 <p>在主题配置文件中开启“mathjax”一项为<code>true</code>即可使用LaTex语法，某些主题可能还需要将“math”开启，可选择是每个页面都开启还是需要手动开启。</p>
 <p>注意，与正常使用Markdown不同，Hexo不支持LaTex，mathjax并非对<code>.md</code>渲染，而是渲染Hexo生成的Html。因此要确保Hexo不会误将LaTex标记渲染为Html标签。一种方法是在公式块中使用Markdown语法符号时使用转义，更一劳永逸的方法是更换Hexo的渲染引擎。</p>
 <p>默认的渲染引擎“hexo-renderer-marked”可通过<code>npm uninstall hexo-renderer-marked --save</code>卸载，<code>npm install hexo-renderer-pandoc --save</code>，即可更换成另一个表现较好的引擎。与许多人推荐的<code>npm install hexo-renderer-kramed --save</code>相比，该引擎表现更好，无需额外修改一些配置文件。</p>
+<p>【更新】发现无法渲染形如<span class="math inline">\(\xRightarrow[aaa]{bbb}\)</span>的格式。暂时用<span class="math inline">\(\Rightarrow_{aaa}^{bbb} \Rightarrow\)</span>这样子代替。</p>
 <h3 id="看板娘">看板娘</h3>
 <p>可以使用 Live 2D 为博客增添一个 2D 角色。</p>
 <p>首先检查<code>package.json</code>里是否已安装<code>&quot;hexo-helper-live2d&quot;</code>，有的话可以先<code>npm uninstall hexo-helper-live2d</code>，官方称“THIS PACKAGE IS DEPRECATED BECAUSE IT WON'T ADD DEPENDENCIES ON YOUR PRODUCTION ENVIRONMENT”。</p>
 <p>安装<code>npm install --save hexo-helper-live2d</code>后<code>node_moduels/</code>会生成配置文件夹<code>live2d-widget</code>。</p>
 <p><code>https://github.com/xiazeyu/live2d-widget-models.git</code>提供了可用的模型，前缀为<code>live2d-widget-model-haru</code>的模型需要<code>npm install live2d-widget-model-haru</code>支持。</p>
 <p>以一只黑猫的模型为例，<code>npm install live2d-widget-model-hijiki</code>后配置博客站点配置文件<code>_config.yml</code>，添加：</p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="attr">live2d:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">  <span class="attr">pluginModelPath:</span> <span class="string">assets/</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">  <span class="attr">model:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    <span class="attr">use:</span> <span class="string">live2d-widget-model-hijiki</span>  <span class="comment">#模板目录，在node_modules里</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">  <span class="attr">display:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    <span class="attr">position:</span> <span class="string">right</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    <span class="attr">width:</span> <span class="number">150</span> </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">    <span class="attr">height:</span> <span class="number">300</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">  <span class="attr">mobile:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">    <span class="attr">show:</span> <span class="literal">false</span>  <span class="comment">#是否在手机进行显示</span></span></pre></td></tr></table></figure>
-<p>即可。</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="attr">live2d:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">  <span class="attr">pluginModelPath:</span> <span class="string">assets/</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">  <span class="attr">model:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    <span class="attr">use:</span> <span class="string">live2d-widget-model-hijiki</span>  <span class="comment">#模板目录，在node_modules里</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">  <span class="attr">display:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    <span class="attr">position:</span> <span class="string">right</span> <span class="comment">#位置只能调上下和靠左靠右 具体多靠左多靠右不能调</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    <span class="attr">width:</span> <span class="number">200</span> <span class="comment">#大小</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">    <span class="attr">height:</span> <span class="number">290</span> <span class="comment">#上下位置</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">  <span class="attr">mobile:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">    <span class="attr">show:</span> <span class="literal">false</span>  <span class="comment">#是否在手机进行显示</span></span></pre></td></tr></table></figure>
+<p>即可。这个位置大小是NexT的那个两栏的模式+黑猫我精心调之后觉得最合适的。</p>
 <h1 id="尾声">尾声</h1>
 <p>完成以上配置后的manjaro已经可以正常使用了。可以从<code>优化</code>中设置GNOME桌面的样式——不过默认外观已经很好看了，但是在<code>拓展</code>中可以启用GNOME的一些有用插件，例如显示在上方工具条中的许多有用工具。</p>
 <p>Windows系统中的字体可以直接拿过来安装，非常方便；如果只是在Libre Office下用的话只拷贝到<code>～/.config/libreoffice/4/user/fonts</code>下也可以在Libre Office中用。如果没有fonts目录新建即可。</p>
@@ -634,13 +642,13 @@
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-count">12</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-count">23</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -813,5 +821,5 @@ NexT.utils.loadComments(() => {
 });
 </script>
 
-<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":200,"height":290},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
 </html>

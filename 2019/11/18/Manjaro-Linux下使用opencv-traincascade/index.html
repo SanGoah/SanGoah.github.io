@@ -12,7 +12,7 @@
 
 <link rel="stylesheet" href="/css/main.css">
 
-<link rel="stylesheet" href="//fonts.lug.ustc.edu.cn/css?family=Courier New:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="//fonts.lug.ustc.edu.cn/css?family=Noto Sans:300,300italic,400,400italic,700,700italic|Fira Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
 <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
 
 
@@ -46,16 +46,18 @@
   };
 </script>
 
-  <meta name="description" content="OpenCV中有个神奇的AdaBoost，通过读入一个xml即可识别出目标区域。此物中文名唤“级联分类器”，“级联”指它由简单分类器级联组成，通过所有分类器的区域即为目标区域。训练时通过对样本的一定操作可生成样本的Haar&#x2F;LBP&#x2F;HOG等特征，检测时遍历待识别图片各区域进行特征匹配。">
+  <meta name="description" content="使用opencv_traincascade训练实现车辆检测。">
 <meta name="keywords" content="OpenCV,AdaBoost,cascade">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Manjaro Linux下使用opencv_traincascade">
 <meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;18&#x2F;Manjaro-Linux%E4%B8%8B%E4%BD%BF%E7%94%A8opencv-traincascade&#x2F;index.html">
 <meta property="og:site_name" content="Mech_Mind‘s blog">
-<meta property="og:description" content="OpenCV中有个神奇的AdaBoost，通过读入一个xml即可识别出目标区域。此物中文名唤“级联分类器”，“级联”指它由简单分类器级联组成，通过所有分类器的区域即为目标区域。训练时通过对样本的一定操作可生成样本的Haar&#x2F;LBP&#x2F;HOG等特征，检测时遍历待识别图片各区域进行特征匹配。">
+<meta property="og:description" content="使用opencv_traincascade训练实现车辆检测。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-12-08T12:47:35.717Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;blog-1256194686.cos.ap-shanghai.myqcloud.com&#x2F;191118_opencv_traincascade.jpg">
+<meta property="og:updated_time" content="2019-11-17T16:00:00.000Z">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;blog-1256194686.cos.ap-shanghai.myqcloud.com&#x2F;191118_opencv_traincascade.jpg">
 
 <link rel="canonical" href="http://yoursite.com/2019/11/18/Manjaro-Linux%E4%B8%8B%E4%BD%BF%E7%94%A8opencv-traincascade/">
 
@@ -231,16 +233,10 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
+              
 
-              <time title="Created: 2019-11-18 16:34:19" itemprop="dateCreated datePublished" datetime="2019-11-18T16:34:19+08:00">2019-11-18</time>
+              <time title="Created: 2019-11-18 16:34:19 / Modified: 00:00:00" itemprop="dateCreated datePublished" datetime="2019-11-18T16:34:19+08:00">2019-11-18</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-12-08 20:47:35" itemprop="dateModified" datetime="2019-12-08T20:47:35+08:00">2019-12-08</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -277,8 +273,12 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>OpenCV中有个神奇的AdaBoost，通过读入一个xml即可识别出目标区域。此物中文名唤“级联分类器”，“级联”指它由简单分类器级联组成，通过所有分类器的区域即为目标区域。训练时通过对样本的一定操作可生成样本的Haar/LBP/HOG等特征，检测时遍历待识别图片各区域进行特征匹配。</p>
+        <p><img src="https://blog-1256194686.cos.ap-shanghai.myqcloud.com/191118_opencv_traincascade.jpg" /></p>
+<center>
+使用opencv_traincascade训练实现车辆检测。
+</center>
 <a id="more"></a>
+<p>OpenCV中有个神奇的AdaBoost，通过读入一个xml即可识别出目标区域。此物中文名唤“级联分类器”，“级联”指它由简单分类器级联组成，通过所有分类器的区域即为目标区域。训练时通过对样本的一定操作可生成样本的Haar/LBP/HOG等特征，检测时遍历待识别图片各区域进行特征匹配。</p>
 <h1 id="训练">训练</h1>
 <h2 id="文件准备">文件准备</h2>
 <p>训练文件夹的结构应当如下：</p>
@@ -441,13 +441,13 @@
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-count">12</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-count">23</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -553,54 +553,6 @@
   
 
   
-      
-<script type="text/x-mathjax-config">
-
-  MathJax.Hub.Config({
-    tex2jax: {
-      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
-      processEscapes: true,
-      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-    },
-    TeX: {
-      equationNumbers: {
-        autoNumber: 'AMS'
-      }
-    }
-  });
-
-  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
-    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
-      if (data.display) {
-        var next = data.script.nextSibling;
-        while (next && next.nodeName.toLowerCase() === '#text') {
-          next = next.nextSibling;
-        }
-        if (next && next.nodeName.toLowerCase() === 'br') {
-          next.parentNode.removeChild(next);
-        }
-      }
-    });
-  });
-
-  MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-    for (i = 0; i < all.length; i += 1) {
-      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
-      if (element.nodeName.toLowerCase() == 'li') {
-        element = element.parentNode;
-      }
-      element.classList.add('has-jax');
-    }
-  });
-</script>
-<script>
-  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
-    MathJax.Hub.Typeset();
-  }, window.MathJax);
-</script>
-
-    
 
   
 
@@ -620,5 +572,5 @@ NexT.utils.loadComments(() => {
 });
 </script>
 
-<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":200,"height":290},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
 </html>

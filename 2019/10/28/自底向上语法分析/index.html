@@ -12,7 +12,7 @@
 
 <link rel="stylesheet" href="/css/main.css">
 
-<link rel="stylesheet" href="//fonts.lug.ustc.edu.cn/css?family=Courier New:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="//fonts.lug.ustc.edu.cn/css?family=Noto Sans:300,300italic,400,400italic,700,700italic|Fira Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
 <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
 
 
@@ -46,16 +46,18 @@
   };
 </script>
 
-  <meta name="keywords" content="编译原理,语法分析">
+  <meta name="description" content="优先分析法和LR(0)、SLR(1)、LR(1)三种LR分析法。">
+<meta name="keywords" content="编译原理,语法分析">
 <meta property="og:type" content="article">
 <meta property="og:title" content="自底向上语法分析">
 <meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;10&#x2F;28&#x2F;%E8%87%AA%E5%BA%95%E5%90%91%E4%B8%8A%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90&#x2F;index.html">
 <meta property="og:site_name" content="Mech_Mind‘s blog">
+<meta property="og:description" content="优先分析法和LR(0)、SLR(1)、LR(1)三种LR分析法。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https:&#x2F;&#x2F;blog-1256194686.cos.ap-shanghai.myqcloud.com&#x2F;ZiDiXlUhYuFaFfXi.png">
-<meta property="og:updated_time" content="2019-12-08T12:46:24.643Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;blog-1256194686.cos.ap-shanghai.myqcloud.com&#x2F;191028_ZiDiXlUhYuFaFfXi.png">
+<meta property="og:updated_time" content="2019-12-08T16:00:00.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;blog-1256194686.cos.ap-shanghai.myqcloud.com&#x2F;ZiDiXlUhYuFaFfXi.png">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;blog-1256194686.cos.ap-shanghai.myqcloud.com&#x2F;191028_ZiDiXlUhYuFaFfXi.png">
 
 <link rel="canonical" href="http://yoursite.com/2019/10/28/%E8%87%AA%E5%BA%95%E5%90%91%E4%B8%8A%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90/">
 
@@ -239,7 +241,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-12-08 20:46:24" itemprop="dateModified" datetime="2019-12-08T20:46:24+08:00">2019-12-08</time>
+                <time title="Modified: 2019-12-09 00:00:00" itemprop="dateModified" datetime="2019-12-09T00:00:00+08:00">2019-12-09</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -277,23 +279,201 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><img src="https://blog-1256194686.cos.ap-shanghai.myqcloud.com/ZiDiXlUhYuFaFfXi.png" /></p>
+        <p><img src="https://blog-1256194686.cos.ap-shanghai.myqcloud.com/191028_ZiDiXlUhYuFaFfXi.png" /></p>
+<center>
+优先分析法和LR(0)、SLR(1)、LR(1)三种LR分析法。
+</center>
 <a id="more"></a>
 <h1 id="概述">概述</h1>
-<p>基本思想：从输入符号串出发，在每一分析步对相应句型中的某个简单短语进行归约。如果最终能归约到识别符号，则该输入符号串是相应文法的句子，否则就不是。</p>
-<p>基本问题：（假设句型分析过程中每个分析步都对最左的简单短语进行直接归约）如何找出句柄及把此句柄直接归约为哪个非终结符号。</p>
-<p>基本思路： + 找出句柄u + 找出规则U∷=u + 把u直接归约成U</p>
-<p>基本概念：</p>
-<p>活前缀: <strong>右句型</strong>（最右推导可得到的句型）的<strong>前缀</strong>（如<code>abc</code>的前缀为<code>a</code>、<code>ab</code>、<code>abc</code>），而且其右端不会超过该句型的最右边<strong>句柄</strong>（句柄是和某个产生式右部匹配的字符串，可以把句柄归约成产生式左部的非终结符）的末端。</p>
-<p>举例： 设有文法<span class="math inline">\(G[E]\)</span>：</p>
+<h2 id="基本思想">基本思想</h2>
+<p>从输入符号串出发，在每一分析步对相应句型中的某个简单短语进行归约。如果最终能归约到识别符号，则该输入符号串是相应文法的句子，否则就不是。</p>
+<h2 id="基本问题">基本问题</h2>
+<p>（假设句型分析过程中每个分析步都对最左的简单短语进行直接归约）如何找出句柄及把此句柄直接归约为哪个非终结符号。</p>
+<h2 id="基本思路">基本思路</h2>
+<ul>
+<li>找出句柄<span class="math inline">\(u\)</span></li>
+<li>找出规则<span class="math inline">\(U\rightarrow u\)</span></li>
+<li>把<span class="math inline">\(u\)</span>直接归约成<span class="math inline">\(U\)</span></li>
+</ul>
+<h2 id="基本概念">基本概念</h2>
+<p><strong>活前缀</strong>:<strong>右句型</strong>（最右推导可得到的句型）的<strong>前缀</strong>（如<code>abc</code>的前缀为<code>a</code>、<code>ab</code>、<code>abc</code>），而且其右端不会超过该句型的最右边<strong>句柄</strong>（句柄是和某个产生式右部匹配的字符串，可以把句柄归约成产生式左部的非终结符）的末端。</p>
+<p>举例，设有文法<span class="math inline">\(G[E]\)</span>：</p>
 <p><span class="math display">\[
 E\rightarrow E+E|E\times E
 \]</span></p>
 <p><span class="math inline">\(E+E\times E\)</span>归约成<span class="math inline">\(E+E\)</span>，句柄是<span class="math inline">\(E\times E\)</span>，那么它的活前缀就是<span class="math inline">\(E\)</span>、<span class="math inline">\(E+\)</span>、<span class="math inline">\(E+E\)</span>、<span class="math inline">\(E+E\times\)</span>、<span class="math inline">\(E+E\times E\)</span>。</p>
 <p>这里又可以分为两种情况：</p>
-<p>归态活前缀： 活前缀的尾部正好是句柄之尾，这时可以进行规约，规约之后又成为另一句型的活前缀。</p>
-<p>非归态活前缀：句柄尚未形成，需继续移入若干符号之后才能形成句柄。</p>
+<p><strong>归态活前缀</strong>： 活前缀的尾部正好是句柄之尾，这时可以进行规约，规约之后又成为另一句型的活前缀。</p>
+<p><strong>非归态活前缀</strong>：句柄尚未形成，需继续移入若干符号之后才能形成句柄。</p>
 <h1 id="自底向上优先分析">自底向上优先分析</h1>
+<h2 id="简单优先分析法">简单优先分析法</h2>
+<p>如果可以确定所有符号的优先级，则只需按优先级顺序规约（当一个符号优先级高于它后面的符号时，向前匹配一个产生式右部进行规约）即可。如果一个文法其任意两个符号间最多只有一种优先关系成立并且所有产生式的右部均不相同，则这么做是可行的，这种文法称为<strong>简单优先文法</strong>。这种分析方式有时用在表达式的分析上，大部分时候不实用。</p>
+<h2 id="算符优先分析法">算符优先分析法</h2>
+<p>如果只确定终结符之间的关系，则可大大提高适用性，但这时的规约不再是规范的。想通过终结符规约，需要所有产生式右部均没有相邻的非终结符（满足此条件称为<strong>算符文法</strong>）且任一对终结符之间仅有大于、小于或等于一种优先关系存在（满足此条件称为<strong>算符优先文法</strong>）。</p>
+<p>如果两个终结符出现在了同一个产生式右部，称他俩优先级相等，写作<span class="math inline">\(a\doteq b\)</span>（点在中间，不会打，下面所有符号同）。</p>
+<p>有类似<span class="math inline">\(A\to \dots aB\ldots\)</span>的产生式且有<span class="math inline">\(B\Rightarrow^{+} \Rightarrow Cb\ldots\)</span>（<span class="math inline">\(C\)</span>可以为空）的<span class="math inline">\(a\)</span>和<span class="math inline">\(b\)</span>，这种要规约的话肯定是先把含<span class="math inline">\(b\)</span>的式子规约到<span class="math inline">\(B\)</span>再规约<span class="math inline">\(a\)</span>，所以称为<span class="math inline">\(a\)</span>的优先级小于<span class="math inline">\(b\)</span>，写作<span class="math inline">\(a\dot&lt; b\)</span>。</p>
+<p>有类似<span class="math inline">\(A\to \dots Bb\ldots\)</span>的产生式且有<span class="math inline">\(B\Rightarrow^{+} \Rightarrow \ldots aC\)</span>（<span class="math inline">\(C\)</span>可以为空）的<span class="math inline">\(a\)</span>和<span class="math inline">\(b\)</span>，这种要规约的话肯定是先把含<span class="math inline">\(a\)</span>的式子规约到<span class="math inline">\(B\)</span>再规约<span class="math inline">\(b\)</span>，所以称为<span class="math inline">\(a\)</span>的优先级大于<span class="math inline">\(b\)</span>，写作<span class="math inline">\(a\dot&gt; b\)</span>。</p>
+<p>以<span class="math inline">\(G[S]\)</span>为例：</p>
+<p><span class="math display">\[
+\begin{aligned} 
+&amp; S\rightarrow S;G|G\\
+&amp; G\rightarrow G(T)|H\\
+&amp; H\rightarrow a|(S)\\
+&amp; T\rightarrow T+S|S
+\end{aligned}
+\]</span></p>
+<p>判断<span class="math inline">\(\doteq\)</span>关系，只需硬看产生式。这里可知<span class="math inline">\((\doteq )\)</span>和隐式的<span class="math inline">\(\# \doteq \#\)</span>。</p>
+<p>判断<span class="math inline">\(\dot&lt;\)</span>关系，需先找到所有终结符后跟非终结符的情况，有<span class="math inline">\(;G\)</span>、<span class="math inline">\((T\)</span>、<span class="math inline">\((S\)</span>、<span class="math inline">\(+S\)</span>和隐式的<span class="math inline">\(\#S\)</span>、<span class="math inline">\(\#G\)</span>。这几个关系中，在前面的终结符的优先级小于后面的非终结符的First中元素。</p>
+<p>判断<span class="math inline">\(\dot&gt;\)</span>关系，需先找到所有非终结符后跟终结符的情况，有<span class="math inline">\(S;\)</span>、<span class="math inline">\(G(\)</span>、<span class="math inline">\(T)\)</span>、<span class="math inline">\(S)\)</span>和隐式的<span class="math inline">\(G\#\)</span>。这几个关系中，在前面的非终结符的Last集中元素优先级大于后面的终结符。</p>
+<p>将这些关系构建为一张表：</p>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th>;</th>
+<th>(</th>
+<th>)</th>
+<th>+</th>
+<th>a</th>
+<th>#</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>;</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>(</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>)</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>+</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>a</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>#</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>没有冲突，该文法是算符优先文法。</p>
+<p>引入最左素短语概念以确定算符优先分析的句柄，素短语是一个包含终结符的短语，且不包含除自身外的其它素短语。最左素短语就是最左的没啥好说的。可以看出，我们可以通过每次规约最左素短语进行规约。在算符优先文法的输入串中，如果一个终结符的优先级大于它两边的终结符的优先级，则它（和它两边的非终结符，如果有）是素短语。故对于算符优先文法的输入串，每次规约最左的、优先级比两边的终结符大的终结符即可，例如<code>a;(a+a)</code>之于上面的文法：</p>
+<table>
+<thead>
+<tr class="header">
+<th>步骤</th>
+<th>句型</th>
+<th>优先关系</th>
+<th>最左素短语</th>
+<th>规约</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td><code>#a;(a+a)#</code></td>
+<td><code>#&lt;a&gt;;&lt;(&lt;a&gt;+&lt;a&gt;)&gt;#</code></td>
+<td>a</td>
+<td>H</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td><code>#H;(a+a)#</code></td>
+<td><code>#&lt;;&lt;(&lt;a&gt;+&lt;a&gt;)&gt;#</code></td>
+<td>a</td>
+<td>H</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td><code>#H;(H+a)#</code></td>
+<td><code>#&lt;;&lt;(&lt;+&lt;a&gt;)&gt;#</code></td>
+<td>a</td>
+<td>H</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td><code>#H;(H+H)#</code></td>
+<td><code>#&lt;;&lt;(&lt;+&gt;)&gt;#</code></td>
+<td>T+S</td>
+<td>T</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td><code>#H;(T)#</code></td>
+<td><code>#&lt;;&lt;(=)&gt;#</code></td>
+<td>(T)</td>
+<td>S</td>
+</tr>
+</tbody>
+</table>
+<p>这一步把<code>(T)</code>规约到<code>S</code>。这里只要求形式相同，具体非终结符是哪个并不关心。</p>
+<table>
+<thead>
+<tr class="header">
+<th>步骤</th>
+<th>句型</th>
+<th>优先关系</th>
+<th>最左素短语</th>
+<th>规约</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>6</td>
+<td><code>#H;S#</code></td>
+<td><code>#&lt;;&gt;#</code></td>
+<td>H;S</td>
+<td>S</td>
+</tr>
+<tr class="even">
+<td>7</td>
+<td><code>#S#</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>虽然接受了，但该字符串其实不是文法的句子。毕竟它不是规范的，难免。因此只适合表达式的分析。</p>
 <h1 id="lr分析">LR分析</h1>
 <h2 id="概述-1">概述</h2>
 <p>LR(K)分析器包括总控程序和分析表。</p>
@@ -670,9 +850,9 @@ E\rightarrow E+E|E\times E
 </tbody>
 </table>
 <p>这样所有的状态都分析完了。整合一下这个表，就是：</p>
-<table>
+<table style="width:100%;">
 <colgroup>
-<col style="width: 2%" />
+<col style="width: 3%" />
 <col style="width: 73%" />
 <col style="width: 8%" />
 <col style="width: 14%" />
@@ -760,7 +940,7 @@ E\rightarrow E+E|E\times E
 </tr>
 </tbody>
 </table>
-<p>这样就获得了这个文法的自动机。分析表与自动机是等价的，但更容易看出遇到啥时要干啥。下面构造分析表。</p>
+<p>这样就获得了这个文法的自动机。为了方便程序查找在啥状态下读到啥时该做啥，需要构建分析表。</p>
 <p>当位于状态<span class="math inline">\(S_0\)</span>时，下一位可能的符号有<span class="math inline">\(a\)</span>，<span class="math inline">\(b\)</span>，<span class="math inline">\(c\)</span>，<span class="math inline">\(d\)</span>和<span class="math inline">\(\#\)</span>。由自动机知此时下一位若为<span class="math inline">\(a\)</span>，<span class="math inline">\(c\)</span>，<span class="math inline">\(d\)</span>是符合规则的。因此若下一位是<span class="math inline">\(a\)</span>则移进（shift）一位（就是把<span class="math inline">\(S_0,a\)</span>入分析栈，读入的指针右移一位）并转换到到<span class="math inline">\(S_4\)</span>，<span class="math inline">\(c\)</span>则<span class="math inline">\(S_5\)</span>，<span class="math inline">\(d\)</span>则<span class="math inline">\(S_6\)</span>。</p>
 <table>
 <thead>
@@ -785,9 +965,9 @@ E\rightarrow E+E|E\times E
 </tbody>
 </table>
 <p>也就是从这样：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">+-----------------+ +----------------------------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">|status  |symble  | |...a...                           |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">+-----------------+ +---^------------------------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">|        |        |     |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">|        |        |     |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">|        |        |     +</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">|S0      |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">|...     |...     |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">+-----------------+ +----------------------------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">|status  |symble  | |...a...                           |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">+-----------------+ +---^------------------------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">|        |        |     |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">|        |        |     |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">|        |        |     +</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">|S0      |x       |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">|...     |...     |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">|S0      |#       |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr></table></figure>
 <p>变成这样：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">+-----------------+ +----------------------------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">|status  |symble  | |...a...                           |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">+-----------------+ +----^-----------------------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">|        |        |      |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">|        |        |      |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">|        |        |      +</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">|S4      |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">|S0      |a       |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">|...     |...     |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">+-----------------+ +----------------------------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">|status  |symble  | |...a...                           |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">+-----------------+ +----^-----------------------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">|        |        |      |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">|        |        |      |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">|        |        |      +</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">|S4      |a       |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">|S0      |x       |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">|...     |...     |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">|S0      |#       |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr></table></figure>
 <p>当位于状态<span class="math inline">\(S_1\)</span>时，如果遇到<span class="math inline">\(\#\)</span>就是分析完了，称之为“acc(ept)”，其它情况不符合自动机。</p>
 <table>
 <thead>
@@ -811,8 +991,8 @@ E\rightarrow E+E|E\times E
 </tr>
 </tbody>
 </table>
-<p>当位于状态<span class="math inline">\(S_2\)</span>时，栈中的内容是<span class="math inline">\(A\)</span>，虽然右面没有期待的符号了，但由于其左部符号不是起始符号，所以不能像<span class="math inline">\(S_1\)</span>那样直接acc。而是要首先规约（reduce）。</p>
-<p>根据<span class="math inline">\(S_2\)</span>的规则，也就是规则1（因为凡是需要规约的都是后面没有的，也就是不存在一个状态对应多个项目的情况，所以只会对应一条规则），<span class="math inline">\(A\)</span>规约后将变成<span class="math inline">\(S\)</span>。所以在表里填上“r1”表示根据规则1规约，并弹出栈顶的<span class="math inline">\(S_0,A\)</span>，将<span class="math inline">\(S入栈\)</span>。</p>
+<p>当位于状态<span class="math inline">\(S_2\)</span>时，栈中的内容是<span class="math inline">\(A\)</span>，要进行规约（reduce）。</p>
+<p>根据<span class="math inline">\(S_2\)</span>的规则，也就是规则1，<span class="math inline">\(A\)</span>规约后将变成<span class="math inline">\(S\)</span>。所以在表里填上“r1”表示根据规则1规约，并弹出被规约的内容，这里只有<span class="math inline">\(S_2,A\)</span>，规约后得到的非终结符是使用的规则的左部符号，到达栈顶状态遇到这一符号的状态。</p>
 <table>
 <thead>
 <tr class="header">
@@ -835,11 +1015,11 @@ E\rightarrow E+E|E\times E
 </tr>
 </tbody>
 </table>
-<p>也就是由：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">+-----------------+ +----------------------------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">|status  |symble  | |.......                           |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">+-----------------+ +---^------------------------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">|        |        |     |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">|        |        |     |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">|        |        |     +</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">|S2      |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">|S0      |A       |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">|...     |...     |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr></table></figure>
+<p>也就是由（这个例子中只有<span class="math inline">\(S_0\)</span>后继符号是<span class="math inline">\(S\)</span>，此时后继状态是<span class="math inline">\(S_1\)</span>）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">+-----------------+ +----------------------------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">|status  |symble  | |.......                           |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">+-----------------+ +---^------------------------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">|        |        |     |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">|        |        |     |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">|        |        |     +</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">|S2      |A       |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">|S0      |#       |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr></table></figure>
 <p>变成：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">+-----------------+ +----------------------------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">|status  |symble  | |.......                           |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">+-----------------+ +---^------------------------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">|        |        |     |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">|        |        |     |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">|        |        |     +</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">|S0      |S       |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">|...     |...     |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr></table></figure>
-<p>那么问题来了，现在在状态<span class="math inline">\(Sn\)</span>并后面是<span class="math inline">\(S\)</span>，应该进入哪个状态呢？这个时候需要知道<span class="math inline">\(Sn\)</span>遇到S会进入哪个状态。因此在之前将状态与终结符联系起来的表的基础上，还要再搞一个将状态与非终结符联系起来的表，为表区分，前者称为“ACTION”表，后者称为“GOTO”表。这里要找哪个项目的符号栈顶也就是<span class="math inline">\(\Delta\)</span>前的符号是<span class="math inline">\(S\)</span>，这里只有<span class="math inline">\(S_1\)</span>。而只有<span class="math inline">\(S_0\)</span>后继符号是<span class="math inline">\(S\)</span>时后继状态是<span class="math inline">\(S_1\)</span>。所以这里栈里的状态只能是“<span class="math inline">\(S_0\)</span>后继符号是<span class="math inline">\(S\)</span>，递进到<span class="math inline">\(S_1\)</span>”，因此在GOTO表<span class="math inline">\(S_0\)</span>行<span class="math inline">\(S\)</span>列写上1。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">+-----------------+ +----------------------------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">|status  |symble  | |.......                           |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">+-----------------+ +---^------------------------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">|        |        |     |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">|        |        |     |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">|        |        |     +</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">|S1      |S       |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">|S0      |#       |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr></table></figure>
+<p>为方便查找，还要再搞一个将状态与非终结符联系起来的表，为表区分，之前的称为“ACTION”表，后者称为“GOTO”表。</p>
 <table>
 <thead>
 <tr class="header">
@@ -858,8 +1038,6 @@ E\rightarrow E+E|E\times E
 </tr>
 </tbody>
 </table>
-<p>操作后栈变成：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">+-----------------+ +----------------------------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">|status  |symble  | |.......                           |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">+-----------------+ +---^------------------------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">|        |        |     |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">|        |        |     |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">|        |        |     +</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">|S1      |        |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">|S0      |S       |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">|...     |...     |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr></table></figure>
 <p><span class="math inline">\(S_3\)</span>同样是要规约，要从<span class="math inline">\(B\)</span>规约到<span class="math inline">\(S\)</span>也就是按规则2:</p>
 <table>
 <thead>
@@ -883,11 +1061,71 @@ E\rightarrow E+E|E\times E
 </tr>
 </tbody>
 </table>
-<p>其余同上。</p>
-<p><span class="math inline">\(S_4\)</span>同<span class="math inline">\(S_0\)</span>。</p>
-<p><span class="math inline">\(S_5\)</span>要规约，要从<span class="math inline">\(c\)</span>规约到<span class="math inline">\(A\)</span>也就是按规则4，以<span class="math inline">\(A\)</span>结尾的项目有<span class="math inline">\(S_2\)</span>和<span class="math inline">\(S_7\)</span>，前者由<span class="math inline">\(S_0\)</span>过来，后者由<span class="math inline">\(S_4\)</span>过来，故在GOTO表<span class="math inline">\(S_0\)</span>行<span class="math inline">\(A\)</span>列写上2，<span class="math inline">\(S_4\)</span>行<span class="math inline">\(A\)</span>列写上7。同理，在GOTO表<span class="math inline">\(S_0\)</span>行<span class="math inline">\(B\)</span>列写上3，<span class="math inline">\(S_4\)</span>行<span class="math inline">\(B\)</span>列写上9。</p>
-<p>当然GOTO表用和ACTION表一样的方法也就是根据后继直接填也一样，更方便。</p>
 <p>依此类推即可获得分析表。</p>
+<p>这种分析方法的问题在于，一旦进入某个可以规约的状态，无论输入是什么都会规约。这可能导致错误的规约。</p>
+<h2 id="slr1分析">SLR(1)分析</h2>
+<p>但是对大部分文法，会出现移进与规约的冲突和规约与规约的冲突。</p>
+<p>设有文法<span class="math inline">\(G[S]\)</span>：</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;(1)S\rightarrow A\\
+&amp;(2)A\rightarrow aAd\\
+&amp;(3)A\rightarrow aAb\\
+&amp;(4)A\rightarrow \epsilon
+\end{aligned}
+\]</span></p>
+<p>构造自动机：</p>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 2%" />
+<col style="width: 65%" />
+<col style="width: 19%" />
+<col style="width: 11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>状态</th>
+<th>项目集</th>
+<th>后继符号</th>
+<th>后继状态</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(S_0\)</span></td>
+<td><span class="math inline">\(\{\\S\rightarrow \Delta A\\A\rightarrow \Delta aAd\\A\rightarrow \Delta aAb\\A\rightarrow \epsilon \Delta \\\}\)</span></td>
+<td><span class="math inline">\(A\\a\\a\\\#A\rightarrow \epsilon\)</span></td>
+<td><span class="math inline">\(S_1\\S_2\\S_2\\END\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>可以发现这里面既有移进项又有规约项。这种情况就说这个文法不是LR(0)的。如果一个文法的自动机同时存在不止一个规约项目，它也不是LR(0)的。</p>
+<p>但<span class="math inline">\(A\)</span>的Follow集和这里的两个<span class="math inline">\(a\)</span>无交集，故可以根据这个进行判断是移进还是规约，这种叫SLR(1)文法，因为根据下一个输入字符即可判断执行什么操作。之所以是SLR而不是LR，是因为它仅在冲突时进行判断，不冲突时仍然是不管输入啥都规约。这导致有时仍然会错误地规约。一个项目集中有两个规约的情况类似，考察两个左部符号的Follow集，没有交集的话也OK。</p>
+<p>类似LR(0)地可获得分析表。唯一区别就是有些地方状态既可能要移进也可能要规约，而不是要规约一整行都是规约。以状态<span class="math inline">\(S_0\)</span>为例：</p>
+<table>
+<thead>
+<tr class="header">
+<th>状态</th>
+<th>a</th>
+<th>b</th>
+<th>d</th>
+<th>#</th>
+<th>A</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(S_0\)</span></td>
+<td>s2</td>
+<td>r4</td>
+<td>r4</td>
+<td>r4</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<h2 id="lr1分析">LR(1)分析</h2>
+<p>上面讲项目集规约与移进、规约与规约出现冲突时考察交集，那万一有呢？当时是通过比较Follow集，但Follow集只是个笼统的说法，一个非终结符的Follow集中的某个元素可能在某些句型中并不会出现。考虑在自动机的每一个产生式中标注其推导出的句型可能的后缀，当遇到可能遇到的后缀时才进行规约。这不止可以避免冲突，还可以避免误规约。</p>
 
     </div>
 
@@ -978,7 +1216,7 @@ E\rightarrow E+E|E\times E
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#自底向上优先分析"><span class="nav-number">2.</span> <span class="nav-text">自底向上优先分析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#lr分析"><span class="nav-number">3.</span> <span class="nav-text">LR分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#概述-1"><span class="nav-number">3.1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分析过程"><span class="nav-number">3.2.</span> <span class="nav-text">分析过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lr0分析"><span class="nav-number">3.3.</span> <span class="nav-text">LR(0)分析</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本思想"><span class="nav-number">1.1.</span> <span class="nav-text">基本思想</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本问题"><span class="nav-number">1.2.</span> <span class="nav-text">基本问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本思路"><span class="nav-number">1.3.</span> <span class="nav-text">基本思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本概念"><span class="nav-number">1.4.</span> <span class="nav-text">基本概念</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#自底向上优先分析"><span class="nav-number">2.</span> <span class="nav-text">自底向上优先分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#简单优先分析法"><span class="nav-number">2.1.</span> <span class="nav-text">简单优先分析法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#算符优先分析法"><span class="nav-number">2.2.</span> <span class="nav-text">算符优先分析法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#lr分析"><span class="nav-number">3.</span> <span class="nav-text">LR分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#概述-1"><span class="nav-number">3.1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分析过程"><span class="nav-number">3.2.</span> <span class="nav-text">分析过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lr0分析"><span class="nav-number">3.3.</span> <span class="nav-text">LR(0)分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#slr1分析"><span class="nav-number">3.4.</span> <span class="nav-text">SLR(1)分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lr1分析"><span class="nav-number">3.5.</span> <span class="nav-text">LR(1)分析</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -1001,13 +1239,13 @@ E\rightarrow E+E|E\times E
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-count">12</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-count">23</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -1180,5 +1418,5 @@ NexT.utils.loadComments(() => {
 });
 </script>
 
-<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":200,"height":290},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
 </html>

@@ -12,7 +12,7 @@
 
 <link rel="stylesheet" href="/css/main.css">
 
-<link rel="stylesheet" href="//fonts.lug.ustc.edu.cn/css?family=Courier New:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="//fonts.lug.ustc.edu.cn/css?family=Noto Sans:300,300italic,400,400italic,700,700italic|Fira Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
 <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
 
 
@@ -269,9 +269,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p><img src="https://blog-1256194686.cos.ap-shanghai.myqcloud.com/skyline.jpg" /></p>
-<p>本文记录好用的《发际线》模组。尽管即使打开蓝灯也无法在steam客户端和游戏内访问创意工房，但在浏览器中的订阅也可以立即生效。因此可以在游戏中打开游戏内浏览器，再将地址复制至浏览器进行订阅操作。</p>
-<p><strong>感谢所有模组的作者！</strong></p>
+          <p><img src="https://blog-1256194686.cos.ap-shanghai.myqcloud.com/191007_skylinemod.jpg" /></p>
+<center>
+记录好用的《发际线》模组。感谢所有模组的作者！常年更新。
+</center>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2019/10/07/%E3%80%8A%E5%9F%8E%E5%B8%82%EF%BC%9A%E5%A4%A9%E9%99%85%E7%BA%BF%E3%80%8B%E4%B8%AD%E7%9A%84%E6%9C%89%E7%94%A8%E6%A8%A1%E7%BB%84/#more" rel="contents">
@@ -324,13 +325,6 @@
 
               <time title="Created: 2019-09-30 16:40:32" itemprop="dateCreated datePublished" datetime="2019-09-30T16:40:32+08:00">2019-09-30</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-12-08 20:47:46" itemprop="dateModified" datetime="2019-12-08T20:47:46+08:00">2019-12-08</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -354,7 +348,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>因尝试更换显卡驱动为nVIDIA 430xx导致重启后无法进入图形界面，只是黑屏并在屏幕左上角显示一个光标。</p>
+          <p><img src="https://blog-1256194686.cos.ap-shanghai.myqcloud.com/190930_bumblebee.jpg" /></p>
+<center>
+因尝试更换显卡驱动为nVIDIA 430xx导致重启后无法进入图形界面，只是黑屏并在屏幕左上角显示一个光标。
+</center>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2019/09/30/Manjaro-Linux%E5%9B%A0%E6%98%BE%E5%8D%A1%E9%A9%B1%E5%8A%A8%E6%97%A0%E6%B3%95%E8%BF%9B%E5%85%A5%E5%9B%BE%E5%BD%A2%E7%95%8C%E9%9D%A2%E4%B9%8B%E5%A4%84%E7%90%86%E6%96%B9%E6%B3%95/#more" rel="contents">
@@ -404,16 +401,10 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
+              
 
-              <time title="Created: 2019-09-30 16:39:14" itemprop="dateCreated datePublished" datetime="2019-09-30T16:39:14+08:00">2019-09-30</time>
+              <time title="Created: 2019-09-30 16:39:14 / Modified: 00:00:00" itemprop="dateCreated datePublished" datetime="2019-09-30T16:39:14+08:00">2019-09-30</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-12-08 20:47:18" itemprop="dateModified" datetime="2019-12-08T20:47:18+08:00">2019-12-08</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -437,49 +428,18 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <a id="more"></a>
-<h1 id="环境">0. 环境</h1>
-<ul>
-<li>MyEclipse 2017 ci10</li>
-<li>Tomcat 9.0</li>
-<li>JDK 8u221</li>
-<li>JDBC 8.0.17</li>
-</ul>
-<h1 id="mysql安装">1. MySQL安装</h1>
-<p>只需<code>sudo pacman -S mysql</code>便可以安装MySQL。装好后根据提示<code>sudo mysqld --initialize --user=mysql --basedir=/usr --datadir=/var/lib/mysql</code>，注意此步需root权限，并会返回临时的用户名和密码，在输出的那一堆东西里找一下。随后可<code>sudo systemctl enable mysqld</code>开机自启、<code>sudo systemctl start mysqld</code>启动服务、<code>sudo systemctl status mysqld</code>查看状态。</p>
-<p>使用刚刚给出的临时密码登录<code>mysql -uroot -p&lt;密码&gt;</code>后会提示可以<code>sudo mysql_secure_installation</code>，如果运行的话会执行以下安全设置：</p>
-<ul>
-<li>为root用户设置密码</li>
-<li>删除匿名账号</li>
-<li>取消root用户远程登录</li>
-<li>删除test库和对test库的访问权限</li>
-<li>刷新授权表使修改生效</li>
-</ul>
-<p>看心情设置一下。之后通过“添加/删除软件”安装“MySQL WorkBench”即可进行图形化的操作。</p>
-<h1 id="jdbc下载">2. JDBC下载</h1>
-<p><code>https://dev.mysql.com/downloads/connector/j/</code>下载<code>Platform Independent</code>版本，解压。因为需要与MyEclipse链接，为了方便，丢到家目录下。</p>
-<h1 id="与myeclipse链接">3. 与MyEclipse链接</h1>
-<p>在MyEclipse中点击<code>窗口-&gt;Perspective-&gt;打开透视图-&gt;Database Explorer</code>，在左侧“DB Broster”中空白处右击new一数据库，弹出“DataBase Driver”界面：</p>
-<ul>
-<li>Driver template：选择MySQL Connector/J</li>
-<li>Driver name：编个名字</li>
-<li>Connection URL：改为 jdbc:mysql://localhost:3306/<数据库名></li>
-<li>User name ：数据库用户名，默认root</li>
-<li>Password：访问密码</li>
-<li>Add Jar：JDBC的jar包的路径</li>
-<li>Driver classname：系统会自动匹配</li>
-</ul>
-<p>Test一下成功后点完成即可。此时“DB Broster”中会多出MySQL数据库，双击即可链接上。</p>
-<h1 id="测试链接">4. 测试链接</h1>
-<p>使用MySQL WorkBench新建一个Schema（注意在Collation下拉列表中选择数据库需要修改为的字符集），并新建一个Table（不知为啥新建table时如果改table名字会导致无法操作其它内容，只能先设置其它内容应用后再回头改名字），用于测试。</p>
-<p>在MyEclipse中新建一个Java项目，在其中新建一个lib文件夹，把JDBC的<code>.jar</code>丢进去，在MyEclipse中右击这个包构建一下路径。此时可以在该项目“引用的库”列表中看到这个包。</p>
-<p>再在<code>src/</code>新建一包，在其中新建一类。以包名为<code>testDB</code>、类名为<code>Test</code>、前面新建的table名为<code>new_table</code>、table中有<code>name</code>和<code>pw</code>两列为例：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> testDB;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.sql.*;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"><span class="class"></span>&#123; </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">	<span class="keyword">static</span> <span class="keyword">final</span> String <span class="keyword">package</span> testDB;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.sql.*;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line"><span class="class"></span>&#123; </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">	<span class="keyword">static</span> <span class="keyword">final</span> String JDBC_DRIVER = <span class="string">"com.mysql.cj.jdbc.Driver"</span>;  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">	<span class="keyword">static</span> <span class="keyword">final</span> String DB_URL = <span class="string">"jdbc:mysql://localhost:3306/db0?useSSL=false&amp;serverTimezone=UTC"</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">	<span class="keyword">static</span> <span class="keyword">final</span> String USER = <span class="string">"root"</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">	<span class="keyword">static</span> <span class="keyword">final</span> String PASS = <span class="string">"235604"</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line"><span class="function">	</span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">		Connection conn = <span class="keyword">null</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">		Statement stmt = <span class="keyword">null</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">		</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">		<span class="keyword">try</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">		&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">			<span class="comment">// 注册 JDBC 驱动</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">			Class.forName(JDBC_DRIVER);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">			<span class="comment">// 打开链接</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">			System.out.println(<span class="string">"连接数据库..."</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">			conn = DriverManager.getConnection(DB_URL,USER,PASS);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line">			<span class="comment">// 执行查询</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line">			System.out.println(<span class="string">"实例化Statement对象..."</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">30</span></pre></td><td class="code"><pre><span class="line">			stmt = conn.createStatement();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">31</span></pre></td><td class="code"><pre><span class="line">			String sql;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">32</span></pre></td><td class="code"><pre><span class="line">			sql = <span class="string">"SELECT name,pw FROM new_table"</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">33</span></pre></td><td class="code"><pre><span class="line">			ResultSet rs = stmt.executeQuery(sql);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">34</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">35</span></pre></td><td class="code"><pre><span class="line">			<span class="comment">// 打印结果</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">36</span></pre></td><td class="code"><pre><span class="line">			<span class="keyword">while</span>(rs.next())</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">37</span></pre></td><td class="code"><pre><span class="line">			&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">38</span></pre></td><td class="code"><pre><span class="line">				<span class="comment">// 通过字段检索</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">39</span></pre></td><td class="code"><pre><span class="line">				String name = rs.getString(<span class="string">"name"</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">40</span></pre></td><td class="code"><pre><span class="line">				String pw = rs.getString(<span class="string">"pw"</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">41</span></pre></td><td class="code"><pre><span class="line">					</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">42</span></pre></td><td class="code"><pre><span class="line">				<span class="comment">// 输出数据</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">43</span></pre></td><td class="code"><pre><span class="line">				System.out.print(<span class="string">"账户: "</span> + name);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">44</span></pre></td><td class="code"><pre><span class="line">				System.out.print(<span class="string">"\t"</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">45</span></pre></td><td class="code"><pre><span class="line">				System.out.print(<span class="string">"密码: "</span> + pw);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">46</span></pre></td><td class="code"><pre><span class="line">				System.out.print(<span class="string">"\n"</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">47</span></pre></td><td class="code"><pre><span class="line">			&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">48</span></pre></td><td class="code"><pre><span class="line">			</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">49</span></pre></td><td class="code"><pre><span class="line">			<span class="comment">// 完成后关闭</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">50</span></pre></td><td class="code"><pre><span class="line">			rs.close();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">51</span></pre></td><td class="code"><pre><span class="line">			stmt.close();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">52</span></pre></td><td class="code"><pre><span class="line">			conn.close();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">53</span></pre></td><td class="code"><pre><span class="line">			</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">54</span></pre></td><td class="code"><pre><span class="line">		&#125;<span class="keyword">catch</span>(SQLException se)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">55</span></pre></td><td class="code"><pre><span class="line">			<span class="comment">// 处理 JDBC 错误</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">56</span></pre></td><td class="code"><pre><span class="line">			se.printStackTrace();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">57</span></pre></td><td class="code"><pre><span class="line">		&#125;<span class="keyword">catch</span>(Exception e)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">58</span></pre></td><td class="code"><pre><span class="line">			<span class="comment">// 处理 Class.forName 错误</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">59</span></pre></td><td class="code"><pre><span class="line">			e.printStackTrace();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">60</span></pre></td><td class="code"><pre><span class="line">		&#125;<span class="keyword">finally</span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">61</span></pre></td><td class="code"><pre><span class="line">			<span class="comment">// 关闭资源</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">62</span></pre></td><td class="code"><pre><span class="line">			<span class="keyword">try</span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">63</span></pre></td><td class="code"><pre><span class="line">				<span class="keyword">if</span>(stmt!=<span class="keyword">null</span>) stmt.close();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">64</span></pre></td><td class="code"><pre><span class="line">			&#125;<span class="keyword">catch</span>(SQLException se2)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">65</span></pre></td><td class="code"><pre><span class="line">				<span class="comment">// 什么都不做</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">66</span></pre></td><td class="code"><pre><span class="line">			&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">67</span></pre></td><td class="code"><pre><span class="line">			</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">68</span></pre></td><td class="code"><pre><span class="line">			<span class="keyword">try</span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">69</span></pre></td><td class="code"><pre><span class="line">				<span class="keyword">if</span>(conn!=<span class="keyword">null</span>) conn.close();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">70</span></pre></td><td class="code"><pre><span class="line">			&#125;<span class="keyword">catch</span>(SQLException se)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">71</span></pre></td><td class="code"><pre><span class="line">				se.printStackTrace();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">72</span></pre></td><td class="code"><pre><span class="line">			&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">73</span></pre></td><td class="code"><pre><span class="line">		&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">74</span></pre></td><td class="code"><pre><span class="line">		System.out.println(<span class="string">"Goodbye!"</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">75</span></pre></td><td class="code"><pre><span class="line">	&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">76</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
-<p>【注意】对旧版JDBC，<code>JDBC_DRIVER</code>与<code>DB_URL</code>两项与以上不同。与老版相比，这里使用的新的8.0版本将<code>com.mysql.jdbc.Driver</code>改为<code>com.mysql.cj.jdbc.Driver</code>（需要注意Tomcat也要用JDK8）；另外已不需要建立ssl连接，但需要设置CST时区。</p>
-<p>若输出正确，则一切就绪。</p>
-<h1 id="尾声">5. 尾声</h1>
-<p>如需在Web开发中使用JDBC，需将<code>.jar</code>放一份到Tomcat的lib目录下，并重启。一定注意跑页面时选择Tomcat，不然连不上数据库。</p>
-
+          <p><img src="https://blog-1256194686.cos.ap-shanghai.myqcloud.com/190930_mysql.png" /></p>
+<center>
+配合MyEclipse使用MySQL。
+</center>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/09/30/Manjaro-Linux%E4%B8%8B%E9%85%8D%E7%BD%AEMySQL%E5%B9%B6%E5%9C%A8MyEclipse%E4%B8%AD%E4%BD%BF%E7%94%A8/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -524,13 +484,6 @@
 
               <time title="Created: 2019-09-26 20:35:52" itemprop="dateCreated datePublished" datetime="2019-09-26T20:35:52+08:00">2019-09-26</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-12-08 20:47:08" itemprop="dateModified" datetime="2019-12-08T20:47:08+08:00">2019-12-08</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -554,30 +507,18 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <a id="more"></a>
-<h1 id="环境">0. 环境</h1>
-<ul>
-<li>Manjaro Linux 18.1.0</li>
-<li>JDK 8u221</li>
-<li>tomcat 9.0</li>
-<li>Myeclipse 2017 ci10</li>
-</ul>
-<h1 id="安装jdk">1. 安装JDK</h1>
-<p>从官网<code>https://www.oracle.com/technetwork/java/javase/downloads/index.html</code>下载JavaSE的tar.gz格式，完成后提取到随便什么地方，例如家目录下。</p>
-<p>在<code>~/.bashrc</code>中添加：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">export PATH&#x3D;&#x2F;home&#x2F;oiljhihai&#x2F;jdk1.8.0_221bin:$PATH</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">export JAVA_HOME&#x3D;&#x2F;home&#x2F;oiljhihai&#x2F;jdk1.8.0_221&#x2F;</span></pre></td></tr></table></figure>
-<p>此时运行<code>java -version</code>可判断安装情况。</p>
-<h1 id="安装myeclipse">2. 安装MyEclipse</h1>
-<p>MyEclipse是集成了一些包的Eclipse，与后者不同，这是一个收费软件。</p>
-<p>获取Myeclipse的<code>.run</code>文件、破解包和汉化包，进入<code>.run</code>文件目录打开终端，<code>chmod +x myeclipse-2017-ci-10-offline-installer-linux.run</code>增加权限，<code>./myeclipse-2017-ci-10-offline-installer-linux.run</code>运行程序安装。装好后取消勾选launch，不要打开。</p>
-<p>打开破解包的<code>patch</code>，使用里面的文件替换掉MyEclipse安装目录下的plugins内的同名文件，再进入破解包另一个文件夹打开终端运行<code>java -jar cracker2017.jar</code>，注意该安装包只能运行在java8下，如果最开始安装的JDK是更新的版本，需要用同样的方法安装java8并修改PATH。进入破解软件界面后输入Usercode（任意字母或者数字），后面的下拉列表选择Blue，点击SystemId两次，点击Active，点击菜单栏-&gt;Tools-&gt;saveProperties。此时启动MyEclipse，在help-&gt;subscription information可见产品已激活。</p>
-<p>直接使用汉化包中的文件夹合并MyEclipse安装目录中的同名文件夹并替换其中同名文件即可完成汉化。</p>
-<p>在首选项中Maven项下关闭一个什么启动更新的项关掉它。</p>
-<h1 id="安装tomcat并将之与myeclipse关联">3. 安装tomcat并将之与MyEclipse关联</h1>
-<p>从官网<code>http://tomcat.apache.org/</code>下载tar.gz包并提取，例如提取到家目录，可在终端执行<code>bin</code>下的<code>startup.sh</code>和<code>shutdown.sh</code>开启和关闭，开启后通过访问<code>http://localhost:8080/</code>可以看到一个页面。</p>
-<p>在首选项中服务器项下的运行时环境项下点击&quot;add&quot;的添加按钮，弹出选项，选择与下载的相同的Tomcat版本，&quot;Next&quot;，选择Tomcat的安装目录，并选择安装的Java环境，&quot;Finish&quot;，完成配置。</p>
-<p>新建Web Project时注意一下选项中的Target Runtime是否已经自动配制好了。如果不是刚才配制的则需要点后面的<code>New Runtime</code>再添加一次。创建项目时记得在最后一个选项卡勾选<code>Generate Web.xml...</code>那一项。运行新建的Web Project，可以看到一个有一行文字的网页。</p>
-
+          <p><img src="https://blog-1256194686.cos.ap-shanghai.myqcloud.com/190926_myeclipse.png" /></p>
+<center>
+MyEclipse的安装。
+</center>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/09/26/Manjaro-Linux%E4%B8%8B%E9%85%8D%E7%BD%AEJSP%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -652,7 +593,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>双显卡笔记本电脑写代码环境的全配置，包括VSCode、Hexo和日常软件。</p>
+          <p><img src="https://blog-1256194686.cos.ap-shanghai.myqcloud.com/190923_manjaro.png" /></p>
+<center>
+双显卡笔记本电脑写代码环境的全配置，包括VSCode、Hexo和日常软件。
+</center>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2019/09/23/Manjaro-Linux%E4%B8%BB%E5%8A%9B%E6%9C%BA%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E5%8F%8A%E5%9F%BA%E6%9C%AC%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/#more" rel="contents">
@@ -754,13 +698,13 @@
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-count">12</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-count">23</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -918,5 +862,5 @@
   
 
 
-<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":200,"height":290},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
 </html>

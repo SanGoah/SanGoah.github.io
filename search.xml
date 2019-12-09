@@ -3,7 +3,11 @@
   <entry>
     <title>Manjaro Linux下配置DosBox+MASM汇编环境</title>
     <url>/2019/11/24/Manjaro-Linux%E4%B8%8B%E9%85%8D%E7%BD%AEDosBox-MASM%E6%B1%87%E7%BC%96%E7%8E%AF%E5%A2%83/</url>
-    <content><![CDATA[<a id="more"></a>
+    <content><![CDATA[<p><img src="https://blog-1256194686.cos.ap-shanghai.myqcloud.com/191124_masm.png" /></p>
+<center>
+坑待填
+</center>
+<a id="more"></a>
 <p>sudo pacman -S dosbox</p>
 <p>mount c ~/Workspaces/MASM</p>
 <p>MASM5.0，更高的版本需要Win行命令提示符环境才能运行</p>
@@ -24,8 +28,12 @@
   <entry>
     <title>Manjaro Linux下使用opencv_traincascade</title>
     <url>/2019/11/18/Manjaro-Linux%E4%B8%8B%E4%BD%BF%E7%94%A8opencv-traincascade/</url>
-    <content><![CDATA[<p>OpenCV中有个神奇的AdaBoost，通过读入一个xml即可识别出目标区域。此物中文名唤“级联分类器”，“级联”指它由简单分类器级联组成，通过所有分类器的区域即为目标区域。训练时通过对样本的一定操作可生成样本的Haar/LBP/HOG等特征，检测时遍历待识别图片各区域进行特征匹配。</p>
+    <content><![CDATA[<p><img src="https://blog-1256194686.cos.ap-shanghai.myqcloud.com/191118_opencv_traincascade.jpg" /></p>
+<center>
+使用opencv_traincascade训练实现车辆检测。
+</center>
 <a id="more"></a>
+<p>OpenCV中有个神奇的AdaBoost，通过读入一个xml即可识别出目标区域。此物中文名唤“级联分类器”，“级联”指它由简单分类器级联组成，通过所有分类器的区域即为目标区域。训练时通过对样本的一定操作可生成样本的Haar/LBP/HOG等特征，检测时遍历待识别图片各区域进行特征匹配。</p>
 <h1 id="训练">训练</h1>
 <h2 id="文件准备">文件准备</h2>
 <p>训练文件夹的结构应当如下：</p>
@@ -88,7 +96,10 @@
   <entry>
     <title>有关摆脱祸乱之源的尝试</title>
     <url>/2019/11/11/%E6%9C%89%E5%85%B3%E6%91%86%E8%84%B1%E7%A5%B8%E4%B9%B1%E4%B9%8B%E6%BA%90%E7%9A%84%E5%B0%9D%E8%AF%95/</url>
-    <content><![CDATA[<p><img src="https://blog-1256194686.cos.ap-shanghai.myqcloud.com/atropos.jpg" /></p>
+    <content><![CDATA[<p><img src="https://blog-1256194686.cos.ap-shanghai.myqcloud.com/191111_atropos.jpg" /></p>
+<center>
+早睡早起的那些事。
+</center>
 <a id="more"></a>
 <p>因为整天昏昏欲睡，玩Dota的同学称我为啥啥之主记不清了，刚刚查了下可能是叫祸乱之源？</p>
 <p>知乎上有一些类似“如何保持精力旺盛”的问题，答者众，然而翻翻回答，要么是一些傻逼励志书的类似读书笔记的东西（这些书有一个算一个都是傻逼，引用这玩意的答主也是傻逼，有不同意见的请将本网址添加至<code>C:\WINDOWS\system32\drivers\etc\host</code>，自己搭博客写字的好处就是特么的不用管这些友善度），要么是一些莫名其妙似是而非八成就是为了推销保健品的科学术语使劲堆，还有就是分好几十条小tips每一条都令人无法理解这玩意有啥用的例如想着待会你要去吃个啥啥一直想吃的小点心然后你就精神了我觉得我想着待会就能去把你打一顿了比较有用点。</p>
@@ -126,18 +137,35 @@
 <p>把每天晚上刷B站的时间用来跑步试试。</p>
 <p><strong>【W+1】</strong>也不一定跑步，总之晚上不要娱乐，放在早晨起来不太清醒的时候加速清醒。</p>
 ]]></content>
+      <categories>
+        <category>柴米</category>
+      </categories>
   </entry>
   <entry>
     <title>虚拟存储器</title>
     <url>/2019/11/11/%E8%99%9A%E6%8B%9F%E5%AD%98%E5%82%A8%E5%99%A8/</url>
-    <content><![CDATA[<a id="more"></a>
+    <content><![CDATA[<p><img src="" /></p>
+<center>
+坑待填
+</center>
+<a id="more"></a>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"> +-----------------------+          +-----------------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line"> |1 2 3 4 1 2 5 1 2 3 4 5|          |1 2 3 4 1 2 5 1 2 3 4 5|</span></pre></td></tr><tr><td class="code"><pre><span class="line">++----------------------++         ++----------------------++</span></pre></td></tr><tr><td class="code"><pre><span class="line">|1|1|1|4|4|4|5| | |5|5| |          |1|1|1|1| | |5|5|5|5|4|4|</span></pre></td></tr><tr><td class="code"><pre><span class="line">| |2|2|2|1|1|1| | |3|3| |          | |2|2|2| | |2|1|1|1|1|5|</span></pre></td></tr><tr><td class="code"><pre><span class="line">| | |3|3|3|2|2| | |2|4| |          | | |3|3| | |3|3|2|2|2|2|</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------------+          | | | |4| | |4|4|4|3|3|3|</span></pre></td></tr><tr><td class="code"><pre><span class="line">       1 2 3 4     5 6             +-----------------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">                                                1 2 3 4 5 6</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"> +-----------------------+          +-----------------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line"> |1 2 3 4 1 2 5 1 2 3 4 5|          |1 2 3 4 1 2 5 1 2 3 4 5|</span></pre></td></tr><tr><td class="code"><pre><span class="line">++----------------------++         ++----------------------++</span></pre></td></tr><tr><td class="code"><pre><span class="line">|1|1|1|4|4|4|5| | |3|3|3|          |1|1|1|1| | |1| | |1|1|5|</span></pre></td></tr><tr><td class="code"><pre><span class="line">| |2|2|2|1|1|1| | |1|4|4|          | |2|2|2| | |2| | |2|2|2|</span></pre></td></tr><tr><td class="code"><pre><span class="line">| | |3|3|3|2|2| | |2|2|5|          | | |3|3| | |5| | |5|4|4|</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------------+          | | | |4| | |4| | |3|3|3|</span></pre></td></tr><tr><td class="code"><pre><span class="line">       1 2 3 4     5 6 7           +-----------------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">                                                1     2 3 4</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">  +-----------------------------------------------------------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">  |5  0  1  2  0  3  0  4  2  3  0  3  2  1  2  0  1  5  0  1       |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-+---------------------------------------------------------+-------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|51|51|51|21|  |20|01|00|21|  |20|31|21|20|  |01|  |00|  |  |</span></pre></td></tr><tr><td class="code"><pre><span class="line">|  |01|01|00|  |31|31|30|30|  |01|01|00|11|  |11|  |10|  |  |</span></pre></td></tr><tr><td class="code"><pre><span class="line">|  |  |11|10|  |10|10|41|41|  |41|41|40|40|  |40|  |51|  |  |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------------------------------------------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">          1     2  3  4  5     6  7  8  9     10    11</span></pre></td></tr></table></figure>
 ]]></content>
+      <categories>
+        <category>深蓝</category>
+        <category>操作系统</category>
+      </categories>
+      <tags>
+        <tag>操作系统</tag>
+      </tags>
   </entry>
   <entry>
     <title>Struts2中Action的几种传值方式</title>
     <url>/2019/11/07/Struts2%E4%B8%ADAction%E7%9A%84%E5%87%A0%E7%A7%8D%E4%BC%A0%E5%80%BC%E6%96%B9%E5%BC%8F/</url>
-    <content><![CDATA[<p>struts2中，传统的servlet中的request和response传递参数法仍可使用（但略有不同），并且增加了船新的传值方式。</p>
+    <content><![CDATA[<p><img src="https://blog-1256194686.cos.ap-shanghai.myqcloud.com/191107_struts2trans.jpg" /></p>
+<center>
+struts2中，传统的servlet中的request和response传递参数法仍可使用（但略有不同），并且增加了船新的传值方式。
+</center>
 <a id="more"></a>
 <h1 id="环境">0. 环境</h1>
 <ul>
@@ -185,7 +213,11 @@
   <entry>
     <title>Struts2中Action的几种Result</title>
     <url>/2019/11/02/Struts2%E4%B8%ADAction%E7%9A%84%E5%87%A0%E7%A7%8DResult/</url>
-    <content><![CDATA[<a id="more"></a>
+    <content><![CDATA[<p><img src="https://blog-1256194686.cos.ap-shanghai.myqcloud.com/191102_struts2action.png" /></p>
+<center>
+action跳转至页面、URL或另一个action。
+</center>
+<a id="more"></a>
 <p>Struts中调用Action后应当获得一个Result。它告诉Struts接下来该干啥。它的属性可以是以下类型：</p>
 <ul>
 <li>dispatcher：请求转发，用于整合JSP的结果类型。</li>
@@ -242,23 +274,201 @@
   <entry>
     <title>自底向上语法分析</title>
     <url>/2019/10/28/%E8%87%AA%E5%BA%95%E5%90%91%E4%B8%8A%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90/</url>
-    <content><![CDATA[<p><img src="https://blog-1256194686.cos.ap-shanghai.myqcloud.com/ZiDiXlUhYuFaFfXi.png" /></p>
+    <content><![CDATA[<p><img src="https://blog-1256194686.cos.ap-shanghai.myqcloud.com/191028_ZiDiXlUhYuFaFfXi.png" /></p>
+<center>
+优先分析法和LR(0)、SLR(1)、LR(1)三种LR分析法。
+</center>
 <a id="more"></a>
 <h1 id="概述">概述</h1>
-<p>基本思想：从输入符号串出发，在每一分析步对相应句型中的某个简单短语进行归约。如果最终能归约到识别符号，则该输入符号串是相应文法的句子，否则就不是。</p>
-<p>基本问题：（假设句型分析过程中每个分析步都对最左的简单短语进行直接归约）如何找出句柄及把此句柄直接归约为哪个非终结符号。</p>
-<p>基本思路： + 找出句柄u + 找出规则U∷=u + 把u直接归约成U</p>
-<p>基本概念：</p>
-<p>活前缀: <strong>右句型</strong>（最右推导可得到的句型）的<strong>前缀</strong>（如<code>abc</code>的前缀为<code>a</code>、<code>ab</code>、<code>abc</code>），而且其右端不会超过该句型的最右边<strong>句柄</strong>（句柄是和某个产生式右部匹配的字符串，可以把句柄归约成产生式左部的非终结符）的末端。</p>
-<p>举例： 设有文法<span class="math inline">\(G[E]\)</span>：</p>
+<h2 id="基本思想">基本思想</h2>
+<p>从输入符号串出发，在每一分析步对相应句型中的某个简单短语进行归约。如果最终能归约到识别符号，则该输入符号串是相应文法的句子，否则就不是。</p>
+<h2 id="基本问题">基本问题</h2>
+<p>（假设句型分析过程中每个分析步都对最左的简单短语进行直接归约）如何找出句柄及把此句柄直接归约为哪个非终结符号。</p>
+<h2 id="基本思路">基本思路</h2>
+<ul>
+<li>找出句柄<span class="math inline">\(u\)</span></li>
+<li>找出规则<span class="math inline">\(U\rightarrow u\)</span></li>
+<li>把<span class="math inline">\(u\)</span>直接归约成<span class="math inline">\(U\)</span></li>
+</ul>
+<h2 id="基本概念">基本概念</h2>
+<p><strong>活前缀</strong>:<strong>右句型</strong>（最右推导可得到的句型）的<strong>前缀</strong>（如<code>abc</code>的前缀为<code>a</code>、<code>ab</code>、<code>abc</code>），而且其右端不会超过该句型的最右边<strong>句柄</strong>（句柄是和某个产生式右部匹配的字符串，可以把句柄归约成产生式左部的非终结符）的末端。</p>
+<p>举例，设有文法<span class="math inline">\(G[E]\)</span>：</p>
 <p><span class="math display">\[
 E\rightarrow E+E|E\times E
 \]</span></p>
 <p><span class="math inline">\(E+E\times E\)</span>归约成<span class="math inline">\(E+E\)</span>，句柄是<span class="math inline">\(E\times E\)</span>，那么它的活前缀就是<span class="math inline">\(E\)</span>、<span class="math inline">\(E+\)</span>、<span class="math inline">\(E+E\)</span>、<span class="math inline">\(E+E\times\)</span>、<span class="math inline">\(E+E\times E\)</span>。</p>
 <p>这里又可以分为两种情况：</p>
-<p>归态活前缀： 活前缀的尾部正好是句柄之尾，这时可以进行规约，规约之后又成为另一句型的活前缀。</p>
-<p>非归态活前缀：句柄尚未形成，需继续移入若干符号之后才能形成句柄。</p>
+<p><strong>归态活前缀</strong>： 活前缀的尾部正好是句柄之尾，这时可以进行规约，规约之后又成为另一句型的活前缀。</p>
+<p><strong>非归态活前缀</strong>：句柄尚未形成，需继续移入若干符号之后才能形成句柄。</p>
 <h1 id="自底向上优先分析">自底向上优先分析</h1>
+<h2 id="简单优先分析法">简单优先分析法</h2>
+<p>如果可以确定所有符号的优先级，则只需按优先级顺序规约（当一个符号优先级高于它后面的符号时，向前匹配一个产生式右部进行规约）即可。如果一个文法其任意两个符号间最多只有一种优先关系成立并且所有产生式的右部均不相同，则这么做是可行的，这种文法称为<strong>简单优先文法</strong>。这种分析方式有时用在表达式的分析上，大部分时候不实用。</p>
+<h2 id="算符优先分析法">算符优先分析法</h2>
+<p>如果只确定终结符之间的关系，则可大大提高适用性，但这时的规约不再是规范的。想通过终结符规约，需要所有产生式右部均没有相邻的非终结符（满足此条件称为<strong>算符文法</strong>）且任一对终结符之间仅有大于、小于或等于一种优先关系存在（满足此条件称为<strong>算符优先文法</strong>）。</p>
+<p>如果两个终结符出现在了同一个产生式右部，称他俩优先级相等，写作<span class="math inline">\(a\doteq b\)</span>（点在中间，不会打，下面所有符号同）。</p>
+<p>有类似<span class="math inline">\(A\to \dots aB\ldots\)</span>的产生式且有<span class="math inline">\(B\Rightarrow^{+} \Rightarrow Cb\ldots\)</span>（<span class="math inline">\(C\)</span>可以为空）的<span class="math inline">\(a\)</span>和<span class="math inline">\(b\)</span>，这种要规约的话肯定是先把含<span class="math inline">\(b\)</span>的式子规约到<span class="math inline">\(B\)</span>再规约<span class="math inline">\(a\)</span>，所以称为<span class="math inline">\(a\)</span>的优先级小于<span class="math inline">\(b\)</span>，写作<span class="math inline">\(a\dot&lt; b\)</span>。</p>
+<p>有类似<span class="math inline">\(A\to \dots Bb\ldots\)</span>的产生式且有<span class="math inline">\(B\Rightarrow^{+} \Rightarrow \ldots aC\)</span>（<span class="math inline">\(C\)</span>可以为空）的<span class="math inline">\(a\)</span>和<span class="math inline">\(b\)</span>，这种要规约的话肯定是先把含<span class="math inline">\(a\)</span>的式子规约到<span class="math inline">\(B\)</span>再规约<span class="math inline">\(b\)</span>，所以称为<span class="math inline">\(a\)</span>的优先级大于<span class="math inline">\(b\)</span>，写作<span class="math inline">\(a\dot&gt; b\)</span>。</p>
+<p>以<span class="math inline">\(G[S]\)</span>为例：</p>
+<p><span class="math display">\[
+\begin{aligned} 
+&amp; S\rightarrow S;G|G\\
+&amp; G\rightarrow G(T)|H\\
+&amp; H\rightarrow a|(S)\\
+&amp; T\rightarrow T+S|S
+\end{aligned}
+\]</span></p>
+<p>判断<span class="math inline">\(\doteq\)</span>关系，只需硬看产生式。这里可知<span class="math inline">\((\doteq )\)</span>和隐式的<span class="math inline">\(\# \doteq \#\)</span>。</p>
+<p>判断<span class="math inline">\(\dot&lt;\)</span>关系，需先找到所有终结符后跟非终结符的情况，有<span class="math inline">\(;G\)</span>、<span class="math inline">\((T\)</span>、<span class="math inline">\((S\)</span>、<span class="math inline">\(+S\)</span>和隐式的<span class="math inline">\(\#S\)</span>、<span class="math inline">\(\#G\)</span>。这几个关系中，在前面的终结符的优先级小于后面的非终结符的First中元素。</p>
+<p>判断<span class="math inline">\(\dot&gt;\)</span>关系，需先找到所有非终结符后跟终结符的情况，有<span class="math inline">\(S;\)</span>、<span class="math inline">\(G(\)</span>、<span class="math inline">\(T)\)</span>、<span class="math inline">\(S)\)</span>和隐式的<span class="math inline">\(G\#\)</span>。这几个关系中，在前面的非终结符的Last集中元素优先级大于后面的终结符。</p>
+<p>将这些关系构建为一张表：</p>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th>;</th>
+<th>(</th>
+<th>)</th>
+<th>+</th>
+<th>a</th>
+<th>#</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>;</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>(</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>)</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>+</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>a</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>#</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>没有冲突，该文法是算符优先文法。</p>
+<p>引入最左素短语概念以确定算符优先分析的句柄，素短语是一个包含终结符的短语，且不包含除自身外的其它素短语。最左素短语就是最左的没啥好说的。可以看出，我们可以通过每次规约最左素短语进行规约。在算符优先文法的输入串中，如果一个终结符的优先级大于它两边的终结符的优先级，则它（和它两边的非终结符，如果有）是素短语。故对于算符优先文法的输入串，每次规约最左的、优先级比两边的终结符大的终结符即可，例如<code>a;(a+a)</code>之于上面的文法：</p>
+<table>
+<thead>
+<tr class="header">
+<th>步骤</th>
+<th>句型</th>
+<th>优先关系</th>
+<th>最左素短语</th>
+<th>规约</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td><code>#a;(a+a)#</code></td>
+<td><code>#&lt;a&gt;;&lt;(&lt;a&gt;+&lt;a&gt;)&gt;#</code></td>
+<td>a</td>
+<td>H</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td><code>#H;(a+a)#</code></td>
+<td><code>#&lt;;&lt;(&lt;a&gt;+&lt;a&gt;)&gt;#</code></td>
+<td>a</td>
+<td>H</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td><code>#H;(H+a)#</code></td>
+<td><code>#&lt;;&lt;(&lt;+&lt;a&gt;)&gt;#</code></td>
+<td>a</td>
+<td>H</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td><code>#H;(H+H)#</code></td>
+<td><code>#&lt;;&lt;(&lt;+&gt;)&gt;#</code></td>
+<td>T+S</td>
+<td>T</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td><code>#H;(T)#</code></td>
+<td><code>#&lt;;&lt;(=)&gt;#</code></td>
+<td>(T)</td>
+<td>S</td>
+</tr>
+</tbody>
+</table>
+<p>这一步把<code>(T)</code>规约到<code>S</code>。这里只要求形式相同，具体非终结符是哪个并不关心。</p>
+<table>
+<thead>
+<tr class="header">
+<th>步骤</th>
+<th>句型</th>
+<th>优先关系</th>
+<th>最左素短语</th>
+<th>规约</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>6</td>
+<td><code>#H;S#</code></td>
+<td><code>#&lt;;&gt;#</code></td>
+<td>H;S</td>
+<td>S</td>
+</tr>
+<tr class="even">
+<td>7</td>
+<td><code>#S#</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>虽然接受了，但该字符串其实不是文法的句子。毕竟它不是规范的，难免。因此只适合表达式的分析。</p>
 <h1 id="lr分析">LR分析</h1>
 <h2 id="概述-1">概述</h2>
 <p>LR(K)分析器包括总控程序和分析表。</p>
@@ -635,9 +845,9 @@ E\rightarrow E+E|E\times E
 </tbody>
 </table>
 <p>这样所有的状态都分析完了。整合一下这个表，就是：</p>
-<table>
+<table style="width:100%;">
 <colgroup>
-<col style="width: 2%" />
+<col style="width: 3%" />
 <col style="width: 73%" />
 <col style="width: 8%" />
 <col style="width: 14%" />
@@ -725,7 +935,7 @@ E\rightarrow E+E|E\times E
 </tr>
 </tbody>
 </table>
-<p>这样就获得了这个文法的自动机。分析表与自动机是等价的，但更容易看出遇到啥时要干啥。下面构造分析表。</p>
+<p>这样就获得了这个文法的自动机。为了方便程序查找在啥状态下读到啥时该做啥，需要构建分析表。</p>
 <p>当位于状态<span class="math inline">\(S_0\)</span>时，下一位可能的符号有<span class="math inline">\(a\)</span>，<span class="math inline">\(b\)</span>，<span class="math inline">\(c\)</span>，<span class="math inline">\(d\)</span>和<span class="math inline">\(\#\)</span>。由自动机知此时下一位若为<span class="math inline">\(a\)</span>，<span class="math inline">\(c\)</span>，<span class="math inline">\(d\)</span>是符合规则的。因此若下一位是<span class="math inline">\(a\)</span>则移进（shift）一位（就是把<span class="math inline">\(S_0,a\)</span>入分析栈，读入的指针右移一位）并转换到到<span class="math inline">\(S_4\)</span>，<span class="math inline">\(c\)</span>则<span class="math inline">\(S_5\)</span>，<span class="math inline">\(d\)</span>则<span class="math inline">\(S_6\)</span>。</p>
 <table>
 <thead>
@@ -750,9 +960,9 @@ E\rightarrow E+E|E\times E
 </tbody>
 </table>
 <p>也就是从这样：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">+-----------------+ +----------------------------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|status  |symble  | |...a...                           |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+ +---^------------------------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |     |</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |     |</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |     +</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|S0      |        |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|...     |...     |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">+-----------------+ +----------------------------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|status  |symble  | |...a...                           |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+ +---^------------------------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |     |</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |     |</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |     +</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|S0      |x       |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|...     |...     |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|S0      |#       |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr></table></figure>
 <p>变成这样：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">+-----------------+ +----------------------------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|status  |symble  | |...a...                           |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+ +----^-----------------------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |      |</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |      |</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |      +</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|S4      |        |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|S0      |a       |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|...     |...     |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">+-----------------+ +----------------------------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|status  |symble  | |...a...                           |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+ +----^-----------------------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |      |</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |      |</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |      +</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|S4      |a       |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|S0      |x       |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|...     |...     |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|S0      |#       |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr></table></figure>
 <p>当位于状态<span class="math inline">\(S_1\)</span>时，如果遇到<span class="math inline">\(\#\)</span>就是分析完了，称之为“acc(ept)”，其它情况不符合自动机。</p>
 <table>
 <thead>
@@ -776,8 +986,8 @@ E\rightarrow E+E|E\times E
 </tr>
 </tbody>
 </table>
-<p>当位于状态<span class="math inline">\(S_2\)</span>时，栈中的内容是<span class="math inline">\(A\)</span>，虽然右面没有期待的符号了，但由于其左部符号不是起始符号，所以不能像<span class="math inline">\(S_1\)</span>那样直接acc。而是要首先规约（reduce）。</p>
-<p>根据<span class="math inline">\(S_2\)</span>的规则，也就是规则1（因为凡是需要规约的都是后面没有的，也就是不存在一个状态对应多个项目的情况，所以只会对应一条规则），<span class="math inline">\(A\)</span>规约后将变成<span class="math inline">\(S\)</span>。所以在表里填上“r1”表示根据规则1规约，并弹出栈顶的<span class="math inline">\(S_0,A\)</span>，将<span class="math inline">\(S入栈\)</span>。</p>
+<p>当位于状态<span class="math inline">\(S_2\)</span>时，栈中的内容是<span class="math inline">\(A\)</span>，要进行规约（reduce）。</p>
+<p>根据<span class="math inline">\(S_2\)</span>的规则，也就是规则1，<span class="math inline">\(A\)</span>规约后将变成<span class="math inline">\(S\)</span>。所以在表里填上“r1”表示根据规则1规约，并弹出被规约的内容，这里只有<span class="math inline">\(S_2,A\)</span>，规约后得到的非终结符是使用的规则的左部符号，到达栈顶状态遇到这一符号的状态。</p>
 <table>
 <thead>
 <tr class="header">
@@ -800,11 +1010,11 @@ E\rightarrow E+E|E\times E
 </tr>
 </tbody>
 </table>
-<p>也就是由：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">+-----------------+ +----------------------------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|status  |symble  | |.......                           |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+ +---^------------------------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |     |</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |     |</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |     +</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|S2      |        |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|S0      |A       |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|...     |...     |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr></table></figure>
+<p>也就是由（这个例子中只有<span class="math inline">\(S_0\)</span>后继符号是<span class="math inline">\(S\)</span>，此时后继状态是<span class="math inline">\(S_1\)</span>）：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">+-----------------+ +----------------------------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|status  |symble  | |.......                           |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+ +---^------------------------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |     |</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |     |</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |     +</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|S2      |A       |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|S0      |#       |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr></table></figure>
 <p>变成：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">+-----------------+ +----------------------------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|status  |symble  | |.......                           |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+ +---^------------------------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |     |</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |     |</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |     +</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|S0      |S       |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|...     |...     |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr></table></figure>
-<p>那么问题来了，现在在状态<span class="math inline">\(Sn\)</span>并后面是<span class="math inline">\(S\)</span>，应该进入哪个状态呢？这个时候需要知道<span class="math inline">\(Sn\)</span>遇到S会进入哪个状态。因此在之前将状态与终结符联系起来的表的基础上，还要再搞一个将状态与非终结符联系起来的表，为表区分，前者称为“ACTION”表，后者称为“GOTO”表。这里要找哪个项目的符号栈顶也就是<span class="math inline">\(\Delta\)</span>前的符号是<span class="math inline">\(S\)</span>，这里只有<span class="math inline">\(S_1\)</span>。而只有<span class="math inline">\(S_0\)</span>后继符号是<span class="math inline">\(S\)</span>时后继状态是<span class="math inline">\(S_1\)</span>。所以这里栈里的状态只能是“<span class="math inline">\(S_0\)</span>后继符号是<span class="math inline">\(S\)</span>，递进到<span class="math inline">\(S_1\)</span>”，因此在GOTO表<span class="math inline">\(S_0\)</span>行<span class="math inline">\(S\)</span>列写上1。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">+-----------------+ +----------------------------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|status  |symble  | |.......                           |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+ +---^------------------------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |     |</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |     |</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |     +</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|S1      |S       |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|S0      |#       |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr></table></figure>
+<p>为方便查找，还要再搞一个将状态与非终结符联系起来的表，为表区分，之前的称为“ACTION”表，后者称为“GOTO”表。</p>
 <table>
 <thead>
 <tr class="header">
@@ -823,8 +1033,6 @@ E\rightarrow E+E|E\times E
 </tr>
 </tbody>
 </table>
-<p>操作后栈变成：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">+-----------------+ +----------------------------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|status  |symble  | |.......                           |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+ +---^------------------------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |     |</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |     |</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |     +</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|S1      |        |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|S0      |S       |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|...     |...     |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr></table></figure>
 <p><span class="math inline">\(S_3\)</span>同样是要规约，要从<span class="math inline">\(B\)</span>规约到<span class="math inline">\(S\)</span>也就是按规则2:</p>
 <table>
 <thead>
@@ -848,11 +1056,71 @@ E\rightarrow E+E|E\times E
 </tr>
 </tbody>
 </table>
-<p>其余同上。</p>
-<p><span class="math inline">\(S_4\)</span>同<span class="math inline">\(S_0\)</span>。</p>
-<p><span class="math inline">\(S_5\)</span>要规约，要从<span class="math inline">\(c\)</span>规约到<span class="math inline">\(A\)</span>也就是按规则4，以<span class="math inline">\(A\)</span>结尾的项目有<span class="math inline">\(S_2\)</span>和<span class="math inline">\(S_7\)</span>，前者由<span class="math inline">\(S_0\)</span>过来，后者由<span class="math inline">\(S_4\)</span>过来，故在GOTO表<span class="math inline">\(S_0\)</span>行<span class="math inline">\(A\)</span>列写上2，<span class="math inline">\(S_4\)</span>行<span class="math inline">\(A\)</span>列写上7。同理，在GOTO表<span class="math inline">\(S_0\)</span>行<span class="math inline">\(B\)</span>列写上3，<span class="math inline">\(S_4\)</span>行<span class="math inline">\(B\)</span>列写上9。</p>
-<p>当然GOTO表用和ACTION表一样的方法也就是根据后继直接填也一样，更方便。</p>
 <p>依此类推即可获得分析表。</p>
+<p>这种分析方法的问题在于，一旦进入某个可以规约的状态，无论输入是什么都会规约。这可能导致错误的规约。</p>
+<h2 id="slr1分析">SLR(1)分析</h2>
+<p>但是对大部分文法，会出现移进与规约的冲突和规约与规约的冲突。</p>
+<p>设有文法<span class="math inline">\(G[S]\)</span>：</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;(1)S\rightarrow A\\
+&amp;(2)A\rightarrow aAd\\
+&amp;(3)A\rightarrow aAb\\
+&amp;(4)A\rightarrow \epsilon
+\end{aligned}
+\]</span></p>
+<p>构造自动机：</p>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 2%" />
+<col style="width: 65%" />
+<col style="width: 19%" />
+<col style="width: 11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>状态</th>
+<th>项目集</th>
+<th>后继符号</th>
+<th>后继状态</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(S_0\)</span></td>
+<td><span class="math inline">\(\{\\S\rightarrow \Delta A\\A\rightarrow \Delta aAd\\A\rightarrow \Delta aAb\\A\rightarrow \epsilon \Delta \\\}\)</span></td>
+<td><span class="math inline">\(A\\a\\a\\\#A\rightarrow \epsilon\)</span></td>
+<td><span class="math inline">\(S_1\\S_2\\S_2\\END\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>可以发现这里面既有移进项又有规约项。这种情况就说这个文法不是LR(0)的。如果一个文法的自动机同时存在不止一个规约项目，它也不是LR(0)的。</p>
+<p>但<span class="math inline">\(A\)</span>的Follow集和这里的两个<span class="math inline">\(a\)</span>无交集，故可以根据这个进行判断是移进还是规约，这种叫SLR(1)文法，因为根据下一个输入字符即可判断执行什么操作。之所以是SLR而不是LR，是因为它仅在冲突时进行判断，不冲突时仍然是不管输入啥都规约。这导致有时仍然会错误地规约。一个项目集中有两个规约的情况类似，考察两个左部符号的Follow集，没有交集的话也OK。</p>
+<p>类似LR(0)地可获得分析表。唯一区别就是有些地方状态既可能要移进也可能要规约，而不是要规约一整行都是规约。以状态<span class="math inline">\(S_0\)</span>为例：</p>
+<table>
+<thead>
+<tr class="header">
+<th>状态</th>
+<th>a</th>
+<th>b</th>
+<th>d</th>
+<th>#</th>
+<th>A</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(S_0\)</span></td>
+<td>s2</td>
+<td>r4</td>
+<td>r4</td>
+<td>r4</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<h2 id="lr1分析">LR(1)分析</h2>
+<p>上面讲项目集规约与移进、规约与规约出现冲突时考察交集，那万一有呢？当时是通过比较Follow集，但Follow集只是个笼统的说法，一个非终结符的Follow集中的某个元素可能在某些句型中并不会出现。考虑在自动机的每一个产生式中标注其推导出的句型可能的后缀，当遇到可能遇到的后缀时才进行规约。这不止可以避免冲突，还可以避免误规约。</p>
 ]]></content>
       <categories>
         <category>深蓝</category>
@@ -866,8 +1134,12 @@ E\rightarrow E+E|E\times E
   <entry>
     <title>在MyEclipse中使用Struts框架</title>
     <url>/2019/10/24/%E5%9C%A8MyEclipse%E4%B8%AD%E4%BD%BF%E7%94%A8Struts%E6%A1%86%E6%9E%B6/</url>
-    <content><![CDATA[<p>CSDN——尤其是CSDN论坛，是好东西，也是坏东西。里面有许许多多大神分享有用的经验，但更多的是半吊子误人子弟，给出一些过时的、没用的建议。小白面对茫茫多的信息只能一边望洋兴叹，祈祷下一个看到的解决方案能稍微粘点边；一边对遇到的每行代码、每条命令追根究底，努力摆脱NOOB的身份。</p>
+    <content><![CDATA[<p><img src="https://blog-1256194686.cos.ap-shanghai.myqcloud.com/191024_struts.png" /></p>
+<center>
+贼难配的环境。学委甚至到快结课才配好……
+</center>
 <a id="more"></a>
+<p>CSDN——尤其是CSDN论坛，是好东西，也是坏东西。里面有许许多多大神分享有用的经验，但更多的是半吊子误人子弟，给出一些过时的、没用的建议。小白面对茫茫多的信息只能一边望洋兴叹，祈祷下一个看到的解决方案能稍微粘点边；一边对遇到的每行代码、每条命令追根究底，努力摆脱NOOB的身份。</p>
 <h1 id="环境">0. 环境</h1>
 <ul>
 <li>Tomcat 9.0</li>
@@ -923,7 +1195,11 @@ E\rightarrow E+E|E\times E
   <entry>
     <title>编写一个注册页面并使用JS函数校验</title>
     <url>/2019/10/11/%E7%BC%96%E5%86%99%E4%B8%80%E4%B8%AA%E6%B3%A8%E5%86%8C%E9%A1%B5%E9%9D%A2%E5%B9%B6%E4%BD%BF%E7%94%A8JS%E5%87%BD%E6%95%B0%E6%A0%A1%E9%AA%8C/</url>
-    <content><![CDATA[<a id="more"></a>
+    <content><![CDATA[<p><img src="https://blog-1256194686.cos.ap-shanghai.myqcloud.com/191011_JSsubmit.jpg" /></p>
+<center>
+实现了简单的参数传递与判断。不连接数据库。
+</center>
+<a id="more"></a>
 <p>首先新建一个Web Project，在WebRoot下新建一个html、一个js和一个css文件。将html自动生成的添加css文件的那段注释改成能用的，再添加<code>&lt;script type=&quot;text/javascript&quot; src=&quot;./js.js&quot;&gt;&lt;/script&gt;</code>引入js文件。</p>
 <p>body中就是一个表格，action是跳转，单击时希望使用js文件中的函数进行校验。</p>
 <p>在表单中加上<code>οnsubmit=&quot;return false;&quot;</code>可以阻止表单提交。但是对于如下的代码<code>οnsubmit=&quot;submitTest();&quot;</code>，如果提交表单时submitTest()返回false，实际情况是表单正常提交。原因在于如果这样写，相当于：</p>
@@ -977,10 +1253,12 @@ E\rightarrow E+E|E\times E
   <entry>
     <title>《城市：天际线》中的有用模组</title>
     <url>/2019/10/07/%E3%80%8A%E5%9F%8E%E5%B8%82%EF%BC%9A%E5%A4%A9%E9%99%85%E7%BA%BF%E3%80%8B%E4%B8%AD%E7%9A%84%E6%9C%89%E7%94%A8%E6%A8%A1%E7%BB%84/</url>
-    <content><![CDATA[<p><img src="https://blog-1256194686.cos.ap-shanghai.myqcloud.com/skyline.jpg" /></p>
-<p>本文记录好用的《发际线》模组。尽管即使打开蓝灯也无法在steam客户端和游戏内访问创意工房，但在浏览器中的订阅也可以立即生效。因此可以在游戏中打开游戏内浏览器，再将地址复制至浏览器进行订阅操作。</p>
-<p><strong>感谢所有模组的作者！</strong></p>
+    <content><![CDATA[<p><img src="https://blog-1256194686.cos.ap-shanghai.myqcloud.com/191007_skylinemod.jpg" /></p>
+<center>
+记录好用的《发际线》模组。感谢所有模组的作者！常年更新。
+</center>
 <a id="more"></a>
+<p>尽管即使打开蓝灯也无法在steam客户端和游戏内访问创意工房，但在浏览器中的订阅也可以立即生效。因此可以在游戏中打开游戏内浏览器，再将地址复制至浏览器进行订阅操作。</p>
 <h1 id="影响建造的模组">影响建造的模组</h1>
 <h2 id="fine-road-anarchy和fine-road-tool">fine road anarchy和fine road tool</h2>
 <p>前者屏蔽道路的碰撞判定。是极重要的前置模组。后者 强化了道路编辑模式下那个调整每次抬升高度的功能，点开后分为三行，除第一行保留原有功能外，第二行允许强制道路类型，第三行四个功能分别为取消道路角度限制、智能弯曲道路、自动吸附和道路与其它元素的无冲突（例如开启后升级道路不会挤没建筑）。</p>
@@ -1060,7 +1338,10 @@ E\rightarrow E+E|E\times E
   <entry>
     <title>Manjaro Linux因显卡驱动无法进入图形界面之处理方法</title>
     <url>/2019/09/30/Manjaro-Linux%E5%9B%A0%E6%98%BE%E5%8D%A1%E9%A9%B1%E5%8A%A8%E6%97%A0%E6%B3%95%E8%BF%9B%E5%85%A5%E5%9B%BE%E5%BD%A2%E7%95%8C%E9%9D%A2%E4%B9%8B%E5%A4%84%E7%90%86%E6%96%B9%E6%B3%95/</url>
-    <content><![CDATA[<p>因尝试更换显卡驱动为nVIDIA 430xx导致重启后无法进入图形界面，只是黑屏并在屏幕左上角显示一个光标。</p>
+    <content><![CDATA[<p><img src="https://blog-1256194686.cos.ap-shanghai.myqcloud.com/190930_bumblebee.jpg" /></p>
+<center>
+因尝试更换显卡驱动为nVIDIA 430xx导致重启后无法进入图形界面，只是黑屏并在屏幕左上角显示一个光标。
+</center>
 <a id="more"></a>
 <h1 id="环境">0. 环境</h1>
 <ul>
@@ -1118,7 +1399,11 @@ E\rightarrow E+E|E\times E
   <entry>
     <title>Manjaro Linux下配置MySQL并在MyEclipse中使用</title>
     <url>/2019/09/30/Manjaro-Linux%E4%B8%8B%E9%85%8D%E7%BD%AEMySQL%E5%B9%B6%E5%9C%A8MyEclipse%E4%B8%AD%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<a id="more"></a>
+    <content><![CDATA[<p><img src="https://blog-1256194686.cos.ap-shanghai.myqcloud.com/190930_mysql.png" /></p>
+<center>
+配合MyEclipse使用MySQL。
+</center>
+<a id="more"></a>
 <h1 id="环境">0. 环境</h1>
 <ul>
 <li>MyEclipse 2017 ci10</li>
@@ -1172,7 +1457,11 @@ E\rightarrow E+E|E\times E
   <entry>
     <title>Manjaro Linux下配置JSP开发环境</title>
     <url>/2019/09/26/Manjaro-Linux%E4%B8%8B%E9%85%8D%E7%BD%AEJSP%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</url>
-    <content><![CDATA[<a id="more"></a>
+    <content><![CDATA[<p><img src="https://blog-1256194686.cos.ap-shanghai.myqcloud.com/190926_myeclipse.png" /></p>
+<center>
+MyEclipse的安装。
+</center>
+<a id="more"></a>
 <h1 id="环境">0. 环境</h1>
 <ul>
 <li>Manjaro Linux 18.1.0</li>
@@ -1208,7 +1497,10 @@ E\rightarrow E+E|E\times E
   <entry>
     <title>Manjaro Linux主力机的安装与及基本环境配置</title>
     <url>/2019/09/23/Manjaro-Linux%E4%B8%BB%E5%8A%9B%E6%9C%BA%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E5%8F%8A%E5%9F%BA%E6%9C%AC%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/</url>
-    <content><![CDATA[<p>双显卡笔记本电脑写代码环境的全配置，包括VSCode、Hexo和日常软件。</p>
+    <content><![CDATA[<p><img src="https://blog-1256194686.cos.ap-shanghai.myqcloud.com/190923_manjaro.png" /></p>
+<center>
+双显卡笔记本电脑写代码环境的全配置，包括VSCode、Hexo和日常软件。
+</center>
 <a id="more"></a>
 <h1 id="环境">环境</h1>
 <p>本文时效性较强，许多配置方式会因软件的更新与迭代而发生变化。</p>
@@ -1396,9 +1688,11 @@ E\rightarrow E+E|E\times E
 <p>除默认配置外，有必要添加如下内容。</p>
 <p><code>categories:</code>，分级目录属性。与<code>tags</code>属性不同，其可以划分父子级关系。例如：</p>
 <figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="meta">---</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="attr">title:</span> <span class="string">怎么拿长老知识</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="string">...</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="attr">categories:</span>	</span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="bullet">-</span> <span class="string">游戏</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="bullet">-</span> <span class="string">遗迹：灰烬重生</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="string">...</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="meta">---</span></span></pre></td></tr></table></figure>
-<p>~~<code>thumbnail:</code>（如果主题支持文章封面），后跟图片链接即可。经测试，使用450*212的图片作为主题“Hueman”的封面可以获得比较好的画质，体积也只有20至30KB。~~之前用的Hueman，现在NexT不支持，散了吧。</p>
-<p><code>updated: 1569245658000</code>更新日期。</p>
 <p><code>&lt;!--more--&gt;</code>，此标签之后的部分将被隐藏，点进去才能看，对NexT很有用。</p>
+<p>~~<code>thumbnail:</code>（如果主题支持文章封面），后跟图片链接即可。经测试，使用450*212的图片作为主题“Hueman”的封面可以获得比较好的画质，体积也只有20至30KB。~~之前用的Hueman，现在NexT不支持，不过可以在<code>&lt;!--more--&gt;</code>前放，格式更随意，横向两百多像素效果就不错，接着用212吧，嗯，水的华氏温标沸点……算是个整数？</p>
+<p><code>updated: 1569245658000</code>更新日期。</p>
+<p>最终效果如下：</p>
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="meta">---</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="attr">title:</span> <span class="string">&#123;&#123;</span> <span class="string">title</span> <span class="string">&#125;&#125;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="attr">date:</span> <span class="string">&#123;&#123;</span> <span class="string">date</span> <span class="string">&#125;&#125;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="attr">updated:</span> <span class="string">&#123;&#123;</span> <span class="string">date</span> <span class="string">&#125;&#125;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="attr">tags:</span> </span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="attr">categories:</span> </span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="attr">mathjax:</span> <span class="literal">false</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="meta">---</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="string">![]()</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="string">&lt;center&gt;&lt;/center&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="string">&lt;!--more--&gt;</span></span></pre></td></tr></table></figure>
 <h3 id="站点的配置">站点的配置</h3>
 <p>在<code>blog/</code>有一<code>_config.yml</code>文件，其保存有站点相关的设置。</p>
 <p>开头是Site模块：</p>
@@ -1427,12 +1721,12 @@ E\rightarrow E+E|E\times E
 <figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">search:</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="attr">path:</span> <span class="string">search.xml</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="attr">field:</span> <span class="string">post</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="attr">format:</span> <span class="string">html</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="attr">limit:</span> <span class="number">10000</span></span></pre></td></tr></table></figure>
 <p>设置头像只需简单修改<code>Sidebar Avatar</code>字段。</p>
 <p>这个主题还提供了评论功能，有许多可选的服务提供商，不过没什么卵用。国内的要么倒闭了要么需要实名制，国外的又要扶墙……</p>
-<p>【更新】发现了一个比较好用的服务商，棒子的“来必力”<code>https://www.livere.com/</code>。只需正常步骤注册即可获得一段代码<del>，用此代码替换掉主题中的<code>layout/comment/livere.ejs</code>中的内容，再在主题配置文件中禁用<code>comment</code>项下的所有评论工具，在<code>comment</code>项外，比如上面一行添加<code>livere_uid: xxxxxxxx</code>，其中<code>xxxxxxx</code>为获取的代码中提供的UID。再将主题中的<code>layout/common/article.ejs</code>中最后一行<code>&lt;%- partial('comment/index') %&gt;</code>改为<code>&lt;%- partial('comment/livere') %&gt;</code>即可。</del>【更新】划去部分针对Hueman。NexT只需在主题配置文件下找到<code>livere_uid:</code>填上代码中的UID即可。</p>
+<p>【更新】发现了一个比较好用的服务商，棒子的“<a href="https://www.livere.com/" target="_blank" rel="noopener">来必力</a>”。只需正常步骤注册即可获得一段代码<del>，用此代码替换掉主题中的<code>layout/comment/livere.ejs</code>中的内容，再在主题配置文件中禁用<code>comment</code>项下的所有评论工具，在<code>comment</code>项外，比如上面一行添加<code>livere_uid: xxxxxxxx</code>，其中<code>xxxxxxx</code>为获取的代码中提供的UID。再将主题中的<code>layout/common/article.ejs</code>中最后一行<code>&lt;%- partial('comment/index') %&gt;</code>改为<code>&lt;%- partial('comment/livere') %&gt;</code>即可。</del>【更新】划去部分针对Hueman。NexT只需在主题配置文件下找到<code>livere_uid:</code>填上代码中的UID即可。</p>
 <p>添加网站访问数统计只需在<code>xx-analysis</code>项添加从分析网站比如百度分析、谷歌分析等等网站获得的哈希值即可。注册帐号后根据提示操作即可获得一段JS代码，哈希值在其中。但这类网站只能站主登录进去查看自己网站的访问情况。若想在网站中显示访问数，可使用<a href="http://ibruce.info/2015/04/04/busuanzi/" target="_blank" rel="noopener">不算子</a><del>，注意<code>footer</code>文件的位置可能与官方描述有差别。不蒜子自身只提供标签与数字，具体内容由用户编辑。使用官方给出的简易程序对<code>footer</code>做如下修改将统计显示在页脚：</del>【更新】划去部分针对Hueman，Next集成不算子，只需调整<code>busuanzi_count</code>项即可。</p>
 <p>如果想要开启RSS订阅，首先需要安装RSS插件<code>npm install hexo-generator-feed --save</code>，并在站点配置文件中添加RSS支持：</p>
 <figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># RSS订阅支持</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="attr">plugin:</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">  <span class="bullet">-</span> <span class="string">hexo-generator-feed</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="attr">feed:</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">  <span class="attr">type:</span> <span class="string">atom</span>                <span class="comment">#RSS的类型(atom/rss2)</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">  <span class="attr">path:</span> <span class="string">atom.xml</span>            <span class="comment">#文件路径,默认atom.xml/rss2.xml</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">  <span class="attr">limit:</span> <span class="number">20</span>                 <span class="comment">#展示文章的数量,0或false展示全部</span></span></pre></td></tr></table></figure>
 <p>最后将主题配置文件中的<code>rss</code>项改为<code>rss: /atom.xml</code>可开启RSS订阅，可在<code>public/</code>见<code>atom.xml</code>。</p>
-<p>字体配置：找到<code>font</code>并启用，这样就可以自定义字体怎么用而不是通过默认的谷歌字库外链加载默认字体。所有选项置空即可，用户装的啥字体就显示啥字体，但是注意<code>code</code>要以等宽字体显示所以需要设置为等宽字体，如“Courier New”。可选择字库外链，但置空默认使用谷歌只加载代码块一个字体还是挺快的。</p>
+<p>字体配置先找到<code>font</code>并启用，这样就可以自定义字体怎么用而不是通过默认的谷歌字库外链加载默认字体。全局设置使用思源黑体，谷歌和奥多比联合开发，品质保证！<code>code</code>要以等宽字体显示所以需要设置为等宽字体，“Fira Code”虽然样子只能说还行，但提供了极好的连字模式，如果只是想表示<span class="math inline">\(\rightarrow\)</span>之类可以直接代码块<code>-&gt;</code>，非常方便。缺点是会给读者造成误解，管它呢，这破博客本身就是写了自嗨的。可选择字库外链，中科大的地址是<code>//fonts.lug.ustc.edu.cn</code>，速度勉强，偶尔会崩。</p>
 <h3 id="部署至github">部署至GitHub</h3>
 <p>安装hexo的插件：<code>npm install hexo-deployer-git --save</code>。</p>
 <p>在github中建立一个以自己名字命名的仓库，建好后将<code>_config.yml</code>中的`deploy项替换为：</p>
@@ -1447,14 +1741,15 @@ E\rightarrow E+E|E\times E
 <p>在主题配置文件中开启“mathjax”一项为<code>true</code>即可使用LaTex语法，某些主题可能还需要将“math”开启，可选择是每个页面都开启还是需要手动开启。</p>
 <p>注意，与正常使用Markdown不同，Hexo不支持LaTex，mathjax并非对<code>.md</code>渲染，而是渲染Hexo生成的Html。因此要确保Hexo不会误将LaTex标记渲染为Html标签。一种方法是在公式块中使用Markdown语法符号时使用转义，更一劳永逸的方法是更换Hexo的渲染引擎。</p>
 <p>默认的渲染引擎“hexo-renderer-marked”可通过<code>npm uninstall hexo-renderer-marked --save</code>卸载，<code>npm install hexo-renderer-pandoc --save</code>，即可更换成另一个表现较好的引擎。与许多人推荐的<code>npm install hexo-renderer-kramed --save</code>相比，该引擎表现更好，无需额外修改一些配置文件。</p>
+<p>【更新】发现无法渲染形如<span class="math inline">\(\xRightarrow[aaa]{bbb}\)</span>的格式。暂时用<span class="math inline">\(\Rightarrow_{aaa}^{bbb} \Rightarrow\)</span>这样子代替。</p>
 <h3 id="看板娘">看板娘</h3>
 <p>可以使用 Live 2D 为博客增添一个 2D 角色。</p>
 <p>首先检查<code>package.json</code>里是否已安装<code>&quot;hexo-helper-live2d&quot;</code>，有的话可以先<code>npm uninstall hexo-helper-live2d</code>，官方称“THIS PACKAGE IS DEPRECATED BECAUSE IT WON'T ADD DEPENDENCIES ON YOUR PRODUCTION ENVIRONMENT”。</p>
 <p>安装<code>npm install --save hexo-helper-live2d</code>后<code>node_moduels/</code>会生成配置文件夹<code>live2d-widget</code>。</p>
 <p><code>https://github.com/xiazeyu/live2d-widget-models.git</code>提供了可用的模型，前缀为<code>live2d-widget-model-haru</code>的模型需要<code>npm install live2d-widget-model-haru</code>支持。</p>
 <p>以一只黑猫的模型为例，<code>npm install live2d-widget-model-hijiki</code>后配置博客站点配置文件<code>_config.yml</code>，添加：</p>
-<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">live2d:</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">  <span class="attr">pluginModelPath:</span> <span class="string">assets/</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">  <span class="attr">model:</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="attr">use:</span> <span class="string">live2d-widget-model-hijiki</span>  <span class="comment">#模板目录，在node_modules里</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">  <span class="attr">display:</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="attr">position:</span> <span class="string">right</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="attr">width:</span> <span class="number">150</span> </span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="attr">height:</span> <span class="number">300</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">  <span class="attr">mobile:</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="attr">show:</span> <span class="literal">false</span>  <span class="comment">#是否在手机进行显示</span></span></pre></td></tr></table></figure>
-<p>即可。</p>
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">live2d:</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">  <span class="attr">pluginModelPath:</span> <span class="string">assets/</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">  <span class="attr">model:</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="attr">use:</span> <span class="string">live2d-widget-model-hijiki</span>  <span class="comment">#模板目录，在node_modules里</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">  <span class="attr">display:</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="attr">position:</span> <span class="string">right</span> <span class="comment">#位置只能调上下和靠左靠右 具体多靠左多靠右不能调</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="attr">width:</span> <span class="number">200</span> <span class="comment">#大小</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="attr">height:</span> <span class="number">290</span> <span class="comment">#上下位置</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">  <span class="attr">mobile:</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="attr">show:</span> <span class="literal">false</span>  <span class="comment">#是否在手机进行显示</span></span></pre></td></tr></table></figure>
+<p>即可。这个位置大小是NexT的那个两栏的模式+黑猫我精心调之后觉得最合适的。</p>
 <h1 id="尾声">尾声</h1>
 <p>完成以上配置后的manjaro已经可以正常使用了。可以从<code>优化</code>中设置GNOME桌面的样式——不过默认外观已经很好看了，但是在<code>拓展</code>中可以启用GNOME的一些有用插件，例如显示在上方工具条中的许多有用工具。</p>
 <p>Windows系统中的字体可以直接拿过来安装，非常方便；如果只是在Libre Office下用的话只拷贝到<code>～/.config/libreoffice/4/user/fonts</code>下也可以在Libre Office中用。如果没有fonts目录新建即可。</p>
