@@ -1,8 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>贰・词法分析</title>
+    <url>/2019/12/10/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/%E8%B4%B0%E3%83%BB%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/</url>
+    <content><![CDATA[<p><img src="" /></p>
+<center>
+</center>
+<a id="more"></a>
+]]></content>
+      <categories>
+        <category>深蓝</category>
+        <category>编译原理</category>
+      </categories>
+      <tags>
+        <tag>编译原理</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>壹・文法与语言</title>
+    <url>/2019/12/10/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/%E5%A3%B9%E3%83%BB%E6%96%87%E6%B3%95%E4%B8%8E%E8%AF%AD%E8%A8%80/</url>
+    <content><![CDATA[<p><img src="" /></p>
+<center>
+文法的相关概念、语言的分类、语法树。
+</center>
+<a id="more"></a>
+<h1 id="文法">文法</h1>
+<p>文法<code>G[S]</code>是一个四元组<code>(非终结符集合,终结符集合,重写规则集合,属于非终结符集合的识别符号S)</code>。</p>
+<h1 id="使用文法产生语言">使用文法产生语言</h1>
+<p>一串字汇集（非终结符集合并终结符集合）符号由重写规则进行重写的过程叫推导。</p>
+<p>由识别符能推导出来的符号串叫句型。如果这里的符号都是终结符，就叫句子。</p>
+<p>一个文法描述的语言为其推导出的句子集合。两文法等价当且仅当其能推导出的句子集合相等。</p>
+<p>给定一个文法，则可唯一地确定其语言；给定一语言，可不唯一地确定其文法。</p>
+<h1 id="使用其它方式描述语言">使用其它方式描述语言</h1>
+<p>正则表达式之类的方法。</p>
+<h1 id="文法和语言的分类chomsky语言分类法">文法和语言的分类——Chomsky语言分类法</h1>
+<ul>
+<li>0型语言：没什么要求，基本是个文法生成的都是。等价于图灵机。</li>
+<li>1型语言：在0型语言的基础上，其文法之任一产生式之右部式长度有限。等价于线性有界自动机。</li>
+<li>2型语言：在1型语言的基础上，其文法之任一产生式之左部式仅有一非终结符。这意味着规约一个非终结符时无需考虑它前后是啥玩意，称为上下文无关文法。等价于下推自动机。</li>
+<li>3型语言：在2型语言的基础上，所有产生式均形如<code>A-&gt;aB|a</code>或所有产生式均形如<code>A-&gt;Ba|a</code>，等价于有限状态自动机。</li>
+</ul>
+<h1 id="推导与语法树">推导与语法树</h1>
+<p>最左或最右推导（每次推导均队最左或最右的非终结符应用重写规则）生成的句型叫最左或最右句型。反过来有最左最右规约。最早被研究的是最右推导，所以规范推导指的是这玩意；分析程序时都是从左往右读所以是先规约左边，所以规范规约指的是这玩意。</p>
+<p>不管你咋推导，只要得到了同一个句子，那语法树就应该是一样的，否则说明这个句子有二义性，生成这个句子的文法就叫二义性文法。</p>
+<p>不能仅根据文法本身判断它是否有二义性。</p>
+<h1 id="句型分析与语法树">句型分析与语法树</h1>
+<p>给定一个符号串，判断它是否是某个文法的句型，这个过程叫句型分析。</p>
+<p>一般有两种技术：</p>
+<ul>
+<li>自顶向下：从识别符号出发，尝试推导出相同的符号串。问题在于，同一个左部符号可能有多个产生式，推导的时候该应用哪个？</li>
+<li>自底向上：从输入串出发，尝试规约到识别符号。问题在于，同样的右部串可能可以规约到多个左部符号，规约到哪个？</li>
+</ul>
+<p>对一棵语法树，每一棵子树（与数据结构上不同，这里叶子不算子树）的叶子构成的串叫一个短语，这意味着它们能被规约到这棵子树的根的符号。只有一层的子树的叶子构成的串叫简单短语，这意味着一次规约就能把它规约到根的符号。最左的简单短语叫句柄，规范规约中将首先被规约。</p>
+]]></content>
+      <categories>
+        <category>深蓝</category>
+        <category>编译原理</category>
+      </categories>
+      <tags>
+        <tag>编译原理</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>〇・编译原理总论</title>
+    <url>/2019/12/10/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/%E3%80%87%E3%83%BB%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E6%80%BB%E8%AE%BA/</url>
+    <content><![CDATA[<p><img src="" /></p>
+<center>
+编译程序的基本组成与相关概念。
+</center>
+<a id="more"></a>
+<h1 id="编译程序的功能">编译程序的功能</h1>
+<p>把高级语言翻译为等价的低级语言。</p>
+<h1 id="编译程序的组成">编译程序的组成</h1>
+<p>编译程序接受一个字符流的源程序的输入。</p>
+<p>字符流送<strong>词法分析模块</strong>进行词法<strong>分析</strong>。词法分析模块将从左至右扫描字符流，由词法规则识别出最小的语法单位即<strong>单词</strong>，将其转换为编译程序内部的符号表示，得到单词流。</p>
+<p>单词流送送<strong>语法分析模块</strong>进行语法<strong>分析</strong>。语法分析模块由语法规则识别语法结构，生成一种语法的内部表示，如语法树、三元组或四元组等。同时检查语法正确性。</p>
+<p>前面得到的语法结构送<strong>语义分析模块</strong>和<strong>中间代码生成模块</strong>进行语义<strong>分析</strong>与<strong>综合</strong>，进行静态语法检查、变量类型的确定与检查等，并生成中间代码。</p>
+<p>以上模块称为编译程序的前端。</p>
+<p>中间代码送<strong>中间代码优化模块</strong>，得到优化后的中间代码。</p>
+<p>以上模块为中端。</p>
+<p>优化后的中间代码送<strong>目标代码生成模块</strong>和<strong>目标代码优化模块</strong>，生成目标代码。</p>
+<p>以上模块为后端。</p>
+<p>除以上模块外，还有<strong>符号表管理模块</strong>，全程收集每个名字的各种属性；<strong>错误处理模块</strong>，负责报告错误并尝试从错误中恢复。</p>
+<h1 id="遍">“遍”</h1>
+<p>编译程序中有个叫“遍”或者“趟”（passes或phases）的概念，指从头到尾扫描一遍某种代码形式，并将之转换到另一代码空间（包含代码和一些额外信息如符号表等）。</p>
+<p>“遍”的概念使程序结构更清楚，把哪些功能做成一个遍之类。一个编译程序的结构组织取决于其对各“遍”的组织，例如是单遍还是多遍？多个遍是顺序执行（通常如此）还是并发执行？</p>
+<h1 id="编译程序的伙伴程序">编译程序的伙伴程序</h1>
+<h2 id="预处理程序">预处理程序</h2>
+<p>将宏定义（<code>#define</code>）、支持文件（<code>#include</code>）等替换为更复杂的源程序扩展信息。</p>
+<h2 id="汇编程序">汇编程序</h2>
+<p>将编译程序给出的汇编代码转换为可重定位的机器语言程序。</p>
+<h2 id="装入和连接程序">装入和连接程序</h2>
+<p>为可重定位的机器语言程序装载执行时库，生成可执行程序。</p>
+<h1 id="编译程序的相关程序">编译程序的相关程序</h1>
+<p>高级语言分编译型和解释性，后者对应解释程序。编译程序读入源程序，输出目标程序，目标程序读入程序输入，输出结果。而解释程序读入源程序和程序输入，输出结果。它不产生目标程序文件、翻译一句执行一句，执行时解释程序依旧在守护，也就是不区分翻译与执行。常用于虚拟机。</p>
+]]></content>
+      <categories>
+        <category>深蓝</category>
+        <category>编译原理</category>
+      </categories>
+      <tags>
+        <tag>编译原理</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Manjaro Linux下配置DosBox+MASM汇编环境</title>
-    <url>/2019/11/24/Manjaro-Linux%E4%B8%8B%E9%85%8D%E7%BD%AEDosBox-MASM%E6%B1%87%E7%BC%96%E7%8E%AF%E5%A2%83/</url>
+    <url>/2019/11/24/%E6%88%8F%E6%B3%95/Manjaro-Linux%E4%B8%8B%E9%85%8D%E7%BD%AEDosBox-MASM%E6%B1%87%E7%BC%96%E7%8E%AF%E5%A2%83/</url>
     <content><![CDATA[<p><img src="https://blog-1256194686.cos.ap-shanghai.myqcloud.com/191124_masm.png" /></p>
 <center>
 坑待填
@@ -95,7 +198,7 @@
   </entry>
   <entry>
     <title>有关摆脱祸乱之源的尝试</title>
-    <url>/2019/11/11/%E6%9C%89%E5%85%B3%E6%91%86%E8%84%B1%E7%A5%B8%E4%B9%B1%E4%B9%8B%E6%BA%90%E7%9A%84%E5%B0%9D%E8%AF%95/</url>
+    <url>/2019/11/11/%E5%85%B6%E5%AE%83/%E6%9C%89%E5%85%B3%E6%91%86%E8%84%B1%E7%A5%B8%E4%B9%B1%E4%B9%8B%E6%BA%90%E7%9A%84%E5%B0%9D%E8%AF%95/</url>
     <content><![CDATA[<p><img src="https://blog-1256194686.cos.ap-shanghai.myqcloud.com/191111_atropos.jpg" /></p>
 <center>
 早睡早起的那些事。
@@ -116,8 +219,10 @@
 <h2 id="计划">1.3. 计划</h2>
 <p>睡午觉可能是导致晚上难以迅速入睡的重要原因，大约从高一或略微更早养成的这个习惯，考虑戒掉。其实从三五天前起就开始强制自己不睡午觉了——上课也不睡——目前感受不太好，尤其是下午的课，别说听课，连网络小说都看不太懂了，晚上会有好转，写写作业看看书的智力水平勉强能保持。再过一段时间看看。</p>
 <p><strong>【W+1】</strong>好像现在影响不大了。但还是有影响而且想睡。试试中午看人文社科类的书。</p>
+<p><strong>【W+3】</strong>这两周中午泡茶喝+刷B站，下午好多了。</p>
 <p>不睡午觉的话晚上的睡眠时间可能需要相应增加。暂且尝试11点前出现在床上，如果不睡午觉达成了晚上可以快速入眠的目的的话就是可以睡7个半到八个小时，早晨早起些，把晚上刷B站放在早晨，也算是刺激刺激大脑。</p>
 <p>另外有人整天讲什么蓝光什么褪黑素什么的，强烈怀疑是为了卖保健品。听说蓝色可以使人冷静而理性，所以码代码时把编辑器调成深蓝色背景，蓝色够多吧抑制褪黑素吧，照样困。</p>
+<p><strong>【W+3】</strong>首长呼吁早睡早起，十点睡六点起那种的早。NB。</p>
 <h1 id="饮食">2. 饮食</h1>
 <h2 id="概况">2.1. 概况</h2>
 <p>早餐10点吃（起得晚来不及只能抽课间），1点以后吃午餐（人少不用排队）。晚餐5点到7点间吃，内容都是食堂标配。</p>
@@ -126,6 +231,8 @@
 <p>有一些人提到饮食的影响，尤其是具体到午睡时比较常见的说法是“中国人午餐吃米高碳水血糖高所以下午困”，早餐上的建议与之类似，也是高蛋白低碳水啥啥啥的。另外也有讨论高油盐、喝水少的影响的。</p>
 <p>高碳水、高油盐这些问题几乎不可能解决，食堂里能顶饱的也就是米饭了，而肉类主要是炸鸡腿、炸鸡排、炸鸡块，少见的家常做法的肉通常比较咸。另外——某些人每顿饭都强调要低碳水、高蛋白——这是不把膳食指南放在眼里吗？</p>
 <p>多喝水是容易做到的。另外可以一定程度上考虑早晨和中午时减少碳水摄入以期在下午获得更好的表现。</p>
+<p><strong>【W+3】</strong>尝试早晨一杯（两勺）UCC117。</p>
+<p><strong>【W+4】</strong>好像没什么卵用，可能还有反效果？百度说缺维B影响咖啡效果，抽空整一瓶试试。</p>
 <p>考虑早餐分开两次在8点和10点吃茶鸡蛋，午餐以肉类为主，已屯三箱王光烧牛肉，晚餐照常。</p>
 <p><strong>【W+1】</strong>午餐只吃肉胃受不了，挺难受的。王光烧牛肉的油冬天会冻成粉状，超级恶心。</p>
 <p>保持吃水果的习惯，另外临睡加一包奶。</p>
@@ -136,8 +243,10 @@
 <h2 id="计划-2">3.2. 计划</h2>
 <p>把每天晚上刷B站的时间用来跑步试试。</p>
 <p><strong>【W+1】</strong>也不一定跑步，总之晚上不要娱乐，放在早晨起来不太清醒的时候加速清醒。</p>
+<p><strong>【W+4】</strong>这几周几乎没达成这一条件，不过采取前几条措施睡眠已明显改善，说明所谓什么蓝光真的没啥影响。保护视力起见，争取早日养成睡前不玩手机的习惯。</p>
 ]]></content>
       <categories>
+        <category>其它</category>
         <category>柴米</category>
       </categories>
   </entry>
@@ -161,7 +270,7 @@
   </entry>
   <entry>
     <title>Struts2中Action的几种传值方式</title>
-    <url>/2019/11/07/Struts2%E4%B8%ADAction%E7%9A%84%E5%87%A0%E7%A7%8D%E4%BC%A0%E5%80%BC%E6%96%B9%E5%BC%8F/</url>
+    <url>/2019/11/07/%E8%A1%A8%E4%B8%96%E7%95%8C/Struts2%E4%B8%ADAction%E7%9A%84%E5%87%A0%E7%A7%8D%E4%BC%A0%E5%80%BC%E6%96%B9%E5%BC%8F/</url>
     <content><![CDATA[<p><img src="https://blog-1256194686.cos.ap-shanghai.myqcloud.com/191107_struts2trans.jpg" /></p>
 <center>
 struts2中，传统的servlet中的request和response传递参数法仍可使用（但略有不同），并且增加了船新的传值方式。
@@ -212,7 +321,7 @@ struts2中，传统的servlet中的request和response传递参数法仍可使用
   </entry>
   <entry>
     <title>Struts2中Action的几种Result</title>
-    <url>/2019/11/02/Struts2%E4%B8%ADAction%E7%9A%84%E5%87%A0%E7%A7%8DResult/</url>
+    <url>/2019/11/02/%E8%A1%A8%E4%B8%96%E7%95%8C/Struts2%E4%B8%ADAction%E7%9A%84%E5%87%A0%E7%A7%8DResult/</url>
     <content><![CDATA[<p><img src="https://blog-1256194686.cos.ap-shanghai.myqcloud.com/191102_struts2action.png" /></p>
 <center>
 action跳转至页面、URL或另一个action。
@@ -273,7 +382,7 @@ action跳转至页面、URL或另一个action。
   </entry>
   <entry>
     <title>自底向上语法分析</title>
-    <url>/2019/10/28/%E8%87%AA%E5%BA%95%E5%90%91%E4%B8%8A%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90/</url>
+    <url>/2019/10/28/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/%E8%87%AA%E5%BA%95%E5%90%91%E4%B8%8A%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90/</url>
     <content><![CDATA[<p><img src="https://blog-1256194686.cos.ap-shanghai.myqcloud.com/191028_ZiDiXlUhYuFaFfXi.png" /></p>
 <center>
 优先分析法和LR(0)、SLR(1)、LR(1)三种LR分析法。
@@ -1133,7 +1242,7 @@ E\rightarrow E+E|E\times E
   </entry>
   <entry>
     <title>在MyEclipse中使用Struts框架</title>
-    <url>/2019/10/24/%E5%9C%A8MyEclipse%E4%B8%AD%E4%BD%BF%E7%94%A8Struts%E6%A1%86%E6%9E%B6/</url>
+    <url>/2019/10/24/%E6%88%8F%E6%B3%95/%E5%9C%A8MyEclipse%E4%B8%AD%E4%BD%BF%E7%94%A8Struts%E6%A1%86%E6%9E%B6/</url>
     <content><![CDATA[<p><img src="https://blog-1256194686.cos.ap-shanghai.myqcloud.com/191024_struts.png" /></p>
 <center>
 贼难配的环境。学委甚至到快结课才配好……
@@ -1194,7 +1303,7 @@ E\rightarrow E+E|E\times E
   </entry>
   <entry>
     <title>编写一个注册页面并使用JS函数校验</title>
-    <url>/2019/10/11/%E7%BC%96%E5%86%99%E4%B8%80%E4%B8%AA%E6%B3%A8%E5%86%8C%E9%A1%B5%E9%9D%A2%E5%B9%B6%E4%BD%BF%E7%94%A8JS%E5%87%BD%E6%95%B0%E6%A0%A1%E9%AA%8C/</url>
+    <url>/2019/10/11/%E8%A1%A8%E4%B8%96%E7%95%8C/%E7%BC%96%E5%86%99%E4%B8%80%E4%B8%AA%E6%B3%A8%E5%86%8C%E9%A1%B5%E9%9D%A2%E5%B9%B6%E4%BD%BF%E7%94%A8JS%E5%87%BD%E6%95%B0%E6%A0%A1%E9%AA%8C/</url>
     <content><![CDATA[<p><img src="https://blog-1256194686.cos.ap-shanghai.myqcloud.com/191011_JSsubmit.jpg" /></p>
 <center>
 实现了简单的参数传递与判断。不连接数据库。
@@ -1224,7 +1333,7 @@ E\rightarrow E+E|E\times E
   </entry>
   <entry>
     <title>Manjaro Linux下配置JS&amp;jQuery开发环境</title>
-    <url>/2019/10/11/Manjaro-Linux%E4%B8%8B%E9%85%8D%E7%BD%AEJS-jQuery%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</url>
+    <url>/2019/10/11/%E6%88%8F%E6%B3%95/Manjaro-Linux%E4%B8%8B%E9%85%8D%E7%BD%AEJS-jQuery%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</url>
     <content><![CDATA[<p><img src="https://blog-1256194686.cos.ap-shanghai.myqcloud.com/191011_spket.jpg" /></p>
 <center>
 之前的JSP环境直接就可以拿来写JS,但是并没有语法提示等,因此需要装个插件解决这个问题。
@@ -1249,14 +1358,14 @@ E\rightarrow E+E|E\times E
         <category>戏法</category>
       </categories>
       <tags>
-        <tag>MyEclipse</tag>
         <tag>JavaScript</tag>
+        <tag>MyEclipse</tag>
         <tag>jQuery</tag>
       </tags>
   </entry>
   <entry>
     <title>《城市：天际线》中的有用模组</title>
-    <url>/2019/10/07/%E3%80%8A%E5%9F%8E%E5%B8%82%EF%BC%9A%E5%A4%A9%E9%99%85%E7%BA%BF%E3%80%8B%E4%B8%AD%E7%9A%84%E6%9C%89%E7%94%A8%E6%A8%A1%E7%BB%84/</url>
+    <url>/2019/10/07/%E5%85%B6%E5%AE%83/%E3%80%8A%E5%9F%8E%E5%B8%82%EF%BC%9A%E5%A4%A9%E9%99%85%E7%BA%BF%E3%80%8B%E4%B8%AD%E7%9A%84%E6%9C%89%E7%94%A8%E6%A8%A1%E7%BB%84/</url>
     <content><![CDATA[<p><img src="https://blog-1256194686.cos.ap-shanghai.myqcloud.com/191007_skylinemod.jpg" /></p>
 <center>
 记录好用的《发际线》模组。感谢所有模组的作者！常年更新。
@@ -1332,6 +1441,7 @@ E\rightarrow E+E|E\times E
 <p>在左下方问号图标旁提供一个加号图标，可将下方道具栏展开后的状态由显示一行提升为三行。</p>
 ]]></content>
       <categories>
+        <category>其它</category>
         <category>丧志</category>
         <category>城市：天际线</category>
       </categories>
@@ -1341,7 +1451,7 @@ E\rightarrow E+E|E\times E
   </entry>
   <entry>
     <title>Manjaro Linux因显卡驱动无法进入图形界面之处理方法</title>
-    <url>/2019/09/30/Manjaro-Linux%E5%9B%A0%E6%98%BE%E5%8D%A1%E9%A9%B1%E5%8A%A8%E6%97%A0%E6%B3%95%E8%BF%9B%E5%85%A5%E5%9B%BE%E5%BD%A2%E7%95%8C%E9%9D%A2%E4%B9%8B%E5%A4%84%E7%90%86%E6%96%B9%E6%B3%95/</url>
+    <url>/2019/09/30/%E6%88%8F%E6%B3%95/Manjaro-Linux%E5%9B%A0%E6%98%BE%E5%8D%A1%E9%A9%B1%E5%8A%A8%E6%97%A0%E6%B3%95%E8%BF%9B%E5%85%A5%E5%9B%BE%E5%BD%A2%E7%95%8C%E9%9D%A2%E4%B9%8B%E5%A4%84%E7%90%86%E6%96%B9%E6%B3%95/</url>
     <content><![CDATA[<p><img src="https://blog-1256194686.cos.ap-shanghai.myqcloud.com/190930_bumblebee.jpg" /></p>
 <center>
 因尝试更换显卡驱动为nVIDIA 430xx导致重启后无法进入图形界面，只是黑屏并在屏幕左上角显示一个光标。
@@ -1402,7 +1512,7 @@ E\rightarrow E+E|E\times E
   </entry>
   <entry>
     <title>Manjaro Linux下配置MySQL并在MyEclipse中使用</title>
-    <url>/2019/09/30/Manjaro-Linux%E4%B8%8B%E9%85%8D%E7%BD%AEMySQL%E5%B9%B6%E5%9C%A8MyEclipse%E4%B8%AD%E4%BD%BF%E7%94%A8/</url>
+    <url>/2019/09/30/%E6%88%8F%E6%B3%95/Manjaro-Linux%E4%B8%8B%E9%85%8D%E7%BD%AEMySQL%E5%B9%B6%E5%9C%A8MyEclipse%E4%B8%AD%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<p><img src="https://blog-1256194686.cos.ap-shanghai.myqcloud.com/190930_mysql.png" /></p>
 <center>
 配合MyEclipse使用MySQL。
@@ -1460,7 +1570,7 @@ E\rightarrow E+E|E\times E
   </entry>
   <entry>
     <title>Manjaro Linux下配置JSP开发环境</title>
-    <url>/2019/09/26/Manjaro-Linux%E4%B8%8B%E9%85%8D%E7%BD%AEJSP%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</url>
+    <url>/2019/09/26/%E6%88%8F%E6%B3%95/Manjaro-Linux%E4%B8%8B%E9%85%8D%E7%BD%AEJSP%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</url>
     <content><![CDATA[<p><img src="https://blog-1256194686.cos.ap-shanghai.myqcloud.com/190926_myeclipse.png" /></p>
 <center>
 MyEclipse的安装。
@@ -1500,7 +1610,7 @@ MyEclipse的安装。
   </entry>
   <entry>
     <title>Manjaro Linux主力机的安装与及基本环境配置</title>
-    <url>/2019/09/23/Manjaro-Linux%E4%B8%BB%E5%8A%9B%E6%9C%BA%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E5%8F%8A%E5%9F%BA%E6%9C%AC%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/</url>
+    <url>/2019/09/23/%E6%88%8F%E6%B3%95/Manjaro-Linux%E4%B8%BB%E5%8A%9B%E6%9C%BA%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E5%8F%8A%E5%9F%BA%E6%9C%AC%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/</url>
     <content><![CDATA[<p><img src="https://blog-1256194686.cos.ap-shanghai.myqcloud.com/190923_manjaro.png" /></p>
 <center>
 双显卡笔记本电脑写代码环境的全配置，包括VSCode、Hexo和日常软件。
@@ -1696,7 +1806,7 @@ MyEclipse的安装。
 <p>~~<code>thumbnail:</code>（如果主题支持文章封面），后跟图片链接即可。经测试，使用450*212的图片作为主题“Hueman”的封面可以获得比较好的画质，体积也只有20至30KB。~~之前用的Hueman，现在NexT不支持，不过可以在<code>&lt;!--more--&gt;</code>前放，格式更随意，横向两百多像素效果就不错，接着用212吧，嗯，水的华氏温标沸点……算是个整数？</p>
 <p><code>updated: 1569245658000</code>更新日期。</p>
 <p>最终效果如下：</p>
-<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="meta">---</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="attr">title:</span> <span class="string">&#123;&#123;</span> <span class="string">title</span> <span class="string">&#125;&#125;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="attr">date:</span> <span class="string">&#123;&#123;</span> <span class="string">date</span> <span class="string">&#125;&#125;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="attr">updated:</span> <span class="string">&#123;&#123;</span> <span class="string">date</span> <span class="string">&#125;&#125;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="attr">tags:</span> </span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="attr">categories:</span> </span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="attr">mathjax:</span> <span class="literal">false</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="meta">---</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="string">![]()</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="string">&lt;center&gt;&lt;/center&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="string">&lt;!--more--&gt;</span></span></pre></td></tr></table></figure>
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="meta">---</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="attr">title:</span> <span class="string">&#123;&#123;</span> <span class="string">title</span> <span class="string">&#125;&#125;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="attr">mathjax:</span> <span class="literal">false</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="attr">date:</span> <span class="string">&#123;&#123;</span> <span class="string">date</span> <span class="string">&#125;&#125;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="attr">updated:</span> <span class="string">&#123;&#123;</span> <span class="string">date</span> <span class="string">&#125;&#125;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="attr">tags:</span> </span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="bullet">-</span> </span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="attr">categories:</span> </span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="bullet">-</span> </span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="meta">---</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="string">![]()</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="string">&lt;center&gt;&lt;/center&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="string">&lt;!--more--&gt;</span></span></pre></td></tr></table></figure>
 <h3 id="站点的配置">站点的配置</h3>
 <p>在<code>blog/</code>有一<code>_config.yml</code>文件，其保存有站点相关的设置。</p>
 <p>开头是Site模块：</p>
