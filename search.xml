@@ -1,8 +1,317 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>贰・词法分析</title>
-    <url>/2019/12/10/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/%E8%B4%B0%E3%83%BB%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/</url>
+    <title>Struts2基础知识</title>
+    <url>/2019/12/16/%E8%A1%A8%E4%B8%96%E7%95%8C/Struts2/Structs2%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</url>
+    <content><![CDATA[<p><img src="" /></p>
+<center>
+</center>
+<a id="more"></a>
+<h1 id="struts2对请求的基本处理流程及相关配置文件">Struts2对请求的基本处理流程及相关配置文件</h1>
+<p>Web应用项目启动时会先加载<code>Web.xml</code>配置文件，通过里面指定的过滤器拦截请求，因此开发Struts框架Web应用项目，首先在项目配置文件web.xml中增加核心过滤器配置：</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">filter</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>struts2<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="tag">&lt;<span class="name">filter-class</span>&gt;</span>org.apache.struts2.dispatcher.FilterDispatcher<span class="tag">&lt;/<span class="name">filter-class</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="tag">&lt;/<span class="name">filter</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">filter-mapping</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>struts2<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/*<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="tag">&lt;/<span class="name">filter-mapping</span>&gt;</span></span></pre></td></tr></table></figure>
+<p>符合过滤要求的请求将由<code>struts.xml</code>中配置的Struts2拦截器拦截。</p>
+<p>自定义拦截器的基类一般是Interceptor，一般至少包括<code>init()</code>、<code>destroy()</code>和<code>intercept()</code>三个函数。在拦截函数中通过<code>invocation.invok()</code>调用Action，程序流转至Action。</p>
+<p>例如如下自定义拦截器：</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">package</span> <span class="attr">name</span>=<span class="string">"itcast"</span> <span class="attr">namespace</span>=<span class="string">"/test"</span> <span class="attr">extends</span>=<span class="string">"struts-default"</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="tag">&lt;<span class="name">interceptors</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">		<span class="tag">&lt;<span class="name">interceptor</span> <span class="attr">name</span>=<span class="string">"定义的拦截器名字"</span> <span class="attr">class</span>=<span class="string">"定义的拦截器类文件"</span>/&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">		<span class="tag">&lt;<span class="name">interceptor-stack</span> <span class="attr">name</span>=<span class="string">"定义的拦截器堆栈名字"</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">			<span class="comment">&lt;!--以下给出拦截器堆栈包含的拦截器--&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">			<span class="tag">&lt;<span class="name">interceptor-ref</span> <span class="attr">name</span>=<span class="string">"defaultStack"</span> /&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">			<span class="tag">&lt;<span class="name">interceptor-ref</span> <span class="attr">name</span>=<span class="string">"定义的拦截器名字"</span> /&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">		<span class="tag">&lt;/<span class="name">interceptor-stack</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="tag">&lt;/<span class="name">interceptors</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="tag">&lt;<span class="name">action</span> <span class="attr">...</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">		...</span></pre></td></tr><tr><td class="code"><pre><span class="line">		<span class="comment">&lt;!--在Action中指出要包含拦截器--&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">		<span class="tag">&lt;<span class="name">interceptor-ref</span> <span class="attr">name</span>=<span class="string">"定义的拦截器堆栈名字"</span>/&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="tag">&lt;/<span class="name">action</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="tag">&lt;/<span class="name">package</span>&gt;</span></span></pre></td></tr></table></figure>
+<p>defult-interceptor-ref指定默认拦截器。</p>
+<p>转至Action后将从<code>struts.xml</code>中找到动作的处理类执行。<code>struts.xml</code>主要的部分如下：</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">package</span> <span class="attr">name</span>=<span class="string">"包名"</span> <span class="attr">namespace</span>=<span class="string">"名字空间，可不写"</span> <span class="attr">extends</span>=<span class="string">"继承的包，可不写"</span> <span class="attr">abstract</span>=<span class="string">"是否是抽象包，可不写"</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="tag">&lt;<span class="name">action</span>  <span class="attr">name</span>=<span class="string">"请求的动作名"</span> <span class="attr">class</span>=<span class="string">"处理类的路径，可不写"</span> <span class="attr">method</span>=<span class="string">"方法名，缺省为execute方法"</span> <span class="attr">converter</span>=<span class="string">"指定类型转换器，可不写"</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">		<span class="tag">&lt;<span class="name">result</span> <span class="attr">name</span>=<span class="string">"动作的返回值，缺省为success"</span> <span class="attr">type</span>=<span class="string">"返回结果类型，缺省为dispatcher，可转向一个结果页面；redirectAction转向动作；redirect转向动作或url"</span>&gt;</span>结果页面<span class="tag">&lt;/<span class="name">result</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="tag">&lt;/<span class="name">action</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="tag">&lt;/<span class="name">package</span>&gt;</span></span></pre></td></tr></table></figure>
+<p>可以看出，作为动作的处理类的Java类应当无形参并返回一个String，缺省的映射函数为<code>execute()</code>方法，用其它方法返回的话需要在method中设置一下。默认的基类为ActionSupport。</p>
+<p>还可使用include标签导入多个<code>struts-xxx.xml</code>。</p>
+<p>Web项目部署路径包括协议名、服务器名、端口号、项目名称、（可能有的）名字空间和动作名，也就是形如<code>http://localhost/8088/struts2/simple/hello.action</code>，可以看出Action缺省的扩展名为.action。这里没有额外的名字空间，所以服务器将在<code>/simple</code>下搜索<code>hello.action</code>；形如<code>http://server/struts2/path1/path2/path3/hello.action</code>，服务器首先在<code>/path1/path2/path3</code>名字空间搜索。</p>
+<p>在Action有较多方法（即struts.xml配置中使用了通配符配置、定义Action）时，Struts2支持通过函数名调用Action的方法（函数），即动态方法调用。当多个action中都使用到了相同result，在<code>struts.xml</code>中用<code>globle-results</code>可把result定义为全局结果。</p>
+<p>除<code>Web.xml</code>和<code>struts.xml</code>外，还有struts-default.xml、struts-plugin.xml、struts.xml、struts.properties。加载顺序为struts-default.xml &gt; struts-plugin.xml &gt; struts.xml &gt; struts.properties &gt; web.xml。</p>
+<p>Action函数所在类文件，用ActionContext的静态成员函数getContext获取Action运行环境及内容。JSP页面可直接使用的内置对象Request所对应的Java类是HttpServletRequest，Response所对应的Java类是HttpServletResponse。</p>
+<p>示例，这是一个上传文件的表单，提交该表单后由一个JSP表达式获取Action运行环境及内容，调用Action：</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">&lt;!--enctype属性规定在发送到服务器之前应该如何对表单数据进行编码。multipart/form-data即不对字符编码。在使用包含文件上传控件的表单时，必须使用该值。--&gt;</span></pre></td></tr><tr><td class="code"><pre><span class="line">&lt;form enctype=<span class="string">"multipart/from-data"</span> action=<span class="string">"$&lt;%=request.getContextPath()&gt;/upload.action"</span> method=<span class="string">"post"</span>&gt;</span></pre></td></tr><tr><td class="code"><pre><span class="line">	&lt;input type=<span class="string">"file"</span> name=<span class="string">"uploadImage"</span>&gt;</span></pre></td></tr><tr><td class="code"><pre><span class="line">	&lt;input type=<span class="string">"submit"</span>&gt;</span></pre></td></tr><tr><td class="code"><pre><span class="line">&lt;/form&gt;</span></pre></td></tr></table></figure>
+<p>jsp页面效果如下：</p>
+<hr />
+<form enctype="multipart/from-data">
+<input type="file" name="uploadImage"> <input type="submit">
+</form>
+<hr />
+<p>Action函数所在的Java类UploadAction:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UploadAction</span></span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="comment">//上传的文件</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="keyword">private</span> File uploadImage;</span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="comment">//上传文件的类型</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="keyword">private</span> String uploadImageContentType;</span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="comment">//上传文件的名称</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="keyword">private</span> String uploadImageFileName;</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">upload</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">		String realpath =ServletActionContext.getServletContext( ).getRealPath(<span class="string">"/images"</span>);</span></pre></td></tr><tr><td class="code"><pre><span class="line">		File file = <span class="keyword">new</span> File(realpath);</span></pre></td></tr><tr><td class="code"><pre><span class="line">		<span class="keyword">if</span>( !file.exists( ) )</span></pre></td></tr><tr><td class="code"><pre><span class="line">			file.mkdirs( );</span></pre></td></tr><tr><td class="code"><pre><span class="line">		FileUtils.copyFile(uploadImage, <span class="keyword">new</span> File(file,uploadImageFileName)); </span></pre></td></tr><tr><td class="code"><pre><span class="line">		<span class="keyword">return</span> <span class="string">"success"</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">	&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+<p>除此之外，ActionSupport还提供了一个<code>validate()</code>，可以在执行Action前对所有方法得到的值进行校验。当某个控件数据校验失败时，一般调用<code>addFieldError()</code>向系统的fieldErrors添加校验失败信息，在JSP页面可通过<code>s:fielderror</code>显示失败信息。如果有些方法不需要被校验，则可以在不需要使用校验的方法上注解<code>@SkipValidation</code>或使用形如<code>validateXxx()</code>的重写方法，这将只校验<code>xxx</code>方法。</p>
+<h1 id="数据库相关操作">数据库相关操作</h1>
+<ul>
+<li>数据库连接URL字符串一般情况下包括连接方式、服务器地址/名称、端口号和数据库名称四部分。</li>
+<li>数据库连接时，Class.forName( )的作用是动态加载类。</li>
+<li>DriverManager.getConnection(url, username, password)的功能是创建连接。</li>
+<li>数据库连接时，Connection执行prepareStatement把SQL语句串转换为PreparedStatement对象。</li>
+<li>数据库连接时，调用PreparedStatement类的setObject绑定参数。</li>
+<li>数据库连接时，调用PreparedStatement类的executeQuery函数执行查询，调用PreparedStatement类的 executeUpdate函数执行更新。</li>
+<li>ORM(Object Relation Mapping)把<strong>表映射为类</strong>、<strong>记录映射为对象</strong>、<strong>字段映射为类成员</strong>。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>表世界</category>
+        <category>Struts2</category>
+      </categories>
+      <tags>
+        <tag>JSP</tag>
+        <tag>Struts2</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>HTML与CSS基础知识</title>
+    <url>/2019/12/16/%E8%A1%A8%E4%B8%96%E7%95%8C/HTML%E4%B8%8ECSS/HTML%E4%B8%8ECSS%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</url>
+    <content><![CDATA[<p><img src="" /></p>
+<center>
+</center>
+<a id="more"></a>
+<h1 id="css基础">CSS基础</h1>
+<p>CSS，Cascading Style Sheets，层叠样式表单。层叠是指多个样式可以同时应用于同一个页面或网页中的同一个标签，执行的效果按照“层叠规则”；当标签的样式定义发生冲突时，靠近标签的定义将生效。利用CSS可实现内容和形式的分离。</p>
+<p>按照加入方式不同，可分为：</p>
+<ul>
+<li><p>行内样式表：<code>&lt;标签名 style=&quot;属性1:属性值1; 属性2:属性值2; 属性3:属性值3;&quot;&gt; 内容 &lt;/标签名&gt;</code>。优先度最高，可控制一个标签。</p></li>
+<li><p>内部样式表：将CSS代码集中写在HTML文档的head头部标签中，并且用style标签定义。 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;style type&#x3D;&quot;text&#x2F;CSS&quot;&gt;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    选择器 &#123;属性1:属性值1; 属性2:属性值2; 属性3:属性值3;&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    ...</span></pre></td></tr><tr><td class="code"><pre><span class="line">&lt;&#x2F;style&gt;</span></pre></td></tr></table></figure> 优先度次之，可控制整个页面。</p></li>
+<li><p>外部样式表：也是在头文件中写<code>&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;test.css&quot;&gt;&lt;/link&gt;</code>，即，用href属性指定CSS文件位置，type属性设定为<code>&quot;text/css&quot;</code>，rel属性设定为<code>&quot;stylesheet&quot;</code>。优先度最低，但方便。</p></li>
+</ul>
+<p>样式优先级规则可以通过<code>!important</code>关键字进行改变，如<code>div{color:#f00!important;color:#000;}</code>，#f00的优先级被提升，将高于#000，最终显示#f00。</p>
+<p>样式定义的基本格式包括选择器、属性和属性值。定义通用样式时，选择器设为<code>*</code>。而<code>p{ font-family: &quot;宋体&quot;; }</code>定义的样式仅作用于HTML文件的<code>&lt;p&gt;</code>标记、<code>font-family</code>属性。形如<code>p.right {text-align:right }</code>定义了属性选择器，这个样式就仅对right类中的p有效。如果想让它作用于作用于HTML中的某个p，就须就须设置为<code>&lt;p class=&quot;right&quot; ... /&gt;</code>。形如<code>p＃green {color:green}</code>定义了id选择器，仅对<code>&lt;p id=&quot;green&quot;&gt;...&lt;/p&gt;</code>有效。</p>
+<p>常用的字体CSS属性有font-family、font-size、font-style和font-weight。常用的文本CSS属性有text-indent、text-align、text-decoration、text-transform和color、letter-spacing、line-height。常用的背景CSS属性有background-color、background-image、background-repeat、background-position和background-attchment。</p>
+<h1 id="box模型">BOX模型</h1>
+<p>BOX模型制定了元素如何在页面中显示，可以理解为，顶部俯视一些装了东西的盒子，盒子里装的东西即内容（content）；东西与盒子之间的空隙即内边距（padding）；盒子本身的厚度即边框（border）；盒子外与其他盒子之间的间隔即外边距（margin），也就是说，BOX模型有内容、内边距、边框、外边距四要素。</p>
+<p>例如<code>{position:absolute;left:20px;top:20px }</code>设置了一个相对位置。</p>
+<h1 id="示例">示例</h1>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">type</span>=<span class="string">text/css</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    ul&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        list-style-type: none;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        line-height: 200%;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    li&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        padding: 5px;</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="css">        <span class="selector-tag">margin</span>: 10 10<span class="selector-tag">px</span>;   <span class="comment">/*这个用来调整导航之间的间距*/</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line">        display: inline-block;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        width: 120px;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        height: 40px;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        text-align: center;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        display: inline;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">http://www.baidu.com</span>&gt;</span>网站首页<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">http://www.baidu.com</span>&gt;</span>学院概况<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">http://www.baidu.com</span>&gt;</span>机构设置<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">http://www.baidu.com</span>&gt;</span>教学科研<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">http://www.baidu.com</span>&gt;</span>国际交流<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">http://www.baidu.com</span>&gt;</span>党建思政<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span></pre></td></tr></table></figure>
+<p>效果如下：</p>
+<style type=text/css>
+    ul{
+        list-style-type: none;
+        line-height: 200%;
+    }
+    li{
+        padding: 5px;
+        margin: 10 10px;   /*这个用来调整导航之间的间距*/
+        display: inline-block;
+        width: 120px;
+        height: 40px;
+        text-align: center;
+        display: inline;
+    }
+</style>
+<ul style="list-style-type:none;line-height: 200%;">
+<li>
+<a href=http://www.baidu.com>网站首页</a>
+</li>
+<li>
+<a href=http://www.baidu.com>学院概况</a>
+</li>
+<li>
+<a href=http://www.baidu.com>机构设置</a>
+</li>
+<li>
+<a href=http://www.baidu.com>教学科研</a>
+</li>
+<li>
+<a href=http://www.baidu.com>国际交流</a>
+</li>
+<li>
+<a href=http://www.baidu.com>党建思政</a>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>表世界</category>
+        <category>HTML与CSS</category>
+      </categories>
+      <tags>
+        <tag>CSS</tag>
+        <tag>HTML</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JavaScript与jQuery基础知识</title>
+    <url>/2019/12/15/%E8%A1%A8%E4%B8%96%E7%95%8C/JavaScript%E4%B8%8EjQuery/JavaScript%E4%B8%8EjQuery%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</url>
+    <content><![CDATA[<p><img src="" /></p>
+<center>
+</center>
+<a id="more"></a>
+<p>JS是JavaScript的缩写，是互联网上被广泛应用的脚本语言。</p>
+<h1 id="代码的引入">代码的引入</h1>
+<p>JS代码一般出现在<code>.html</code>和<code>.js</code>文件中，通过单独写成<code>.js</code>，使用外部代码引用的方式实现JS代码可以增强JS模块化开发程度并且提高代码重用率；在HTML网页中编写JS代码时，推荐出现在head区域。</p>
+<h2 id="head和body中插入">head和body中插入</h2>
+<p>通过<code>&lt;script&gt;</code>标签把代码插入到HTML页面，<code>&lt;script type=&quot;text/JavaScript&quot;&gt;</code>和<code>&lt;/script&gt;</code>分别标记了JS代码的开始和结束。也就是说，在HTML页面文件引入JS代码，script标签的type属性要设置为<code>text/JavaScript</code>。</p>
+<h2 id="引用外部代码">引用外部代码</h2>
+<p><code>script src=&quot;xx.js&quot;&gt;&lt;/script&gt;</code>。</p>
+<h1 id="代码的编写">代码的编写</h1>
+<p>使用分号来结束一条语句。</p>
+<p>变量名区分大小写。</p>
+<p>运算符有赋值、算术、比较、逻辑、连接和条件运算符。</p>
+<p>只能在function内部进行访问的变量为局部变量，页面内所有函数都可以访问的变量为全局变量。</p>
+<p>条件语句：<code>if</code>、<code>if...else...</code>、<code>if...else if...else...</code>和<code>switch</code>，switch语句要通过<code>break</code>防止代码自动转向到下一个case。</p>
+<p>循环语句：<code>while</code>，<code>for</code>，<code>do...while</code>和<code>for...in</code>循环；语句<code>continue</code>会跳出当轮循环进行下一轮循环，语句<code>break</code>会结束整个循环。</p>
+<p>常用的字符串操作函数：<code>oncat()</code>、<code>indexOf()</code>、<code>match()</code>、<code>replace()</code>、<code>split()</code>、<code>substr()</code>、<code>substring()</code>等。</p>
+<p>八个能从数学对象直接访问的数学值：自然指数E、LN2、LN10、LOG2E、LOG10E、圆周率PI、根二SQRT2、根二分之一SQRT1_2。</p>
+<p>用警示框输出信息，语句为<code>alert(&quot;xxx&quot;)</code>。</p>
+<p>编写命名函数需要以<code>function</code>关键词开头，<code>return</code>指定JS函数的返回值。通过<strong>事件触发</strong>和<strong>被调用</strong>来执行。例如HTML脚本<code>&lt;input type=&quot;text&quot; size=&quot;30“ id=&quot;email&quot; onchange=&quot;checkEmail()&quot;&gt;</code>中，当输入框内容改变时触发事件“onchange”，此时调用JS函数<code>checkEmail()</code>；对一个更复杂些的例子，<code>&lt;input type=&quot;text&quot; name=&quot;username&quot; id=&quot;username&quot; onblur=&quot;checkusername();checkusername2();&quot; onfocus=&quot;checkusername2();&quot; value=&quot;输入用户名&quot;&gt;</code>，表单中有一控件username为输入用户名，此脚本对username输入框的输入内容调用JS函数checkusername校验——注意，这里有多个函数出现，所以要写分号。常用于表单上的JS事件有onfocus（获得光标）、onblur（失去光标）、onchange和onsubmit等；常用于鼠标动作的JS事件有onclick、ondbclick、onmousedown、onmouseover和onmouseup等。</p>
+<p>在HTML文件表单中对其所包含的控件调用JS函数成批校验时，书写的脚本为<code>&lt;form action=&quot;request.jsp&quot; name=&quot;form&quot; onsubmit=&quot;return check();&quot; method=&quot;post&quot;&gt;</code>。</p>
+<p>想要生成页面控件对象时，HTML页面INPUT标签的type属性设为<code>text</code>可在页面得到输入框；type属性设为<code>password</code>可在页面得到口令框；type属性设为<code>radio</code>可在页面得到radio button；type属性设为<code>checkbox</code>可在页面得到checkbox；type属性设为<code>submit</code>可在页面得到submit按钮；type属性设为<code>reset</code>可在页面得到reset按钮；ype属性设为<code>textarea</code>可在页面得到多行编辑控件。</p>
+<p>想要获取页面控件对象时，如果控件有id属性，如<code>&lt;input id=&quot;username&quot; type=&quot;text&quot; &gt;</code>可以<code>document.getElementById(&quot;username&quot;)</code>；也可以利用name属性，如<code>&lt;label name=&quot;female&quot;&gt;Female&lt;/label&gt;</code>可以<code>document.getElementsByName(&quot;female&quot;)[0]</code>，注意name不唯一所以要以数组形式。</p>
+<p>通过<code>try...catch</code>和onerror事件来捕捉错误。</p>
+<h1 id="jquery的导入">jQuery的导入</h1>
+<p>jQuery是一个JavaScript库。以在HTML页面文件引用jQuery库<code>jquery-1.3.1.js</code>为例，<code>&lt;script src=&quot;jquery-1.3.1.js&quot;  type=&quot;text/javascript&quot;&gt;&lt;/script&gt;</code>。</p>
+<p>使用jQuery时，先通过选择器<code>$()</code>，即<code>jQuery()</code>，选择jQuery对象——jQuery对象是通过jQuery库包装DOM对象后产生的对象，DOM意为<strong>文档对象模型（Document Object Model）</strong>——选择好对象后通过<code>.</code>调用jQuery命令，对对象进行修改。</p>
+<h1 id="jquery命令">jQuery命令</h1>
+<p>执行css命令操纵样式、addClass命令设置新样式、removeClass命令删除样式、hasClass命令判断元素是否具有某样式、toggleClass命令切换样式。</p>
+<p>执行append命令向DOM追加元素、remove命令删除DOM中元素、clone命令在DOM中复制节点、replacewith命令在DOM中替换内容、wrap命令在DOM中包裹元素。</p>
+<p>执行show命令显示隐藏的元素，hide命令隐藏元素。</p>
+<p>jQuery的动画函数有animate、slideup、slidedown、fadein、fadeout，以normal、fast、slow三种速度展示动画。</p>
+<p>另一个常用命令是<code>$(document).ready(function(){...})</code>，（<code>$(document)</code>是一个选择器，选中的是整个html所有元素的集合）在页面所有元素准备完毕之后，载入页面之前执行自定义函数。例如在HTML页面文件加载（打开）时弹出“Hello World”的alert对话框，可<code>$(document).ready(function() {alert(&quot;Hello World!&quot;);})</code>。</p>
+<h1 id="jquery选择器">jQuery选择器</h1>
+<h2 id="基本选择器">基本选择器</h2>
+<ul>
+<li>id选择器:<code>$(&quot;#id&quot;)</code>；</li>
+<li>类选择器:<code>$(&quot;.class&quot;)</code>；</li>
+<li>元素选择器：<code>$(&quot;标签名&quot;)</code>；</li>
+<li>全选选择器：<code>$(&quot;*&quot;)</code>。</li>
+</ul>
+<p>示例：</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">...</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="javascript">	$(<span class="built_in">document</span>).ready(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line">	&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="handlebars"><span class="xml">		<span class="comment">&lt;!--id选择器--&gt;</span></span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="javascript">		$(<span class="string">"#a"</span>).click(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line">		&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="javascript">			$(<span class="keyword">this</span>).css(<span class="string">'color'</span>, <span class="string">'yellow'</span>);</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">		&#125;);</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="handlebars"><span class="xml">		<span class="comment">&lt;!--类选择器--&gt;</span></span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="javascript">		$(<span class="string">".d"</span>).click(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line">		&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="javascript">			$(<span class="keyword">this</span>).css(<span class="string">'color'</span>, <span class="string">'red'</span>);</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="handlebars"><span class="xml">			<span class="comment">&lt;!--id选择器--&gt;</span></span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="javascript">			$(<span class="string">"#c"</span>).css(<span class="string">'color'</span>, <span class="string">'orange'</span>);</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">		&#125;);</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="handlebars"><span class="xml">		<span class="comment">&lt;!--全选选择器--&gt;</span></span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="javascript">		$(<span class="string">"*"</span>).css(<span class="string">'color'</span>, <span class="string">'green'</span>);</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="handlebars"><span class="xml">		<span class="comment">&lt;!--元素选择器--&gt;</span></span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="javascript">		$(<span class="string">"p"</span>).css(<span class="string">'color'</span>, <span class="string">'pink'</span>);</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">	&#125;);</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="tag">&lt;<span class="name">h1</span>&gt;</span>我是一个粉刷匠<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="tag">&lt;<span class="name">p</span> <span class="attr">id</span>=<span class="string">"a"</span>&gt;</span>你是来搞黄色的吗？<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="tag">&lt;<span class="name">p</span> <span class="attr">id</span>=<span class="string">"b"</span> <span class="attr">class</span>=<span class="string">"d"</span>&gt;</span>气突苏！<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="tag">&lt;<span class="name">p</span> <span class="attr">id</span>=<span class="string">"c"</span> <span class="attr">class</span>=<span class="string">"d"</span>&gt;</span>如果奇迹有颜色，那一定是？<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span></pre></td></tr></table></figure>
+<h2 id="层次选择器">层次选择器</h2>
+<p>通过DOM元素之间的层次关系获取特定元素。</p>
+<ul>
+<li><code>$(&quot;ancestor descendant&quot;)</code>：选取所有子元素。</li>
+<li><code>$(&quot;parent&gt;child&quot;)</code>：同上，但仅包含直接子元素。</li>
+<li><code>$(&quot;prev+next&quot;)</code>：选取下一个元素。</li>
+<li><code>$(&quot;prev~siblings&quot;)</code>：同上，但包含之后的所有满足条件元素。</li>
+</ul>
+<h2 id="选择过滤器">选择过滤器</h2>
+<p>jQuery过滤选择器通过指定的过滤器筛选出所需的DOM元素，即在选择器后紧跟<code>:</code>符号，对选取的结果集进行过滤，过滤到的结果通常会有<strong>单个元素</strong>和<strong>集合</strong>两种类型。</p>
+<p>jQuery过滤选择器包括_____、______、______、_____、_____和___。</p>
+<ul>
+<li>基本过滤器
+<ul>
+<li><code>$('p:first')：</code>选取页面元素内的第一个p元素；</li>
+<li><code>$('p:last')：</code>选取页面元素内的最后一个p元素；</li>
+<li><code>$('p:not(.select)')：</code>选取选择器不是select的p元素；</li>
+<li><code>$('p:even')：</code>选取索引是偶数的P元素（索引从0开始）；</li>
+<li><code>$('p:odd')：</code>选取索引是奇数的p元素（索引从0开始）；</li>
+<li><code>$('p:eq(index)')：</code>选取索引等于index的p元素（索引从0开始，支持负数）；</li>
+<li><code>$('p:gt(index)')：</code>选取索引大于index的p元素（索引从0开始）；</li>
+<li><code>$('p:lt(index)')：</code>选取索引小于index的p元素（索引从0开始）；</li>
+<li><code>$(':header')：</code>选取标题元素h1~h6；</li>
+<li><code>$(':animated')：</code>选取正在执行动画的元素；</li>
+<li><code>$('input:focus')：</code>选取当前被焦点的元素。</li>
+</ul></li>
+<li>内容过滤器
+<ul>
+<li>选取包含指定文本的元素<code>$(':contains(含有的文本)')</code></li>
+<li>选取含有选择器匹配元素的元素<code>$(&quot;:has('选择器')&quot;)</code></li>
+<li>选取不包含子元素或文本的空元素<code>$(':empty')</code></li>
+<li>选取包含子元素或文本的空元素<code>$(':parent')</code></li>
+</ul></li>
+<li>可见性过滤器
+<ul>
+<li>选取不可见的元素<code>$(':hidden')</code></li>
+<li>选取可见的元素<code>$(':visible')</code></li>
+</ul></li>
+<li>属性过滤器
+<ul>
+<li>选取拥有此属性的元素<code>$('选择器[attribute]')</code>；</li>
+<li>选取属性值为value的元素<code>$('选择器[attribute=value]')</code>；</li>
+<li>选取属性值不等于value的元素<code>$('[attribute!=value]')</code>；</li>
+<li>选取属性值以value开始的元素<code>$('选择器[attribute^=value]')</code>；</li>
+<li>选取属性值以value结束的元素<code>$('选择器[attribute$=value]')</code>；</li>
+<li>选取属性值含有value的元素<code>$('选择器[attribute*=value]')</code>；</li>
+<li>选取属性值前缀为value的元素<code>$('选择器[attribute|=value]')</code>；</li>
+<li>选取属性值用空格分隔的值中包含给定值的元素<code>$('选择器[attribute~=value]')</code>；</li>
+<li>组合属性选择器<code>$('选择器[attribute1][attribute2]…[attributeN]')</code>。</li>
+</ul></li>
+<li>子元素过滤器
+<ul>
+<li>选取每个父元素下的第一个子元素，返回集合元素<code>$('选择器:first-child')</code></li>
+<li>选取每个父元素下的最后一个子元素，返回集合元素<code>$('选择器:last-child')</code></li>
+<li>选取每个父元素下的唯一子元素，返回集合元素<code>$('选择器:only-child')</code>.</li>
+<li>选取每个父元素下的第index个子元素或者奇偶元素，index从1算起<code>$('选择器:nth-child(index)')</code></li>
+</ul></li>
+<li>表单对象属性过滤器
+<ul>
+<li>:enabled选取页面中所有可用元素</li>
+<li>:disabled选取页面中所有不可用元素</li>
+<li>:checked选取页面中所有被选中的元素（单选框radio、复选框 checkbox）</li>
+<li>:selected选取下拉列表中被选择的元素</li>
+<li>:text选取页面中所有文本框，</li>
+<li>:password选取页面中所有口令框</li>
+<li>:checkbox选取页面中所有检查框</li>
+<li>:image选取页面中所有图像按钮</li>
+<li>:button选取页面中所有按钮</li>
+</ul></li>
+</ul>
+]]></content>
+      <categories>
+        <category>表世界</category>
+        <category>JavaScript与jQuery</category>
+      </categories>
+      <tags>
+        <tag>HTML</tag>
+        <tag>JavaScript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JSP基础知识</title>
+    <url>/2019/12/14/%E8%A1%A8%E4%B8%96%E7%95%8C/JSP/JSP%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</url>
+    <content><![CDATA[<p><img src="" /></p>
+<center>
+MyEclipse的安装。
+</center>
+<a id="more"></a>
+<h1 id="servlet和jsp的关系">Servlet和JSP的关系</h1>
+<p>JSP页面缺省的基类是HttpJspBase。</p>
+<p>jsp在运行时首先被解析成一个java类，该类继承于org.apache.jasper.runtime.HtppJspBase类，这个类又继承了HttpServlet。</p>
+<h1 id="jsp脚本元素">JSP脚本元素</h1>
+<p>脚本元素提供了在jsp中插入java代码的能力。脚本元素有三种类型：</p>
+<ul>
+<li>脚本(scriptlet)是JSP页面中Java代码片段的容器。语法：<code>&lt;% java源代码 %&gt;</code>。</li>
+<li>表达式(expression)将转换为String的Java表达式的值插入到返回给客户端的响应中。语法：<code>&lt;%= 表达式语句 %&gt;</code>。</li>
+<li>声明(declarations)为JSP页面声明全局的方法和变量。语法：<code>&lt;%! 字段或方法声明 %&gt;</code>。</li>
+</ul>
+<h1 id="jsp指令元素">JSP指令元素</h1>
+<h2 id="page指令">page指令</h2>
+<p>用于设置页面属性。用<code>&lt;%@ page %&gt;</code>标记在JSP文件头部声明。</p>
+<p>指定JSP页面使用JAVA语言时，使用指令<code>&lt;%@page language=&quot;java&quot;%&gt;</code>。<code>&lt;%@page language=&quot;java&quot; contentType=&quot;text/html&quot; pageEncoding=&quot;UTF-8&quot;%&gt;</code>中pageEncoding设置当前页面的页面编码字符集为UTF-8，contentType设置页面类型为text/html。</p>
+<p>使用页面指令Page的<code>&lt;%@page import=&quot;&quot;%&gt;</code>属性在JSP文件引用一个外部Java类。例如JSP页面要用Java的Date类时，在JSP文件前面用<code>&lt;%@page import=&quot;Java.util.Date&quot;%&gt;</code>把Date类包含。</p>
+<p>用JSP进行前端页面开发时，用<code>&lt;%@page errorPage=&quot;错误页面.jsp&quot;%&gt;</code>设置错误页面，从而方便把多个JSP页面的出错、错误处理信息集中到错误页面处理；对于错误页面，指定<code>&lt;%page isErrorPage=&quot;true&quot;%&gt;</code>。</p>
+<h2 id="include指令">include指令</h2>
+<p>include指令在JSP页面被转换成Servlet前将指定的文件包含。比如说，可能有多页面都需要用到一个logo和一些相应的连接啥的，但可以不每次都写一遍相关代码，而是将相关代码单独写一个<code>logo.jsp</code>，只需在想显示它的地方使用include指令包含进来<code>&lt;%@include file = &quot;logo.jsp&quot;%&gt;</code>。include只能包含静态的资源。</p>
+<h2 id="taglib指令">taglib指令</h2>
+<p>用于导入标签库，使用时需设置两个重要的属性分别是<code>uri</code>和<code>prefix</code>，例如导入jsp标准标签库：<code>&lt;%@ taglib uri=&quot;http://java.sun.com/jsp/jstl/core&quot; prefix=&quot;c&quot;%&gt;</code>。这玩意类似前面的include，但是包含的不是静态jsp，而是一段java代码。导入标签库之后就可以通过<code>&lt;前缀:类名 [参数1 [[参数2 [...]]]]&gt;&lt;/前缀:类名&gt;</code>插入这段代码。</p>
+<h1 id="jsp动作元素">JSP动作元素</h1>
+<p>标签库啥的的调用。</p>
+<p><code>jsp:useBean</code>用于在JSP文件使用指定名称的JavaBean对象。例如在JSP页面会话中调用<code>Test.UserInfo</code>类，对象名为ui，则语句是<code>&lt;jsp:useBean id=&quot;ui&quot; class=&quot;Test.UserInfo&quot; scope=&quot;session&quot; type=&quot;...&quot;/&gt;</code>。</p>
+<p><code>jsp:setProperty</code>设置JavaBean对象成员的值；用<code>jsp:getProperty</code>获取JavaBean对象成员的值。</p>
+<p><code>jsp:forward</code>从当前页面转至其它JSP页面处理（请求转发）。<code>jsp:include</code>包含页面，但与上面的include指令不同，这里不是插入jsp代码，而是在运行后插入这段代码的应答。在转发或包含时，使用<code>jsp:param</code>传递参数。</p>
+<h1 id="jsp的内置对象">jsp的内置对象</h1>
+<ul>
+<li><strong>application对象</strong>将信息保存在服务器中，直到服务器关闭。application对象中保存的信息在整个应用中有效。</li>
+<li><strong>session对象</strong>是由服务器自动创建的与用户请求相关的对象。服务器为每个用户都生成一个session对象，用于保存该用户的信息，跟踪用户的操作状态。session对象内部使用Map类来保存数据，因此保存数据的格式为Key-value。session对象的value可以为复杂的对象类型，而不仅仅局限于字符串类型。<strong>内置对象session通过<code>setAttribute()</code>函数把数据以key-value形式写入保存，通过<code>getAttribute()</code>函数把保存的数据读取出来。JSP页面使用Session内置对象时，需要在JSP文件头部用<code>&lt;%@page session=&quot;true&quot; %&gt;</code>把Session属性设置为true。</strong></li>
+<li><strong>request对象</strong>是javax.servlet.httpServletRequest类型的对象，代表客户端的请求信息，主要用于接受通过HTTP协议传送到服务器的数据。作用域为一次请求。</li>
+<li><strong>response对象</strong>代表对客户端的响应，将JSP容器处理过的对象传回到客户端。response对象只在JSP页面内有效。</li>
+<li><strong>page对象</strong>代表JSP本身，只在JSP页面内合法。类似于Java中的this。</li>
+<li><strong>pageContext对象</strong>的作用是取得任何范围的参数，通过它可以获取JSP页面的out、request、reponse、session、application等对象。pageContext对象的创建和初始化都是由容器来完成的，在JSP页面中可以直接使用pageContext对象。</li>
+<li>out对象用于在Web浏览器内输出信息，并且管理应用服务器上的输出缓冲区。。</li>
+<li>config对象的主要作用是取得服务器的配置信息。通过pageConext对象的<code>getServletConfig()</code>方法可以获取一个config对象。</li>
+<li>exception对象的作用是显示异常信息，在包含<code>isErrorPage=&quot;true&quot;</code>的页面中可以被使用。</li>
+</ul>
+<h1 id="javabean">JavaBean</h1>
+<p>JavaBean是一种仅包含数据属性和对数据进行存取的函数的类。</p>
+<h1 id="外部包">外部包</h1>
+<p>JSP文件用到外部（第三方）JAR包时，应在web项目的web-inf目录下建立lib目录，把jar包复制到<code>web项目/web-inf目录/lib目录</code>。</p>
+]]></content>
+      <categories>
+        <category>表世界</category>
+        <category>JSP</category>
+      </categories>
+      <tags>
+        <tag>JSP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>贰・自顶向下语法分析</title>
+    <url>/2019/12/11/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/%E8%B4%B0%E3%83%BB%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90/</url>
     <content><![CDATA[<p><img src="" /></p>
 <center>
 </center>
@@ -17,41 +326,41 @@
       </tags>
   </entry>
   <entry>
-    <title>壹・文法与语言</title>
-    <url>/2019/12/10/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/%E5%A3%B9%E3%83%BB%E6%96%87%E6%B3%95%E4%B8%8E%E8%AF%AD%E8%A8%80/</url>
+    <title>肆・语义分析</title>
+    <url>/2019/12/11/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/%E8%82%86%E3%83%BB%E8%AF%AD%E4%B9%89%E5%88%86%E6%9E%90/</url>
     <content><![CDATA[<p><img src="" /></p>
 <center>
-文法的相关概念、语言的分类、语法树。
 </center>
 <a id="more"></a>
-<h1 id="文法">文法</h1>
-<p>文法<code>G[S]</code>是一个四元组<code>(非终结符集合,终结符集合,重写规则集合,属于非终结符集合的识别符号S)</code>。</p>
-<h1 id="使用文法产生语言">使用文法产生语言</h1>
-<p>一串字汇集（非终结符集合并终结符集合）符号由重写规则进行重写的过程叫推导。</p>
-<p>由识别符能推导出来的符号串叫句型。如果这里的符号都是终结符，就叫句子。</p>
-<p>一个文法描述的语言为其推导出的句子集合。两文法等价当且仅当其能推导出的句子集合相等。</p>
-<p>给定一个文法，则可唯一地确定其语言；给定一语言，可不唯一地确定其文法。</p>
-<h1 id="使用其它方式描述语言">使用其它方式描述语言</h1>
-<p>正则表达式之类的方法。</p>
-<h1 id="文法和语言的分类chomsky语言分类法">文法和语言的分类——Chomsky语言分类法</h1>
-<ul>
-<li>0型语言：没什么要求，基本是个文法生成的都是。等价于图灵机。</li>
-<li>1型语言：在0型语言的基础上，其文法之任一产生式之右部式长度有限。等价于线性有界自动机。</li>
-<li>2型语言：在1型语言的基础上，其文法之任一产生式之左部式仅有一非终结符。这意味着规约一个非终结符时无需考虑它前后是啥玩意，称为上下文无关文法。等价于下推自动机。</li>
-<li>3型语言：在2型语言的基础上，所有产生式均形如<code>A-&gt;aB|a</code>或所有产生式均形如<code>A-&gt;Ba|a</code>，等价于有限状态自动机。</li>
-</ul>
-<h1 id="推导与语法树">推导与语法树</h1>
-<p>最左或最右推导（每次推导均队最左或最右的非终结符应用重写规则）生成的句型叫最左或最右句型。反过来有最左最右规约。最早被研究的是最右推导，所以规范推导指的是这玩意；分析程序时都是从左往右读所以是先规约左边，所以规范规约指的是这玩意。</p>
-<p>不管你咋推导，只要得到了同一个句子，那语法树就应该是一样的，否则说明这个句子有二义性，生成这个句子的文法就叫二义性文法。</p>
-<p>不能仅根据文法本身判断它是否有二义性。</p>
-<h1 id="句型分析与语法树">句型分析与语法树</h1>
-<p>给定一个符号串，判断它是否是某个文法的句型，这个过程叫句型分析。</p>
-<p>一般有两种技术：</p>
-<ul>
-<li>自顶向下：从识别符号出发，尝试推导出相同的符号串。问题在于，同一个左部符号可能有多个产生式，推导的时候该应用哪个？</li>
-<li>自底向上：从输入串出发，尝试规约到识别符号。问题在于，同样的右部串可能可以规约到多个左部符号，规约到哪个？</li>
-</ul>
-<p>对一棵语法树，每一棵子树（与数据结构上不同，这里叶子不算子树）的叶子构成的串叫一个短语，这意味着它们能被规约到这棵子树的根的符号。只有一层的子树的叶子构成的串叫简单短语，这意味着一次规约就能把它规约到根的符号。最左的简单短语叫句柄，规范规约中将首先被规约。</p>
+<h1 id="属性文法">属性文法</h1>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">E-&gt; TR&#123;R.in:&#x3D;T.val;E.val&#x3D;R.val&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">R-&gt; +TR&#39;&#123;R&#39;.in:&#x3D;R.in+T.val;R.val:&#x3D;R&#39;.val&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">R-&gt; -TR&#39;&#123;R&#39;.in:&#x3D;R.in-T.val;R.val:&#x3D;R&#39;.val&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">R-&gt; epsilon&#123;R.val:&#x3D;R.in&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">T-&gt; num&#123;T.val:&#x3D;lexval(num)&#125;</span></pre></td></tr></table></figure>
+<h1 id="翻译模式">翻译模式</h1>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">E-&gt; T&#123;R.in:&#x3D;T.val&#125;R&#123;E.val&#x3D;R.val&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">R-&gt; +T&#123;R&#39;.in:&#x3D;R.in+T.val&#125;R&#39;&#123;R.val:&#x3D;R&#39;.val&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">R-&gt; -T&#123;R&#39;.in:&#x3D;R.in-T.val&#125;R&#39;&#123;R.val:&#x3D;R&#39;.val&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">R-&gt; epsilon&#123;R.val:&#x3D;R.in&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">T-&gt; num&#123;T.val:&#x3D;lexval(num)&#125;</span></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ParseE</span><span class="params">()</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function"></span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    Tval=ParseT();</span></pre></td></tr><tr><td class="code"><pre><span class="line">    Rval=ParseR(Tval);</span></pre></td></tr><tr><td class="code"><pre><span class="line">    Print(Rval);</span></pre></td></tr><tr><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">ParseR</span><span class="params">(<span class="keyword">int</span> in)</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function"></span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">if</span>(lookahead==<span class="string">'+'</span>)</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        MatchToken(<span class="string">'+'</span>);</span></pre></td></tr><tr><td class="code"><pre><span class="line">        Tval=ParseT();</span></pre></td></tr><tr><td class="code"><pre><span class="line">        Rval=ParseR(in+Tval);</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="keyword">return</span> Rval;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(lookahead==<span class="string">'-'</span>)</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        MatchToken(<span class="string">'-'</span>);</span></pre></td></tr><tr><td class="code"><pre><span class="line">        Tval=ParseT();</span></pre></td></tr><tr><td class="code"><pre><span class="line">        Rval=ParseR(in-Tval);</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="keyword">return</span> Rval;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">else</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        Rval=in;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="keyword">return</span> Rval;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">ParseT</span><span class="params">()</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function"></span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    if(lookahead=='num')</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="keyword">return</span> num;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">else</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">        error();</span></pre></td></tr><tr><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+<h1 id="属性文法翻译模式的左递归消除">属性文法/翻译模式的左递归消除</h1>
+<h1 id="四元式的生成">四元式的生成</h1>
+<p>有C片段如下:</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">a=x,b=y,c=<span class="number">1</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="keyword">while</span>(b&gt;<span class="number">0</span>)</span></pre></td></tr><tr><td class="code"><pre><span class="line">&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">if</span>(b%<span class="number">2</span>==<span class="number">1</span>)c=c*a;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    b=b/<span class="number">2</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    a=a*a;</span></pre></td></tr><tr><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+<p>要获得它的四元式代码，首先将具有复杂含义的语句展开:</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">    a=x;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    b=y;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    c=<span class="number">1</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="built_in">begin</span>:</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">if</span> b&lt;=<span class="number">0</span> <span class="keyword">goto</span> <span class="built_in">end</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">if</span> b%<span class="number">2</span> != <span class="number">1</span> <span class="keyword">goto</span> nxt;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    c=c*a;</span></pre></td></tr><tr><td class="code"><pre><span class="line">nxt:</span></pre></td></tr><tr><td class="code"><pre><span class="line">    b=b/<span class="number">2</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    a=a*a;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">goto</span> <span class="built_in">begin</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="built_in">end</span>:</span></pre></td></tr></table></figure>
+<p>容易得到四元式：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">01 &#x3D; ,x,&#x2F;,a</span></pre></td></tr><tr><td class="code"><pre><span class="line">02 &#x3D; ,y,&#x2F;,b</span></pre></td></tr><tr><td class="code"><pre><span class="line">03 &#x3D; ,1,&#x2F;,c</span></pre></td></tr><tr><td class="code"><pre><span class="line">04 &lt;&#x3D;,b,0,11</span></pre></td></tr><tr><td class="code"><pre><span class="line">05 % ,b,2,t</span></pre></td></tr><tr><td class="code"><pre><span class="line">06 !&#x3D;,t,1,8</span></pre></td></tr><tr><td class="code"><pre><span class="line">07 * ,c,a,c</span></pre></td></tr><tr><td class="code"><pre><span class="line">08 &#x2F; ,b,2,b</span></pre></td></tr><tr><td class="code"><pre><span class="line">09 * ,a,a,a</span></pre></td></tr><tr><td class="code"><pre><span class="line">10 go,&#x2F;,&#x2F;,4</span></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>深蓝</category>
+        <category>编译原理</category>
+      </categories>
+      <tags>
+        <tag>编译原理</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>贰・词法分析</title>
+    <url>/2019/12/10/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/%E5%A3%B9%E3%83%BB%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/</url>
+    <content><![CDATA[<p><img src="" /></p>
+<center>
+</center>
+<a id="more"></a>
 ]]></content>
       <categories>
         <category>深蓝</category>
@@ -63,7 +372,7 @@
   </entry>
   <entry>
     <title>〇・编译原理总论</title>
-    <url>/2019/12/10/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/%E3%80%87%E3%83%BB%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E6%80%BB%E8%AE%BA/</url>
+    <url>/2019/12/10/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/%E3%80%87%E3%83%BB%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/</url>
     <content><![CDATA[<p><img src="" /></p>
 <center>
 编译程序的基本组成与相关概念。
@@ -94,6 +403,34 @@
 <p>为可重定位的机器语言程序装载执行时库，生成可执行程序。</p>
 <h1 id="编译程序的相关程序">编译程序的相关程序</h1>
 <p>高级语言分编译型和解释性，后者对应解释程序。编译程序读入源程序，输出目标程序，目标程序读入程序输入，输出结果。而解释程序读入源程序和程序输入，输出结果。它不产生目标程序文件、翻译一句执行一句，执行时解释程序依旧在守护，也就是不区分翻译与执行。常用于虚拟机。</p>
+<h1 id="文法">文法</h1>
+<p>文法<code>G[S]</code>是一个四元组<code>(非终结符集合,终结符集合,重写规则集合,属于非终结符集合的识别符号S)</code>。</p>
+<h1 id="使用文法产生语言">使用文法产生语言</h1>
+<p>一串字汇集（非终结符集合并终结符集合）符号由重写规则进行重写的过程叫推导。</p>
+<p>由识别符能推导出来的符号串叫句型。如果这里的符号都是终结符，就叫句子。</p>
+<p>一个文法描述的语言为其推导出的句子集合。两文法等价当且仅当其能推导出的句子集合相等。</p>
+<p>给定一个文法，则可唯一地确定其语言；给定一语言，可不唯一地确定其文法。</p>
+<h1 id="使用其它方式描述语言">使用其它方式描述语言</h1>
+<p>正则表达式之类的方法。</p>
+<h1 id="文法和语言的分类chomsky语言分类法">文法和语言的分类——Chomsky语言分类法</h1>
+<ul>
+<li>0型语言：没什么要求，基本是个文法生成的都是。等价于图灵机。</li>
+<li>1型语言：在0型语言的基础上，其文法之任一产生式之右部式长度有限。等价于线性有界自动机。</li>
+<li>2型语言：在1型语言的基础上，其文法之任一产生式之左部式仅有一非终结符。这意味着规约一个非终结符时无需考虑它前后是啥玩意，称为上下文无关文法。等价于下推自动机。</li>
+<li>3型语言：在2型语言的基础上，所有产生式均形如<code>A-&gt;aB|a</code>或所有产生式均形如<code>A-&gt;Ba|a</code>，等价于有限状态自动机。</li>
+</ul>
+<h1 id="推导与语法树">推导与语法树</h1>
+<p>最左或最右推导（每次推导均队最左或最右的非终结符应用重写规则）生成的句型叫最左或最右句型。反过来有最左最右规约。最早被研究的是最右推导，所以规范推导指的是这玩意；分析程序时都是从左往右读所以是先规约左边，所以规范规约指的是这玩意。</p>
+<p>不管你咋推导，只要得到了同一个句子，那语法树就应该是一样的，否则说明这个句子有二义性，生成这个句子的文法就叫二义性文法。</p>
+<p>不能仅根据文法本身判断它是否有二义性。</p>
+<h1 id="句型分析与语法树">句型分析与语法树</h1>
+<p>给定一个符号串，判断它是否是某个文法的句型，这个过程叫句型分析。</p>
+<p>一般有两种技术：</p>
+<ul>
+<li>自顶向下：从识别符号出发，尝试推导出相同的符号串。问题在于，同一个左部符号可能有多个产生式，推导的时候该应用哪个？</li>
+<li>自底向上：从输入串出发，尝试规约到识别符号。问题在于，同样的右部串可能可以规约到多个左部符号，规约到哪个？</li>
+</ul>
+<p>对一棵语法树，每一棵子树（与数据结构上不同，这里叶子不算子树）的叶子构成的串叫一个短语，这意味着它们能被规约到这棵子树的根的符号。只有一层的子树的叶子构成的串叫简单短语，这意味着一次规约就能把它规约到根的符号。最左的简单短语叫句柄，规范规约中将首先被规约。</p>
 ]]></content>
       <categories>
         <category>深蓝</category>
@@ -270,7 +607,7 @@
   </entry>
   <entry>
     <title>Struts2中Action的几种传值方式</title>
-    <url>/2019/11/07/%E8%A1%A8%E4%B8%96%E7%95%8C/Struts2%E4%B8%ADAction%E7%9A%84%E5%87%A0%E7%A7%8D%E4%BC%A0%E5%80%BC%E6%96%B9%E5%BC%8F/</url>
+    <url>/2019/11/07/%E8%A1%A8%E4%B8%96%E7%95%8C/Struts2/Struts2%E4%B8%ADAction%E7%9A%84%E5%87%A0%E7%A7%8D%E4%BC%A0%E5%80%BC%E6%96%B9%E5%BC%8F/</url>
     <content><![CDATA[<p><img src="https://blog-1256194686.cos.ap-shanghai.myqcloud.com/191107_struts2trans.jpg" /></p>
 <center>
 struts2中，传统的servlet中的request和response传递参数法仍可使用（但略有不同），并且增加了船新的传值方式。
@@ -311,17 +648,16 @@ struts2中，传统的servlet中的request和response传递参数法仍可使用
 ]]></content>
       <categories>
         <category>表世界</category>
-        <category>JSP</category>
+        <category>Struts2</category>
       </categories>
       <tags>
-        <tag>MyEclipse</tag>
         <tag>JSP</tag>
-        <tag>Struts</tag>
+        <tag>Struts2</tag>
       </tags>
   </entry>
   <entry>
     <title>Struts2中Action的几种Result</title>
-    <url>/2019/11/02/%E8%A1%A8%E4%B8%96%E7%95%8C/Struts2%E4%B8%ADAction%E7%9A%84%E5%87%A0%E7%A7%8DResult/</url>
+    <url>/2019/11/02/%E8%A1%A8%E4%B8%96%E7%95%8C/Struts2/Struts2%E4%B8%ADAction%E7%9A%84%E5%87%A0%E7%A7%8DResult/</url>
     <content><![CDATA[<p><img src="https://blog-1256194686.cos.ap-shanghai.myqcloud.com/191102_struts2action.png" /></p>
 <center>
 action跳转至页面、URL或另一个action。
@@ -372,17 +708,16 @@ action跳转至页面、URL或另一个action。
 ]]></content>
       <categories>
         <category>表世界</category>
-        <category>JSP</category>
+        <category>Struts2</category>
       </categories>
       <tags>
-        <tag>MyEclipse</tag>
         <tag>JSP</tag>
-        <tag>Struts</tag>
+        <tag>Struts2</tag>
       </tags>
   </entry>
   <entry>
     <title>自底向上语法分析</title>
-    <url>/2019/10/28/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/%E8%87%AA%E5%BA%95%E5%90%91%E4%B8%8A%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90/</url>
+    <url>/2019/10/28/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/%E5%8F%81%E3%83%BB%E8%87%AA%E5%BA%95%E5%90%91%E4%B8%8A%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90/</url>
     <content><![CDATA[<p><img src="https://blog-1256194686.cos.ap-shanghai.myqcloud.com/191028_ZiDiXlUhYuFaFfXi.png" /></p>
 <center>
 优先分析法和LR(0)、SLR(1)、LR(1)三种LR分析法。
@@ -427,8 +762,42 @@ E\rightarrow E+E|E\times E
 \end{aligned}
 \]</span></p>
 <p>判断<span class="math inline">\(\doteq\)</span>关系，只需硬看产生式。这里可知<span class="math inline">\((\doteq )\)</span>和隐式的<span class="math inline">\(\# \doteq \#\)</span>。</p>
-<p>判断<span class="math inline">\(\dot&lt;\)</span>关系，需先找到所有终结符后跟非终结符的情况，有<span class="math inline">\(;G\)</span>、<span class="math inline">\((T\)</span>、<span class="math inline">\((S\)</span>、<span class="math inline">\(+S\)</span>和隐式的<span class="math inline">\(\#S\)</span>、<span class="math inline">\(\#G\)</span>。这几个关系中，在前面的终结符的优先级小于后面的非终结符的First中元素。</p>
-<p>判断<span class="math inline">\(\dot&gt;\)</span>关系，需先找到所有非终结符后跟终结符的情况，有<span class="math inline">\(S;\)</span>、<span class="math inline">\(G(\)</span>、<span class="math inline">\(T)\)</span>、<span class="math inline">\(S)\)</span>和隐式的<span class="math inline">\(G\#\)</span>。这几个关系中，在前面的非终结符的Last集中元素优先级大于后面的终结符。</p>
+<p>判断<span class="math inline">\(\dot&lt;\)</span>关系，需先找到所有终结符后跟非终结符的情况，有<span class="math inline">\(;G\)</span>、<span class="math inline">\((T\)</span>、<span class="math inline">\((S\)</span>、<span class="math inline">\(+S\)</span>和隐式的<span class="math inline">\(\#S\)</span>、<span class="math inline">\(\#G\)</span>。这几个关系中，在前面的终结符的优先级小于后面的非终结符的<span class="math inline">\(FirstV_t\)</span>中元素，这里指的是产生式中的第一个终结符，而非可能产生的句子中的第一个终结符，与First集略有不同。</p>
+<p><span class="math display">\[
+\begin{aligned} 
+&amp;FirstV_t(S)=\{;\}+FirstV_t(G)=\{;\}+\{(\}+FirstV_t(H)=\{;\}+\{(\}+\{a,(\}=\{;,a,(\}\\
+&amp;FirstV_t(G)=\{a,(\}\\
+&amp;FirstV_t(H)=\{a,(\}\\
+&amp;FirstV_t(T)=\{+\}+FirstV_t(S)=\{+,;,a,(\}
+\end{aligned}
+\]</span></p>
+<p>故:</p>
+<ul>
+<li><span class="math inline">\(;G\)</span>有<span class="math inline">\(;\dot&lt; FirstV_t(G)\)</span>；</li>
+<li><span class="math inline">\((T\)</span>有<span class="math inline">\((\dot&lt; FirstV_t(T)\)</span>；</li>
+<li><span class="math inline">\((S\)</span>有<span class="math inline">\((\dot&lt; FirstV_t(S)\)</span>；</li>
+<li><span class="math inline">\(+S\)</span>有<span class="math inline">\(+\dot&lt; FirstV_t(S)\)</span>；</li>
+<li><span class="math inline">\(\#S\)</span>有<span class="math inline">\(\#\dot&lt; FirstV_t(S)\)</span>；</li>
+<li><span class="math inline">\(\#G\)</span>有<span class="math inline">\(\#\dot&lt; FirstV_t(G)\)</span>。</li>
+</ul>
+<p>判断<span class="math inline">\(\dot&gt;\)</span>关系，需先找到所有非终结符后跟终结符的情况，有<span class="math inline">\(S;\)</span>、<span class="math inline">\(G(\)</span>、<span class="math inline">\(T)\)</span>、<span class="math inline">\(S)\)</span>、<span class="math inline">\(T+\)</span>和隐式的<span class="math inline">\(G\#\)</span>。这几个关系中，在前面的非终结符的<span class="math inline">\(LastV_t\)</span>集中元素优先级大于后面的终结符，这里指的是产生式中的最后一个终结符，而非可能产生的句子中的第一个终结符，与Last集略有不同。</p>
+<p><span class="math display">\[
+\begin{aligned} 
+&amp;LastV_t(S)=\{;\}+LastV_t(G)=\{;\}+\{)\}+LastV_t(H)=\{;\}+\{)\}+\{a,)\}=\{;,a,)\}\\
+&amp;LastV_t(G)=\{a,)\}\\
+&amp;LastV_t(H)=\{a,)\}\\
+&amp;LastV_t(T)=\{+\}+LastV_t(S)=\{+,;,a,)\}
+\end{aligned}
+\]</span></p>
+<p>故:</p>
+<ul>
+<li><span class="math inline">\(S;\)</span>有<span class="math inline">\(LastV_t(S)\dot&gt;;\)</span>；</li>
+<li><span class="math inline">\(G(\)</span>有<span class="math inline">\(LastV_t(G)\dot&gt;(\)</span>；</li>
+<li><span class="math inline">\(T)\)</span>有<span class="math inline">\(LastV_t(T)\dot&gt;)\)</span>；</li>
+<li><span class="math inline">\(S)\)</span>有<span class="math inline">\(LastV_t(S)\dot&gt;)\)</span>；</li>
+<li><span class="math inline">\(G\#\)</span>有<span class="math inline">\(LastV_t(G)\dot&gt;\#\)</span>；</li>
+<li><span class="math inline">\(T+\)</span>有<span class="math inline">\(LastV_t(T)\dot&gt;+\)</span>；</li>
+</ul>
 <p>将这些关系构建为一张表：</p>
 <table>
 <thead>
@@ -445,56 +814,56 @@ E\rightarrow E+E|E\times E
 <tbody>
 <tr class="odd">
 <td>;</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<td><span class="math inline">\(\dot&gt;\)</span></td>
+<td><span class="math inline">\(\dot&lt;\)</span></td>
+<td><span class="math inline">\(\dot&gt;\)</span></td>
+<td><span class="math inline">\(\dot&gt;\)</span></td>
+<td><span class="math inline">\(\dot&lt;\)</span></td>
 <td></td>
 </tr>
 <tr class="even">
 <td>(</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<td><span class="math inline">\(\dot&lt;\)</span></td>
+<td><span class="math inline">\(\dot&lt;\)</span></td>
+<td><span class="math inline">\(\doteq\)</span></td>
+<td><span class="math inline">\(\dot&lt;\)</span></td>
+<td><span class="math inline">\(\dot&lt;\)</span></td>
 <td></td>
 </tr>
 <tr class="odd">
 <td>)</td>
+<td><span class="math inline">\(\dot&gt;\)</span></td>
+<td><span class="math inline">\(\dot&gt;\)</span></td>
+<td><span class="math inline">\(\dot&gt;\)</span></td>
+<td><span class="math inline">\(\dot&gt;\)</span></td>
 <td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<td><span class="math inline">\(\dot&gt;\)</span></td>
 </tr>
 <tr class="even">
 <td>+</td>
+<td><span class="math inline">\(\dot&lt;\)</span></td>
+<td><span class="math inline">\(\dot&lt;\)</span></td>
 <td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<td><span class="math inline">\(\dot&gt;\)</span></td>
+<td><span class="math inline">\(\dot&lt;\)</span></td>
 <td></td>
 </tr>
 <tr class="odd">
 <td>a</td>
+<td><span class="math inline">\(\dot&gt;\)</span></td>
+<td><span class="math inline">\(\dot&gt;\)</span></td>
+<td><span class="math inline">\(\dot&gt;\)</span></td>
+<td><span class="math inline">\(\dot&gt;\)</span></td>
 <td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<td><span class="math inline">\(\dot&gt;\)</span></td>
 </tr>
 <tr class="even">
 <td>#</td>
+<td><span class="math inline">\(\dot&lt;\)</span></td>
+<td><span class="math inline">\(\dot&lt;\)</span></td>
 <td></td>
 <td></td>
-<td></td>
-<td></td>
-<td></td>
+<td><span class="math inline">\(\dot&lt;\)</span></td>
 <td></td>
 </tr>
 </tbody>
@@ -623,7 +992,7 @@ E\rightarrow E+E|E\times E
 \]</span></p>
 <p>并引入一个“・”记号，这个记号之前的部分为已经读入（并且匹配）的部分，之后的部分为期望为读入的部分匹配的部分。为了便于识别，手写时将点记号写作“<span class="math inline">\(\Delta\)</span>”。</p>
 <p>为了得到想要的两个表，需要先构建这个文法的自动机。</p>
-<p>首先看起始状态，现在面对一个未知的串，期望其匹配G'，也就是未读入的部分匹配<span class="math inline">\(S \#\)</span>。将现在的状态称为<span class="math inline">\(S_0\)</span>，也就是：</p>
+<p>首先看起始状态，现在面对一个未知的串，期望其匹配G'，也就是未读入的部分匹配<span class="math inline">\(S\#\)</span>。将现在的状态称为<span class="math inline">\(S_0\)</span>，也就是：</p>
 <table>
 <thead>
 <tr class="header">
@@ -784,7 +1153,7 @@ E\rightarrow E+E|E\times E
 </tbody>
 </table>
 <p>对于两个后继为<span class="math inline">\(a\)</span>的，由于其都是“第一个读到<span class="math inline">\(a\)</span>”的情况，所以对应的下一个状态是相同的。</p>
-<p>现在考虑<span class="math inline">\(S_1\)</span>。现在已经读入了<span class="math inline">\(S\)</span>（或者不能叫读入了，因为<span class="math inline">\(S\)</span>并不是一个终结符，不过意思是这么个意思……），所以<span class="math inline">\(\Delta\)</span>要放在<span class="math inline">\(S\)</span>后面，那就是后面没有没有待匹配的东西了，期望读入EOF：</p>
+<p>现在考虑<span class="math inline">\(S_1\)</span>。现在已经读入了<span class="math inline">\(S\)</span>（或者不能叫读入了，因为<span class="math inline">\(S\)</span>并不是一个终结符，不过意思是这么个意思……），所以<span class="math inline">\(\Delta\)</span>要放在<span class="math inline">\(S\)</span>后面，那就是后面没有没有待匹配的东西了，这时进行规约：</p>
 <table>
 <thead>
 <tr class="header">
@@ -798,7 +1167,7 @@ E\rightarrow E+E|E\times E
 <tr class="odd">
 <td><span class="math inline">\(S_1\)</span></td>
 <td><span class="math inline">\(S&#39;\rightarrow S\Delta\)</span></td>
-<td><span class="math inline">\(\#\)</span></td>
+<td><span class="math inline">\(\#S&#39;\rightarrow S\)</span></td>
 <td>END</td>
 </tr>
 </tbody>
@@ -817,13 +1186,13 @@ E\rightarrow E+E|E\times E
 <tr class="odd">
 <td><span class="math inline">\(S_2\)</span></td>
 <td><span class="math inline">\(S\rightarrow A\Delta\)</span></td>
-<td><span class="math inline">\(\#\)</span></td>
+<td><span class="math inline">\(\#S\rightarrow A\)</span></td>
 <td>END</td>
 </tr>
 <tr class="even">
 <td><span class="math inline">\(S_3\)</span></td>
 <td><span class="math inline">\(S\rightarrow B\Delta\)</span></td>
-<td><span class="math inline">\(\#\)</span></td>
+<td><span class="math inline">\(\#S\rightarrow B\)</span></td>
 <td>END</td>
 </tr>
 </tbody>
@@ -892,13 +1261,13 @@ E\rightarrow E+E|E\times E
 <tr class="odd">
 <td><span class="math inline">\(S_5\)</span></td>
 <td><span class="math inline">\(A\rightarrow c\Delta\)</span></td>
-<td><span class="math inline">\(\#\)</span></td>
+<td><span class="math inline">\(\#A\rightarrow c\)</span></td>
 <td>END</td>
 </tr>
 <tr class="even">
 <td><span class="math inline">\(S_6\)</span></td>
 <td><span class="math inline">\(B\rightarrow d\Delta\)</span></td>
-<td><span class="math inline">\(\#\)</span></td>
+<td><span class="math inline">\(\#B\rightarrow d\)</span></td>
 <td>END</td>
 </tr>
 </tbody>
@@ -942,13 +1311,13 @@ E\rightarrow E+E|E\times E
 <tr class="odd">
 <td><span class="math inline">\(S_9\)</span></td>
 <td><span class="math inline">\(A\rightarrow aAb\Delta\)</span></td>
-<td><span class="math inline">\(\#\)</span></td>
+<td><span class="math inline">\(\#A\rightarrow aAb\)</span></td>
 <td>END</td>
 </tr>
 <tr class="even">
 <td><span class="math inline">\(S_10\)</span></td>
 <td><span class="math inline">\(B\rightarrow aBb\Delta\)</span></td>
-<td><span class="math inline">\(\#\)</span></td>
+<td><span class="math inline">\(\#B\rightarrow aBb\)</span></td>
 <td>END</td>
 </tr>
 </tbody>
@@ -979,19 +1348,19 @@ E\rightarrow E+E|E\times E
 <tr class="even">
 <td><span class="math inline">\(S_1\)</span></td>
 <td><span class="math inline">\(\{\\S&#39;\rightarrow S\Delta\\\}\)</span></td>
-<td><span class="math inline">\(\#\)</span></td>
+<td><span class="math inline">\(\#S&#39;\rightarrow S\)</span></td>
 <td>END</td>
 </tr>
 <tr class="odd">
 <td><span class="math inline">\(S_2\)</span></td>
 <td><span class="math inline">\(\{\\S\rightarrow A\Delta\\\}\)</span></td>
-<td><span class="math inline">\(\#\)</span></td>
+<td><span class="math inline">\(\#S\rightarrow A\)</span></td>
 <td>END</td>
 </tr>
 <tr class="even">
 <td><span class="math inline">\(S_3\)</span></td>
 <td><span class="math inline">\(\{\\S\rightarrow B\Delta\\\}\)</span></td>
-<td><span class="math inline">\(\#\)</span></td>
+<td><span class="math inline">\(\#S\rightarrow B\)</span></td>
 <td>END</td>
 </tr>
 <tr class="odd">
@@ -1003,13 +1372,13 @@ E\rightarrow E+E|E\times E
 <tr class="even">
 <td><span class="math inline">\(S_5\)</span></td>
 <td><span class="math inline">\(\{\\A\rightarrow c\Delta\\\}\)</span></td>
-<td><span class="math inline">\(\#\)</span></td>
+<td><span class="math inline">\(\#A\rightarrow c\)</span></td>
 <td>END</td>
 </tr>
 <tr class="odd">
 <td><span class="math inline">\(S_6\)</span></td>
 <td><span class="math inline">\(\{\\B\rightarrow d\Delta\\\}\)</span></td>
-<td><span class="math inline">\(\#\)</span></td>
+<td><span class="math inline">\(\#B\rightarrow d\)</span></td>
 <td>END</td>
 </tr>
 <tr class="even">
@@ -1027,13 +1396,13 @@ E\rightarrow E+E|E\times E
 <tr class="even">
 <td><span class="math inline">\(S_9\)</span></td>
 <td><span class="math inline">\(\{\\A\rightarrow aAb\Delta\\\}\)</span></td>
-<td><span class="math inline">\(\#\)</span></td>
+<td><span class="math inline">\(\#A\rightarrow aAb\)</span></td>
 <td>END</td>
 </tr>
 <tr class="odd">
 <td><span class="math inline">\(S_{10}\)</span></td>
 <td><span class="math inline">\(\{\\B\rightarrow aBb\Delta\\\}\)</span></td>
-<td><span class="math inline">\(\#\)</span></td>
+<td><span class="math inline">\(\#B\rightarrow aBb\)</span></td>
 <td>END</td>
 </tr>
 <tr class="even">
@@ -1168,10 +1537,20 @@ E\rightarrow E+E|E\times E
 <p>依此类推即可获得分析表。</p>
 <p>这种分析方法的问题在于，一旦进入某个可以规约的状态，无论输入是什么都会规约。这可能导致错误的规约。</p>
 <h2 id="slr1分析">SLR(1)分析</h2>
-<p>但是对大部分文法，会出现移进与规约的冲突和规约与规约的冲突。</p>
+<p>对大部分文法，会出现移进与规约的冲突和规约与规约的冲突。</p>
 <p>设有文法<span class="math inline">\(G[S]\)</span>：</p>
 <p><span class="math display">\[
 \begin{aligned}
+&amp;(1)S\rightarrow A\\
+&amp;(2)A\rightarrow aAd\\
+&amp;(3)A\rightarrow aAb\\
+&amp;(4)A\rightarrow \epsilon
+\end{aligned}
+\]</span></p>
+<p>写为<span class="math inline">\(G&#39;[S&#39;]\)</span>：</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;(0)S&#39;\rightarrow S\\
 &amp;(1)S\rightarrow A\\
 &amp;(2)A\rightarrow aAd\\
 &amp;(3)A\rightarrow aAb\\
@@ -1204,8 +1583,69 @@ E\rightarrow E+E|E\times E
 </tbody>
 </table>
 <p>可以发现这里面既有移进项又有规约项。这种情况就说这个文法不是LR(0)的。如果一个文法的自动机同时存在不止一个规约项目，它也不是LR(0)的。</p>
-<p>但<span class="math inline">\(A\)</span>的Follow集和这里的两个<span class="math inline">\(a\)</span>无交集，故可以根据这个进行判断是移进还是规约，这种叫SLR(1)文法，因为根据下一个输入字符即可判断执行什么操作。之所以是SLR而不是LR，是因为它仅在冲突时进行判断，不冲突时仍然是不管输入啥都规约。这导致有时仍然会错误地规约。一个项目集中有两个规约的情况类似，考察两个左部符号的Follow集，没有交集的话也OK。</p>
-<p>类似LR(0)地可获得分析表。唯一区别就是有些地方状态既可能要移进也可能要规约，而不是要规约一整行都是规约。以状态<span class="math inline">\(S_0\)</span>为例：</p>
+<p>继续分析：</p>
+<table>
+<colgroup>
+<col style="width: 2%" />
+<col style="width: 70%" />
+<col style="width: 18%" />
+<col style="width: 8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>状态</th>
+<th>项目集</th>
+<th>后继符号</th>
+<th>后继状态</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(S_0\)</span></td>
+<td><span class="math inline">\(\{\\S&#39;\rightarrow \Delta S\\S\rightarrow \Delta A\\A\rightarrow \Delta aAd\\A\rightarrow \Delta aAb\\A\rightarrow \epsilon \Delta \\\}\)</span></td>
+<td><span class="math inline">\(S\\A\\a\\a\\\#A\rightarrow \epsilon\)</span></td>
+<td><span class="math inline">\(1\\2\\3\\3\\END\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(S_1\)</span></td>
+<td><span class="math inline">\(\{\\S&#39;\rightarrow S\Delta\\\}\)</span></td>
+<td><span class="math inline">\(\#S&#39;\rightarrow S\)</span></td>
+<td><span class="math inline">\(END\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(S_2\)</span></td>
+<td><span class="math inline">\(\{\\S\rightarrow A\Delta\\\}\)</span></td>
+<td><span class="math inline">\(\#S\rightarrow A\)</span></td>
+<td><span class="math inline">\(END\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(S_3\)</span></td>
+<td><span class="math inline">\(\{\\A\rightarrow a\Delta Ad\\A\rightarrow a\Delta Ab\\A\rightarrow \Delta aAd\\A\rightarrow \Delta aAb\\A\rightarrow \epsilon \Delta\\\}\)</span></td>
+<td><span class="math inline">\(A\\A\\a\\a\\\#A\rightarrow \epsilon\)</span></td>
+<td><span class="math inline">\(4\\4\\3\\3\\END\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(S_4\)</span></td>
+<td><span class="math inline">\(\{\\A\rightarrow aA\Delta d\\A\rightarrow aA\Delta b\\\}\)</span></td>
+<td><span class="math inline">\(d\\b\)</span></td>
+<td><span class="math inline">\(5\\6\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(S_5\)</span></td>
+<td><span class="math inline">\(\{\\A\rightarrow aAd\Delta\\\}\)</span></td>
+<td><span class="math inline">\(\#A\rightarrow aAd\)</span></td>
+<td><span class="math inline">\(END\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(S_6\)</span></td>
+<td><span class="math inline">\(\{\\A\rightarrow aAb\Delta\\\}\)</span></td>
+<td><span class="math inline">\(\#A\rightarrow aAb\)</span></td>
+<td><span class="math inline">\(END\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>除上述冲突外无其它冲突。冲突的<span class="math inline">\(A\)</span>的Follow集和这里的两个<span class="math inline">\(a\)</span>无交集，故可以根据这个进行判断是移进还是规约，这种叫SLR(1)文法，因为根据下一个输入字符即可判断执行什么操作。之所以是SLR而不是LR，是因为它仅在冲突时进行判断，不冲突时仍然是不管输入啥都规约。这导致有时仍然会错误地规约。一个项目集中有两个规约的情况类似，考察两个左部符号的Follow集，没有交集的话也OK。</p>
+<p>类似LR(0)地可获得分析表。唯一区别就是有些地方状态既可能要移进也可能要规约，而不是要规约一整行都是规约：</p>
 <table>
 <thead>
 <tr class="header">
@@ -1215,19 +1655,86 @@ E\rightarrow E+E|E\times E
 <th>d</th>
 <th>#</th>
 <th>A</th>
+<th>S</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td><span class="math inline">\(S_0\)</span></td>
-<td>s2</td>
+<td>s3</td>
 <td>r4</td>
 <td>r4</td>
 <td>r4</td>
+<td>2</td>
 <td>1</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(S_1\)</span></td>
+<td></td>
+<td></td>
+<td></td>
+<td>acc</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(S_2\)</span></td>
+<td>r1</td>
+<td>r1</td>
+<td>r1</td>
+<td>r1</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(S_3\)</span></td>
+<td>s3</td>
+<td>r4</td>
+<td>r4</td>
+<td>r4</td>
+<td>4</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(S_4\)</span></td>
+<td></td>
+<td>s6</td>
+<td>s5</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(S_5\)</span></td>
+<td>r2</td>
+<td>r2</td>
+<td>r2</td>
+<td>r2</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(S_6\)</span></td>
+<td>r3</td>
+<td>r3</td>
+<td>r3</td>
+<td>r3</td>
+<td></td>
+<td></td>
 </tr>
 </tbody>
 </table>
+<p>以分析<code>ab#</code>为例，初始为：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">+-----------------+ +----------------------------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|status  |symble  | |   ab#                            |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+ +---^------------------------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |     |</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |     |</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |     +</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|S0      |#       |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr></table></figure>
+<p>S0遇a，故入栈S3和a，指针后移：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">+-----------------+ +----------------------------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|status  |symble  | |   ab#                            |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+ +----^-----------------------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |      |</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |      |</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |      +</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|S3      |a       |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|S0      |#       |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr></table></figure>
+<p>S3遇b，按规则(4)规约。规则(4)右部串长度为0，故弹出栈顶前0个元素。弹完栈顶是(S3,a)，规则(4)左部符号为A，故S3遇A，将S4和A入栈。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">+-----------------+ +----------------------------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|status  |symble  | |   ab#                            |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+ +----^-----------------------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |      |</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |      |</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |      +</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|S4      |A       |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|S3      |a       |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|S0      |#       |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr></table></figure>
+<p>S4遇b，入栈S6和b，指针后移。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">+-----------------+ +----------------------------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|status  |symble  | |   ab#                            |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+ +-----^----------------------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |       |</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |       |</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |       +</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|S6      |b       |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|S4      |A       |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|S3      |a       |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|S0      |#       |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr></table></figure>
+<p>S6遇#，按规则(3)规约。规则(3)右部串长度为3，故弹出栈顶三元素，弹出后栈顶为(S0,#)，规则(3)左部符号为A。S0遇A，入栈S2和A。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">+-----------------+ +----------------------------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|status  |symble  | |   ab#                            |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+ +-----^----------------------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |       |</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |       |</span></pre></td></tr><tr><td class="code"><pre><span class="line">|        |        |       +</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|S2      |A       |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">|S0      |#       |</span></pre></td></tr><tr><td class="code"><pre><span class="line">+-----------------+</span></pre></td></tr></table></figure>
+<p>S2遇#，按规则(1)规约，弹一对元素，S0遇S转S1，遇#，接受。</p>
 <h2 id="lr1分析">LR(1)分析</h2>
 <p>上面讲项目集规约与移进、规约与规约出现冲突时考察交集，那万一有呢？当时是通过比较Follow集，但Follow集只是个笼统的说法，一个非终结符的Follow集中的某个元素可能在某些句型中并不会出现。考虑在自动机的每一个产生式中标注其推导出的句型可能的后缀，当遇到可能遇到的后缀时才进行规约。这不止可以避免冲突，还可以避免误规约。</p>
 ]]></content>
@@ -1241,8 +1748,8 @@ E\rightarrow E+E|E\times E
       </tags>
   </entry>
   <entry>
-    <title>在MyEclipse中使用Struts框架</title>
-    <url>/2019/10/24/%E6%88%8F%E6%B3%95/%E5%9C%A8MyEclipse%E4%B8%AD%E4%BD%BF%E7%94%A8Struts%E6%A1%86%E6%9E%B6/</url>
+    <title>在MyEclipse中使用Struts2框架</title>
+    <url>/2019/10/24/%E8%A1%A8%E4%B8%96%E7%95%8C/Struts2/%E5%9C%A8MyEclipse%E4%B8%AD%E4%BD%BF%E7%94%A8Struts2%E6%A1%86%E6%9E%B6/</url>
     <content><![CDATA[<p><img src="https://blog-1256194686.cos.ap-shanghai.myqcloud.com/191024_struts.png" /></p>
 <center>
 贼难配的环境。学委甚至到快结课才配好……
@@ -1293,17 +1800,18 @@ E\rightarrow E+E|E\times E
 <p>右击项目，运行方式-&gt;在服务器上运行即可。</p>
 ]]></content>
       <categories>
-        <category>戏法</category>
+        <category>表世界</category>
+        <category>Struts2</category>
       </categories>
       <tags>
-        <tag>MyEclipse</tag>
         <tag>JSP</tag>
-        <tag>Struts</tag>
+        <tag>MyEclipse</tag>
+        <tag>Struts2</tag>
       </tags>
   </entry>
   <entry>
     <title>编写一个注册页面并使用JS函数校验</title>
-    <url>/2019/10/11/%E8%A1%A8%E4%B8%96%E7%95%8C/%E7%BC%96%E5%86%99%E4%B8%80%E4%B8%AA%E6%B3%A8%E5%86%8C%E9%A1%B5%E9%9D%A2%E5%B9%B6%E4%BD%BF%E7%94%A8JS%E5%87%BD%E6%95%B0%E6%A0%A1%E9%AA%8C/</url>
+    <url>/2019/10/11/%E8%A1%A8%E4%B8%96%E7%95%8C/JavaScript%E4%B8%8EjQuery/%E7%BC%96%E5%86%99%E4%B8%80%E4%B8%AA%E6%B3%A8%E5%86%8C%E9%A1%B5%E9%9D%A2%E5%B9%B6%E4%BD%BF%E7%94%A8JS%E5%87%BD%E6%95%B0%E6%A0%A1%E9%AA%8C/</url>
     <content><![CDATA[<p><img src="https://blog-1256194686.cos.ap-shanghai.myqcloud.com/191011_JSsubmit.jpg" /></p>
 <center>
 实现了简单的参数传递与判断。不连接数据库。
@@ -1324,16 +1832,16 @@ E\rightarrow E+E|E\times E
 ]]></content>
       <categories>
         <category>表世界</category>
-        <category>JavaScript</category>
+        <category>JavaScript与jQuery</category>
       </categories>
       <tags>
+        <tag>HTML</tag>
         <tag>JavaScript</tag>
-        <tag>Html</tag>
       </tags>
   </entry>
   <entry>
     <title>Manjaro Linux下配置JS&amp;jQuery开发环境</title>
-    <url>/2019/10/11/%E6%88%8F%E6%B3%95/Manjaro-Linux%E4%B8%8B%E9%85%8D%E7%BD%AEJS-jQuery%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</url>
+    <url>/2019/10/11/%E8%A1%A8%E4%B8%96%E7%95%8C/JavaScript%E4%B8%8EjQuery/Manjaro-Linux%E4%B8%8B%E9%85%8D%E7%BD%AEJS-jQuery%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</url>
     <content><![CDATA[<p><img src="https://blog-1256194686.cos.ap-shanghai.myqcloud.com/191011_spket.jpg" /></p>
 <center>
 之前的JSP环境直接就可以拿来写JS,但是并没有语法提示等,因此需要装个插件解决这个问题。
@@ -1355,11 +1863,12 @@ E\rightarrow E+E|E\times E
 <p>右键项目名称，点击Reload JavaScript Profile然后再打开JS文件（可能需要重启），应当会出现语法提示和智能补全。</p>
 ]]></content>
       <categories>
-        <category>戏法</category>
+        <category>表世界</category>
+        <category>JavaScript与jQuery</category>
       </categories>
       <tags>
-        <tag>JavaScript</tag>
         <tag>MyEclipse</tag>
+        <tag>JavaScript</tag>
         <tag>jQuery</tag>
       </tags>
   </entry>
@@ -1512,7 +2021,7 @@ E\rightarrow E+E|E\times E
   </entry>
   <entry>
     <title>Manjaro Linux下配置MySQL并在MyEclipse中使用</title>
-    <url>/2019/09/30/%E6%88%8F%E6%B3%95/Manjaro-Linux%E4%B8%8B%E9%85%8D%E7%BD%AEMySQL%E5%B9%B6%E5%9C%A8MyEclipse%E4%B8%AD%E4%BD%BF%E7%94%A8/</url>
+    <url>/2019/09/30/%E8%A1%A8%E4%B8%96%E7%95%8C/JSP/Manjaro-Linux%E4%B8%8B%E9%85%8D%E7%BD%AEMySQL%E5%B9%B6%E5%9C%A8MyEclipse%E4%B8%AD%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<p><img src="https://blog-1256194686.cos.ap-shanghai.myqcloud.com/190930_mysql.png" /></p>
 <center>
 配合MyEclipse使用MySQL。
@@ -1556,12 +2065,59 @@ E\rightarrow E+E|E\times E
 <p>再在<code>src/</code>新建一包，在其中新建一类。以包名为<code>testDB</code>、类名为<code>Test</code>、前面新建的table名为<code>new_table</code>、table中有<code>name</code>和<code>pw</code>两列为例：</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> testDB;</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.sql.*;</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="class"></span>&#123; </span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="keyword">static</span> <span class="keyword">final</span> String <span class="keyword">package</span> testDB;</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.sql.*;</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="class"></span>&#123; </span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="keyword">static</span> <span class="keyword">final</span> String JDBC_DRIVER = <span class="string">"com.mysql.cj.jdbc.Driver"</span>;  </span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="keyword">static</span> <span class="keyword">final</span> String DB_URL = <span class="string">"jdbc:mysql://localhost:3306/db0?useSSL=false&amp;serverTimezone=UTC"</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="keyword">static</span> <span class="keyword">final</span> String USER = <span class="string">"root"</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="keyword">static</span> <span class="keyword">final</span> String PASS = <span class="string">"235604"</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function">	</span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">		Connection conn = <span class="keyword">null</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">		Statement stmt = <span class="keyword">null</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">		</span></pre></td></tr><tr><td class="code"><pre><span class="line">		<span class="keyword">try</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">		&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">			<span class="comment">// 注册 JDBC 驱动</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">			Class.forName(JDBC_DRIVER);</span></pre></td></tr><tr><td class="code"><pre><span class="line">			<span class="comment">// 打开链接</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">			System.out.println(<span class="string">"连接数据库..."</span>);</span></pre></td></tr><tr><td class="code"><pre><span class="line">			conn = DriverManager.getConnection(DB_URL,USER,PASS);</span></pre></td></tr><tr><td class="code"><pre><span class="line">			<span class="comment">// 执行查询</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">			System.out.println(<span class="string">"实例化Statement对象..."</span>);</span></pre></td></tr><tr><td class="code"><pre><span class="line">			stmt = conn.createStatement();</span></pre></td></tr><tr><td class="code"><pre><span class="line">			String sql;</span></pre></td></tr><tr><td class="code"><pre><span class="line">			sql = <span class="string">"SELECT name,pw FROM new_table"</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">			ResultSet rs = stmt.executeQuery(sql);</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">			<span class="comment">// 打印结果</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">			<span class="keyword">while</span>(rs.next())</span></pre></td></tr><tr><td class="code"><pre><span class="line">			&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">				<span class="comment">// 通过字段检索</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">				String name = rs.getString(<span class="string">"name"</span>);</span></pre></td></tr><tr><td class="code"><pre><span class="line">				String pw = rs.getString(<span class="string">"pw"</span>);</span></pre></td></tr><tr><td class="code"><pre><span class="line">					</span></pre></td></tr><tr><td class="code"><pre><span class="line">				<span class="comment">// 输出数据</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">				System.out.print(<span class="string">"账户: "</span> + name);</span></pre></td></tr><tr><td class="code"><pre><span class="line">				System.out.print(<span class="string">"\t"</span>);</span></pre></td></tr><tr><td class="code"><pre><span class="line">				System.out.print(<span class="string">"密码: "</span> + pw);</span></pre></td></tr><tr><td class="code"><pre><span class="line">				System.out.print(<span class="string">"\n"</span>);</span></pre></td></tr><tr><td class="code"><pre><span class="line">			&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">			</span></pre></td></tr><tr><td class="code"><pre><span class="line">			<span class="comment">// 完成后关闭</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">			rs.close();</span></pre></td></tr><tr><td class="code"><pre><span class="line">			stmt.close();</span></pre></td></tr><tr><td class="code"><pre><span class="line">			conn.close();</span></pre></td></tr><tr><td class="code"><pre><span class="line">			</span></pre></td></tr><tr><td class="code"><pre><span class="line">		&#125;<span class="keyword">catch</span>(SQLException se)&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">			<span class="comment">// 处理 JDBC 错误</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">			se.printStackTrace();</span></pre></td></tr><tr><td class="code"><pre><span class="line">		&#125;<span class="keyword">catch</span>(Exception e)&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">			<span class="comment">// 处理 Class.forName 错误</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">			e.printStackTrace();</span></pre></td></tr><tr><td class="code"><pre><span class="line">		&#125;<span class="keyword">finally</span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">			<span class="comment">// 关闭资源</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">			<span class="keyword">try</span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">				<span class="keyword">if</span>(stmt!=<span class="keyword">null</span>) stmt.close();</span></pre></td></tr><tr><td class="code"><pre><span class="line">			&#125;<span class="keyword">catch</span>(SQLException se2)&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">				<span class="comment">// 什么都不做</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">			&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">			</span></pre></td></tr><tr><td class="code"><pre><span class="line">			<span class="keyword">try</span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">				<span class="keyword">if</span>(conn!=<span class="keyword">null</span>) conn.close();</span></pre></td></tr><tr><td class="code"><pre><span class="line">			&#125;<span class="keyword">catch</span>(SQLException se)&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">				se.printStackTrace();</span></pre></td></tr><tr><td class="code"><pre><span class="line">			&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">		&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">		System.out.println(<span class="string">"Goodbye!"</span>);</span></pre></td></tr><tr><td class="code"><pre><span class="line">	&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
 <p>【注意】对旧版JDBC，<code>JDBC_DRIVER</code>与<code>DB_URL</code>两项与以上不同。与老版相比，这里使用的新的8.0版本将<code>com.mysql.jdbc.Driver</code>改为<code>com.mysql.cj.jdbc.Driver</code>（需要注意Tomcat也要用JDK8）；另外已不需要建立ssl连接，但需要设置CST时区。</p>
-<p>若输出正确，则一切就绪。</p>
+<p>各数据库默认端口号如下：</p>
+<table>
+<thead>
+<tr class="header">
+<th>数据库</th>
+<th>端口</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Oracle</strong></td>
+<td><strong>1521</strong></td>
+</tr>
+<tr class="even">
+<td><strong>SQL Server</strong></td>
+<td><strong>1433</strong></td>
+</tr>
+<tr class="odd">
+<td><strong>MySQL</strong></td>
+<td><strong>3306</strong></td>
+</tr>
+<tr class="even">
+<td><strong>Derby</strong></td>
+<td><strong>1527</strong></td>
+</tr>
+<tr class="odd">
+<td>pointbase</td>
+<td>9092</td>
+</tr>
+<tr class="even">
+<td>DB2</td>
+<td>5000</td>
+</tr>
+<tr class="odd">
+<td>MongoDB</td>
+<td>27017</td>
+</tr>
+<tr class="even">
+<td>Redis</td>
+<td>6379</td>
+</tr>
+<tr class="odd">
+<td>memcached</td>
+<td>11211</td>
+</tr>
+</tbody>
+</table>
 <h1 id="尾声">5. 尾声</h1>
 <p>如需在Web开发中使用JDBC，需将<code>.jar</code>放一份到Tomcat的lib目录下，并重启。一定注意跑页面时选择Tomcat，不然连不上数据库。</p>
 ]]></content>
       <categories>
-        <category>戏法</category>
+        <category>表世界</category>
+        <category>JSP</category>
       </categories>
       <tags>
         <tag>MyEclipse</tag>
@@ -1570,7 +2126,7 @@ E\rightarrow E+E|E\times E
   </entry>
   <entry>
     <title>Manjaro Linux下配置JSP开发环境</title>
-    <url>/2019/09/26/%E6%88%8F%E6%B3%95/Manjaro-Linux%E4%B8%8B%E9%85%8D%E7%BD%AEJSP%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</url>
+    <url>/2019/09/26/%E8%A1%A8%E4%B8%96%E7%95%8C/JSP/Manjaro-Linux%E4%B8%8B%E9%85%8D%E7%BD%AEJSP%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</url>
     <content><![CDATA[<p><img src="https://blog-1256194686.cos.ap-shanghai.myqcloud.com/190926_myeclipse.png" /></p>
 <center>
 MyEclipse的安装。
@@ -1586,26 +2142,28 @@ MyEclipse的安装。
 <h1 id="安装jdk">1. 安装JDK</h1>
 <p>从官网<code>https://www.oracle.com/technetwork/java/javase/downloads/index.html</code>下载JavaSE的tar.gz格式，完成后提取到随便什么地方，例如家目录下。</p>
 <p>在<code>~/.bashrc</code>中添加：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">export PATH&#x3D;&#x2F;home&#x2F;oiljhihai&#x2F;jdk1.8.0_221bin:$PATH</span></pre></td></tr><tr><td class="code"><pre><span class="line">export JAVA_HOME&#x3D;&#x2F;home&#x2F;oiljhihai&#x2F;jdk1.8.0_221&#x2F;</span></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">export PATH&#x3D;~&#x2F;jdk1.8.0_221bin:$PATH</span></pre></td></tr><tr><td class="code"><pre><span class="line">export JAVA_HOME&#x3D;~&#x2F;jdk1.8.0_221&#x2F;</span></pre></td></tr></table></figure>
 <p>此时运行<code>java -version</code>可判断安装情况。</p>
 <h1 id="安装myeclipse">2. 安装MyEclipse</h1>
 <p>MyEclipse是集成了一些包的Eclipse，与后者不同，这是一个收费软件。</p>
 <p>获取Myeclipse的<code>.run</code>文件、破解包和汉化包，进入<code>.run</code>文件目录打开终端，<code>chmod +x myeclipse-2017-ci-10-offline-installer-linux.run</code>增加权限，<code>./myeclipse-2017-ci-10-offline-installer-linux.run</code>运行程序安装。装好后取消勾选launch，不要打开。</p>
 <p>打开破解包的<code>patch</code>，使用里面的文件替换掉MyEclipse安装目录下的plugins内的同名文件，再进入破解包另一个文件夹打开终端运行<code>java -jar cracker2017.jar</code>，注意该安装包只能运行在java8下，如果最开始安装的JDK是更新的版本，需要用同样的方法安装java8并修改PATH。进入破解软件界面后输入Usercode（任意字母或者数字），后面的下拉列表选择Blue，点击SystemId两次，点击Active，点击菜单栏-&gt;Tools-&gt;saveProperties。此时启动MyEclipse，在help-&gt;subscription information可见产品已激活。</p>
 <p>直接使用汉化包中的文件夹合并MyEclipse安装目录中的同名文件夹并替换其中同名文件即可完成汉化。</p>
-<p>在首选项中Maven项下关闭一个什么启动更新的项关掉它。</p>
+<p>在首选项中Maven项下关闭所有有关下载啊更新啊之类的项。</p>
 <h1 id="安装tomcat并将之与myeclipse关联">3. 安装tomcat并将之与MyEclipse关联</h1>
+<p>此项可忽略，因为MyEclipse自带Tomcat。但也按以下步骤可以安装新的版本，并不冲突。</p>
 <p>从官网<code>http://tomcat.apache.org/</code>下载tar.gz包并提取，例如提取到家目录，可在终端执行<code>bin</code>下的<code>startup.sh</code>和<code>shutdown.sh</code>开启和关闭，开启后通过访问<code>http://localhost:8080/</code>可以看到一个页面。</p>
 <p>在首选项中服务器项下的运行时环境项下点击&quot;add&quot;的添加按钮，弹出选项，选择与下载的相同的Tomcat版本，&quot;Next&quot;，选择Tomcat的安装目录，并选择安装的Java环境，&quot;Finish&quot;，完成配置。</p>
-<p>新建Web Project时注意一下选项中的Target Runtime是否已经自动配制好了。如果不是刚才配制的则需要点后面的<code>New Runtime</code>再添加一次。创建项目时记得在最后一个选项卡勾选<code>Generate Web.xml...</code>那一项。运行新建的Web Project，可以看到一个有一行文字的网页。</p>
+<p>新建Web Project时注意一下选项中的Target Runtime，如果不是刚才配置的则需要点后面的<code>New Runtime</code>添加。创建项目时记得在最后一个选项卡勾选<code>Generate Web.xml...</code>那一项。运行新建的Web Project，可以看到一个有一行文字的网页。</p>
 ]]></content>
       <categories>
-        <category>戏法</category>
+        <category>表世界</category>
+        <category>JSP</category>
       </categories>
       <tags>
+        <tag>JSP</tag>
         <tag>MyEclipse</tag>
         <tag>Java</tag>
-        <tag>JSP</tag>
       </tags>
   </entry>
   <entry>
