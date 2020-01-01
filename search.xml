@@ -1,8 +1,425 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>操作系统・壹・处理机管理</title>
+    <url>/2019/12/24/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E3%83%BB%E5%A3%B9%E3%83%BB%E5%A4%84%E7%90%86%E6%9C%BA%E7%AE%A1%E7%90%86/</url>
+    <content><![CDATA[<p><img src="" /></p>
+<center>
+包括进程、死锁和作业调度相关内容。
+</center>
+<a id="more"></a>
+<h1 id="顺序与并发执行的描述">顺序与并发执行的描述</h1>
+<p>说一个程序是顺序执行的，意味着其每个程序段是依次执行的，且每个程序段内的所有指令也是依次执行的。这种程序运行时<strong>独占全机资源</strong>，<strong>执行结果不受外界影响</strong>。</p>
+<p>使用前驱图描述程序执行的先后顺序。前驱图是一个有向图，节点为一个程序或语句（或进程），如果一个节点必须在另一个节点执行后才能执行，就从后者引一条边至前者。称后者是前者的<strong>前驱</strong>。前驱图应当是无环的。</p>
+<p>如果两节点间没有前驱关系（直接或间接），它们就可以并发地执行。</p>
+<p>并发执行的程序为了满足同时段内执行的内容没有前驱关系，进程间可能要相互等一等之类，会有执行的“<strong>间断性</strong>”；由于是多个程序并发地在跑，因此全机资源不是被独占的，一个程序跑的时候可能修改了另一个程序的数据之类，<strong>失去了封闭性</strong>，也意味着可能两次输入相同的运行的输出不一样，出现<strong>不可再现的、与时间有关的错误</strong>。</p>
+<h1 id="进程的基本概念">进程的基本概念</h1>
+<p>传统意义上，进程是程序在一个数据集上的运行过程，是系统进行资源分配和调度的一个独立单位。其实体由程序段、相关的数据段和进程控制块（PCB）构成。</p>
+<p>与程序不同，程序只是一堆死的代码，是静态的；而进程是“运行过程”，讲的是个<strong>动态的</strong>概念（就是因为动态所以才会出不可再现的错误，一般意义上不会认为程序会出不可再现的错误对吧）。这是它最本质的特征。</p>
+<p>多个进程互相<strong>独立</strong>地运行、分配资源、接受调度，共同存在于内存中，且可以<strong>并发</strong>执行。但执行是<strong>异步</strong>的。</p>
+<p>如果一个进程万事俱备只欠处理机资源，就叫它是<strong>就绪（Ready）</strong>的；给了处理机资源跑起来了，就叫它在<strong>执行（Running）</strong>，规定的时间片结束后回到就绪态等待下一次进程调度；前面说了并发执行有间断性，一个进程等的时候就叫<strong>阻塞（Blocked）</strong>，一般是执行态时进入阻塞态，此时处理机去执行其它进程，这个进程等好后进入就绪态。</p>
+<p>除以上三种基本状态外，进程在创建时叫创建状态，此时申请并填写PCB、分配资源，完成后进入就绪状态；终止时叫终止状态，善后处理，清零PCB之类；还有种挂起状态。</p>
+<h1 id="os对进程的描述">OS对进程的描述</h1>
+<p>OS使用进程控制块记录一个进程。包含如下信息：</p>
+<ul>
+<li>进程标识符，包括编号（OS根据这个使用进程，其它都是给用户看的）、名字、对应父进程子进程的标识和用户标识（谁拥有此进程）等；</li>
+<li>处理机状态，保存各寄存器的内容，中断后好恢复；</li>
+<li>进程调度信息，进程当前状态、优先级和其它信息，例如现在阻塞了为啥阻塞的、进程等了多久、总共跑了多久之类；</li>
+<li>进程控制信息，程序和数据的地址、有关进程同步和通信的信息、该进程需要哪些资源已经分配了哪些资源、指向PCB中下一个进程的指针。</li>
+</ul>
+<p>一般OS用链接方式或索引方式组织PCB。链接方式即弄三个队列，分别对应就绪的、阻塞的和空白的PCB，还有一个指针指向正在执行的进程；索引就是用表来实现。</p>
+<h1 id="进程控制">进程控制</h1>
+<p>进程控制包括创建进程、终止进程和进程状态转换 是进程管理最基本的功能，由OS内核完成。</p>
+<h2 id="创建进程create">创建进程（Create）</h2>
+<p>一个进程创建另一个进程，有如下情况：</p>
+<ul>
+<li>用户登录，用户登录OS时OS内核为该用户创建一个进程，插入就绪队列；</li>
+<li>作业调度，多道批处理里面该调度个新程序开始跑时OS内核就给它创建一个进程；</li>
+<li>提供服务，用户程序要求某种请求时OS内核为这个服务创建一个进程，这样这个服务和用户程序也是可以并发的，比方说Word，并不是说打印的时候就不能操作了；</li>
+<li>应用请求，应用程序可以请求创建进程。</li>
+</ul>
+<p>Unix中把创建进程的进程称为父进程，被创建的进程称为子进程，子进程继承父进程的资源，销毁父进程时子进程一并销毁。Windows中不存在此概念，每个进程有一个句柄决定它可以控制哪些其它进程。</p>
+<p>创建进程时，OS调用进程创建原语创建进程。首先申请空白PCB，然后为新进程分配内存等，然后初始化PCB，最后插入就绪队列。</p>
+<h2 id="终止进程">终止进程（）</h2>
+<p>一个进程被终止，有如下情况：</p>
+<ul>
+<li>正常结束，程序里专门有条指令调用系统中端告诉OS我好了；</li>
+<li>异常，程序试图越界访问资源、调用非法指令、运行或等待超时、算术运算错误等情况；</li>
+<li>外界干预，例如发生系统死锁，就只好由OS或操作者看看能不能救，或父进程被销毁于是子进程被株连，或父进程清理门户。</li>
+</ul>
+<p>终止进程时，OS调用进程终止原语终止进程。首先找到它，确定状态，要是还在执行就先停掉并置调度标志为真待会下一个就绪的进程好跑；看看有没有子进程，有的话一并终止；归还资源，移出队列。</p>
+<h2 id="进程的阻塞与唤醒blockwakeup">进程的阻塞与唤醒（block/wakeup）</h2>
+<p>一个进程被阻塞，有如下情况：</p>
+<ul>
+<li>请求系统服务，但系统暂时无法提供；</li>
+<li>启动某种操作，某种必须做完才能继续的操作，例如等待I/O；</li>
+<li>等数据之类；</li>
+<li>无事可做。</li>
+</ul>
+<p>阻塞进程时，进程主动调用阻塞原语把自己阻塞。首先停止执行，接下来修改PCB状态为阻塞，并将PCB插入阻塞队列，保存现场，重分配处理机。</p>
+<p>唤醒进程时，将之移出阻塞队列，修改PCB状态为就绪，插入就绪队列。</p>
+<h2 id="进程的挂起与激活suspendactive">进程的挂起与激活（suspend/active）</h2>
+<p>挂起进程时，调用挂起原语。首先检查其状态。若处于活动就绪或执行状态，则将其转为静止就绪；若处于活动阻塞,则将其转为静止阻塞。将PCB放到特定内存区域，如果之前该进程在执行，就重新调度。</p>
+<p>激活进程时，将进程从外存调入内存，检查其状态，若是静止就绪，则改为活动就绪；若是静止阻塞，则改为活动阻塞。若采用的是抢占式调度策略，则还应检查被激活就绪进程的优先级，若其优先级比先行执行进程高，则应将处理机分配给被激活进程。</p>
+<h1 id="进程同步">进程同步</h1>
+<p>为避免异步，需要进程同步。</p>
+<p>多个进程间可能存在制约关系导致异步。对于多个进程的共享资源，如打印机，各进程应当互斥地访问，一般必须向系统提出申请，由OS分配，叫间接制约；对于不许经过系统直接就能访问的资源的制约关系，如两个进程都需用到某个缓冲区，叫直接制约。</p>
+<p>在一段时间内只能由一个进程访问的资源（硬或软）叫临界资源。访问临界资源的循环进程描述如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">while(true)</span></pre></td></tr><tr><td class="code"><pre><span class="line">&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    非临界区，其它代码；</span></pre></td></tr><tr><td class="code"><pre><span class="line">    进入区，检查资源是否正被访问；</span></pre></td></tr><tr><td class="code"><pre><span class="line">    临界区，访问临界资源；</span></pre></td></tr><tr><td class="code"><pre><span class="line">    退出区，将正被访问标志恢复至未被访问；</span></pre></td></tr><tr><td class="code"><pre><span class="line">    非临界区，其它代码。</span></pre></td></tr><tr><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+<p>一个同步机制，应当保证临界资源未被访问时可以被访问，正被访问时无法被访问；要求访问临界资源的进程在有限时间内可以访问得到，进程等待访问临界区时处理机给其它进程用（否则叫“忙等”）。</p>
+<h2 id="常用进程同步机制">常用进程同步机制</h2>
+<h3 id="硬件同步机制">硬件同步机制</h3>
+<p>利用特殊的硬件指令解决临界区问题。</p>
+<ul>
+<li>关中断</li>
+<li>利用Test-and-Set指令</li>
+<li>利用 Swap指令</li>
+</ul>
+<p>缺陷：</p>
+<ul>
+<li>忙等</li>
+<li>难于解决进程同步问题</li>
+</ul>
+<h3 id="信号量机制">信号量机制</h3>
+<p>Dijkstra提出了整型信号量机制，后来慢慢发展，先是记录型信号量，然后AND型信号量，再然后信号量集，卓有成效且应用广泛。</p>
+<p>最初信号量是一个整型<code>S</code>，表示资源数目。被用一个就减一，释放一个就加一。当有程序想访问资源时就死循环地看还剩几个资源，直到资源数大于零时跳出循环使用资源。这里如果得不到资源无法让出处理机给其它进程用，会导致忙等。</p>
+<p>记录（即结构体）型信号量由一个代表临界资源数目的整型变量<code>value</code>和该资源上阻塞的队列（链表）指针<code>L</code>构成。<code>value</code>和整型信号量中的<code>S</code>意义相同。当发现资源数小于等于零时，不是一直死循环地看资源数直到大于零，而是调用阻塞原语自我阻塞，并把自己插入至<code>L</code>，<code>value</code>自减。也就是说，<code>value</code>为负数时，其相反数为被阻塞的进程数。释放资源时如果发现<code>value</code>小于零，就唤醒一个阻塞队列中的进程。</p>
+<p>把资源的请求和释放写成函数，大致如下：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Semaphore</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="class">&#123;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">int</span> value;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    PCB* <span class="built_in">list</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">&#125;S;</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">wait</span><span class="params">(S)</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function"></span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    S.value = S.value – <span class="number">1</span> ;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">if</span>  ( S.value &lt; <span class="number">0</span> ) </span></pre></td></tr><tr><td class="code"><pre><span class="line">        block (S.<span class="built_in">list</span>) ;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="comment">/* 让权等待 */</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">signal</span> <span class="params">(S)</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function"></span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    S.value = S.value + <span class="number">1</span> ;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">if</span>  ( S.value &lt;= <span class="number">0</span> )</span></pre></td></tr><tr><td class="code"><pre><span class="line">        wakeup (S.<span class="built_in">list</span>) ;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="comment">/*唤醒第一个等待的进程 */</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+<p>若有<code>n</code>个进程<code>m</code>个资源，信号量的可能范围就是<code>m~(m-n)</code>。</p>
+<p>利用信号量机制实现进程互斥地访问临界资源，只需将<code>S.value</code>初值设为1，将<code>wait(S)</code>作为进入区、<code>signal(S)</code>作为退出区。</p>
+<p>除了利用信号量机制控制资源的访问、实现进程互斥外，还可以用来实现前驱关系。</p>
+<h3 id="管程机制">管程机制</h3>
+<p>略。</p>
+<h2 id="经典进程同步问题">经典进程同步问题</h2>
+<h3 id="生产者-消费者问题">生产者-消费者问题</h3>
+<p>生产者生产东西，放到缓冲区，消费者从缓冲区拿东西。生产者放东西到缓冲区前会先看一眼，如果满了，就不放；消费者拿东西前也会看一眼，如果没了，就不拿。</p>
+<p>看起来没什么问题。写成程序就有问题了。</p>
+<p>用一个<code>cnt</code>记录缓冲区的东西数量，生产者或消费者先读<code>cnt</code>的值，再改变它。改变<code>cnt</code>值的过程通常是如下的命令：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MOV 存储器,寄存器</span></pre></td></tr><tr><td class="code"><pre><span class="line">INC 寄存器</span></pre></td></tr><tr><td class="code"><pre><span class="line">MOV 寄存器,存储器</span></pre></td></tr></table></figure>
+<p>或</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MOV 存储器,寄存器</span></pre></td></tr><tr><td class="code"><pre><span class="line">DEC 寄存器</span></pre></td></tr><tr><td class="code"><pre><span class="line">MOV 寄存器,存储器</span></pre></td></tr></table></figure>
+<p>如果第二个MOV前插入了其它指令比如另一个进程的第一个MOV指令，就会出错。</p>
+<p>比如初值为1时，如果并发地执行这两坨指令，有可能得到0或1或2三种结果。</p>
+<p>回到生产者-消费者问题，由简单到复杂有多种情况：</p>
+<ul>
+<li>一个生产者、一个消费者、缓冲区可以放一个东西的问题；</li>
+<li>一个生产者、一个消费者、缓冲区可以放若干东西的问题；</li>
+<li>若干生产者、若干消费者、缓冲区可以放若干东西的问题。</li>
+</ul>
+<p>对于最简单的情况，为同步双方设置各自的信号量，初值为其初始状态可用的资源数；增加进入区和退出区，同步双方任一进程在进入临界区之前，应先对自己的信号量执行<code>wait(&lt;己方信号量&gt;)</code>操作，以测试是否有自己可用的资源，若有资源可用，则进入临界区，否则阻塞；同步双方任一进程离开临界区后，应对对方的信号量执行<code>signal(&lt;对方信号量&gt;)</code>操作，以通知对方已有资源可用：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">item buffer;</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="comment">//生产者和消费者的信号量</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">semaphore empty,full;</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="comment">//生产者最初信号量为1，可以向缓冲池放一个产品</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">empty.value=<span class="number">1</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="comment">//消费者最初信号量为0，没有东西可拿</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">full.value=<span class="number">0</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">cobegin</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="function">process <span class="title">Producer</span><span class="params">()</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function">    </span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        ...</span></pre></td></tr><tr><td class="code"><pre><span class="line">        produce an item in nextp;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        ...</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="comment">//测试能不能放东西</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">        wait(empty);</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="comment">//nextp放入buffer</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">        buffer=nextp;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="comment">//通知被阻塞的消费者</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">        signal(full);</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="function">process <span class="title">Consumer</span><span class="params">()</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function">    </span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="comment">//测试能不能拿东西</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">        wait(full);</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="comment">//buffer内的东西拿到nextc</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">        nextc=buffer;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="comment">//通知被阻塞的生产者</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">        signal(empty);</span></pre></td></tr><tr><td class="code"><pre><span class="line">        ...</span></pre></td></tr><tr><td class="code"><pre><span class="line">        consume the item in nextc;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        ...</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">coend</span></pre></td></tr></table></figure>
+<p>若缓冲区可放k个东西，只需将生产者的初值记为k即可。另外为生产者和消费者分别提供一个下标指定其访问的缓冲区位置：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">item buffer[n];</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="comment">//生产者和消费者的信号量</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">semaphore empty,full;</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="comment">//生产者最初信号量为k，可以向缓冲池放k个产品</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">empty.value=k;</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="comment">//消费者最初信号量为0，没有东西可拿</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">full.value=<span class="number">0</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="comment">//当前下标都是0</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> in=<span class="number">0</span>,out=<span class="number">0</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">cobegin</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="function">process <span class="title">Producer</span><span class="params">()</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function">    </span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        ...</span></pre></td></tr><tr><td class="code"><pre><span class="line">        produce an item in nextp;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        ...</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="comment">//测试能不能放东西</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">        wait(empty);</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="comment">//nextp放入buffer[in]</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">        buffer[in]=nextp;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="comment">//计算下一个位置</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">        in=(in+<span class="number">1</span>)%k;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="comment">//通知被阻塞的消费者</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">        signal(full);</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="function">process <span class="title">Consumer</span><span class="params">()</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function">    </span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="comment">//测试能不能拿东西</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">        wait(full); </span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="comment">//buffer[out]内的东西拿到nextc</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">        nextc=buffer[out];</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="comment">//计算下一个位置</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">        out=(out+<span class="number">1</span>)%k;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="comment">//通知被阻塞的生产者</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">        signal(empty);</span></pre></td></tr><tr><td class="code"><pre><span class="line">        ...</span></pre></td></tr><tr><td class="code"><pre><span class="line">        consume the item in nextc;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        ...</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">coend</span></pre></td></tr></table></figure>
+<p>对于最复杂的情况，连下标的<code>in</code>和<code>out</code>都会出现冲突了，因为不止一个生产者、不止一个消费者，所以访问<code>in</code>和<code>out</code>也需要。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">item buffer[n] ;</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="comment">//in和out的信号量、生产者和消费者的信号量</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">semaphore mutex,empty,full;</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="comment">//当前下标都是0</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> in = <span class="number">0</span>，out = <span class="number">0</span> ；</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="comment">//两个下标最初信号量为1，可以被一个生产者或消费者访问</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">mutex.value = <span class="number">1</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="comment">//生产者最初信号量为k，可以向缓冲池放k个产品</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">empty.value=k;</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="comment">//消费者最初信号量为0，没有东西可拿</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">full.value = <span class="number">0</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">cobegin</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="function">process <span class="title">produceri</span><span class="params">()</span><span class="comment">//(i=1,2,…,k)</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function">    </span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        item nextp ；</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="keyword">while</span> (TRUE)</span></pre></td></tr><tr><td class="code"><pre><span class="line">        &#123;   ...</span></pre></td></tr><tr><td class="code"><pre><span class="line">            produce an item in nextp；</span></pre></td></tr><tr><td class="code"><pre><span class="line">            ...</span></pre></td></tr><tr><td class="code"><pre><span class="line">            wait(empty)；</span></pre></td></tr><tr><td class="code"><pre><span class="line">            wait(mutex)；</span></pre></td></tr><tr><td class="code"><pre><span class="line">            buffer[in] = nextp ；</span></pre></td></tr><tr><td class="code"><pre><span class="line">            in = (in + <span class="number">1</span>)% n ；</span></pre></td></tr><tr><td class="code"><pre><span class="line">            signal(mutex)；</span></pre></td></tr><tr><td class="code"><pre><span class="line">            signal(full)；</span></pre></td></tr><tr><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    process consumerj()<span class="comment">//(j=1,2,…,m)</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#123;  item nextc ；</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="keyword">while</span> (TRUE)</span></pre></td></tr><tr><td class="code"><pre><span class="line">        &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">            wait(full)；</span></pre></td></tr><tr><td class="code"><pre><span class="line">            wait(mutex)；</span></pre></td></tr><tr><td class="code"><pre><span class="line">            nextc = buffer[out] ；</span></pre></td></tr><tr><td class="code"><pre><span class="line">            out = (out + <span class="number">1</span>)% n ；</span></pre></td></tr><tr><td class="code"><pre><span class="line">            signal(mutex)；</span></pre></td></tr><tr><td class="code"><pre><span class="line">            signal(empty)；</span></pre></td></tr><tr><td class="code"><pre><span class="line">            ...</span></pre></td></tr><tr><td class="code"><pre><span class="line">            consume the item in nextc ；</span></pre></td></tr><tr><td class="code"><pre><span class="line">            ...</span></pre></td></tr><tr><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">coend</span></pre></td></tr></table></figure>
+<h3 id="哲学家就餐问题">哲学家就餐问题</h3>
+<p>有5个哲学家共用一张圆桌，分别坐在周围的5张椅子上，在圆桌上有5个碗和5只筷子（每人面前一只碗，左右手边各一双筷子），他们的生活方式是交替地进行思考和进餐。平时，每个哲学家进行思考，饥饿时便试图拿起其左右最靠近他的筷子，只有在他拿到两只筷子时才能进餐。进餐完毕，放下筷子继续思考。</p>
+<p>5个筷子用五个信号量表示即可。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">semaphore chopstick[<span class="number">5</span>]；</span></pre></td></tr><tr><td class="code"><pre><span class="line">chopstick[<span class="number">0</span>].value=<span class="number">1</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">chopstick[<span class="number">1</span>].value=<span class="number">1</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">chopstick[<span class="number">2</span>].value=<span class="number">1</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">chopstick[<span class="number">3</span>].value=<span class="number">1</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">chopstick[<span class="number">4</span>].value=<span class="number">1</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">cobegin</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="function">process  <span class="title">Pi</span><span class="params">()</span><span class="comment">//(i = 0，1，2，3，4)</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function">    </span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="keyword">while</span> (<span class="literal">true</span>)</span></pre></td></tr><tr><td class="code"><pre><span class="line">        &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">            <span class="comment">//拿起左边筷子</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">            wait(chopstick[i])；</span></pre></td></tr><tr><td class="code"><pre><span class="line">            <span class="comment">//拿起右边筷子</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">            wait(chopstick[(i + <span class="number">1</span>)%<span class="number">5</span>])；</span></pre></td></tr><tr><td class="code"><pre><span class="line">            eating；</span></pre></td></tr><tr><td class="code"><pre><span class="line">            <span class="comment">//放下左边筷子</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">            signal(chopstick[i])；</span></pre></td></tr><tr><td class="code"><pre><span class="line">            <span class="comment">//放下右边筷子</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">            signal(chopstick[(i+<span class="number">1</span>)%<span class="number">5</span>])；</span></pre></td></tr><tr><td class="code"><pre><span class="line">            thinking；</span></pre></td></tr><tr><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">coend</span></pre></td></tr></table></figure>
+<p>问题在于如果所有人都拿着左边筷子，就陷入了死锁。</p>
+<p>解决办法法很多：</p>
+<ul>
+<li>至多允许4个哲学家同时取左边的筷子，这样能至少保证一个哲学家能就餐，并在用毕后释放他用过的两只筷子，从而使更多的哲学家能够进餐；</li>
+<li>仅当哲学家左右两只筷子均可用时（AND信号量机制），才允许他拿起筷子进餐；</li>
+<li>规定奇数号哲学家先拿左边筷子，然后再拿右边筷子；而偶数号哲学家先拿右边筷子，然后再拿左边筷子；</li>
+<li>规定每个哲学家先拿序号小的筷子——按序号分配。</li>
+</ul>
+<p>以第一种方法为例，再加一个关于左边筷子能否取用的信号量即可。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">semaphore chopstick[<span class="number">5</span>],S；</span></pre></td></tr><tr><td class="code"><pre><span class="line">chopstick[<span class="number">0</span>].value=<span class="number">1</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">chopstick[<span class="number">1</span>].value=<span class="number">1</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">chopstick[<span class="number">2</span>].value=<span class="number">1</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">chopstick[<span class="number">3</span>].value=<span class="number">1</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">chopstick[<span class="number">4</span>].value=<span class="number">1</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">S.value=<span class="number">4</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">cobegin</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="function">process  <span class="title">Pi</span><span class="params">()</span><span class="comment">//(i = 0，1，2，3，4)</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function">    </span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="keyword">while</span> (<span class="literal">true</span>)</span></pre></td></tr><tr><td class="code"><pre><span class="line">        &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">            <span class="comment">//能否拿筷子</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">            wait(S);</span></pre></td></tr><tr><td class="code"><pre><span class="line">            <span class="comment">//拿起左边筷子</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">            wait(chopstick[i])；</span></pre></td></tr><tr><td class="code"><pre><span class="line">            <span class="comment">//拿起右边筷子</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">            wait(chopstick[(i + <span class="number">1</span>)%<span class="number">5</span>])；</span></pre></td></tr><tr><td class="code"><pre><span class="line">            eating；</span></pre></td></tr><tr><td class="code"><pre><span class="line">            <span class="comment">//放下左边筷子</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">            signal(chopstick[i])；</span></pre></td></tr><tr><td class="code"><pre><span class="line">            <span class="comment">//放下右边筷子</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">            signal(chopstick[(i+<span class="number">1</span>)%<span class="number">5</span>])；</span></pre></td></tr><tr><td class="code"><pre><span class="line">            <span class="comment">//释放能否拿筷子标记</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">            signal(S);</span></pre></td></tr><tr><td class="code"><pre><span class="line">            thinking；</span></pre></td></tr><tr><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">coend</span></pre></td></tr></table></figure>
+<h3 id="读者-写者问题">读者-写者问题</h3>
+<p>一个数据文件或记录，可被多个进程共享，我们把只要求读该文件的进程称为“读者进程”，其他进程称为“写者进程”。显然，只要有一个写者进程正访问文件，就不能有其它进程访问。</p>
+<p>因此可设置一个初值为1的信号量，表示当前允许的写者数，同时用一个普通变量记录读者数。由于可能同时有多个进程尝试访问读者数，还需为这个访问设置一个信号量。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">semaphore Wmutex，Rmutex;</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> Rcounter = <span class="number">0</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">Wmutex.value=Rmutex.value=<span class="number">1</span>; </span></pre></td></tr><tr><td class="code"><pre><span class="line">cobegin</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="function">process <span class="title">Readeri</span><span class="params">()</span><span class="comment">//(i = 1，2，…)</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function">    </span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        wait(Rmutex);</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="keyword">if</span>(Rcounter==<span class="number">0</span>)</span></pre></td></tr><tr><td class="code"><pre><span class="line">            <span class="comment">//等写者信号</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">            wait(Wmutex);</span></pre></td></tr><tr><td class="code"><pre><span class="line">        Rcounter = Rcounter + <span class="number">1</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        signal(Rmutex);</span></pre></td></tr><tr><td class="code"><pre><span class="line">        …</span></pre></td></tr><tr><td class="code"><pre><span class="line">        Reading;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        …</span></pre></td></tr><tr><td class="code"><pre><span class="line">        wait(Rmutex);</span></pre></td></tr><tr><td class="code"><pre><span class="line">        Rcounter = Rcounter – <span class="number">1</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="keyword">if</span>(Rcounter==<span class="number">0</span>)</span></pre></td></tr><tr><td class="code"><pre><span class="line">            signal(Wmutex);</span></pre></td></tr><tr><td class="code"><pre><span class="line">        signal(Rmutex);</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125; </span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="function">process <span class="title">Writerj</span><span class="params">()</span><span class="comment">//(j=1，2，…)</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function">    </span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        wait(Wmutex);</span></pre></td></tr><tr><td class="code"><pre><span class="line">        Writing;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        signal(Wmutex);</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">coend</span></pre></td></tr></table></figure>
+<p>问题在于，如果一个读者正在读时来了写者，然后读者还没读完，又来一个读者。现在假设第一个读者读完了，但计数器显示仍有读者，于是写者标记未被释放，新读者反而早于更早来的写者访问文件。一直如此则写者将被饿死。</p>
+<p>考虑再增加一个信号量，如果有写者到达，则晚于此写者的读者将无法访问：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">semaphore Wmutex,Rmutex,w;</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> Rcounter = <span class="number">0</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">Wmutex.value=Rmutex.value=w.value=<span class="number">1</span>; </span></pre></td></tr><tr><td class="code"><pre><span class="line">cobegin</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="function">process <span class="title">Readeri</span><span class="params">()</span><span class="comment">//(i = 1，2，…)</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function">    </span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="comment">//有写者的话之后的w就不能访问了</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">        wait(w);</span></pre></td></tr><tr><td class="code"><pre><span class="line">        wait(Rmutex);</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="keyword">if</span>(Rcounter==<span class="number">0</span>)</span></pre></td></tr><tr><td class="code"><pre><span class="line">            <span class="comment">//等写者信号</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">            wait(Wmutex);</span></pre></td></tr><tr><td class="code"><pre><span class="line">        Rcounter = Rcounter + <span class="number">1</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        signal(Rmutex);</span></pre></td></tr><tr><td class="code"><pre><span class="line">        signal(w);</span></pre></td></tr><tr><td class="code"><pre><span class="line">        …</span></pre></td></tr><tr><td class="code"><pre><span class="line">        Reading;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        …</span></pre></td></tr><tr><td class="code"><pre><span class="line">        wait(Rmutex);</span></pre></td></tr><tr><td class="code"><pre><span class="line">        Rcounter = Rcounter – <span class="number">1</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="keyword">if</span>(Rcounter==<span class="number">0</span>)</span></pre></td></tr><tr><td class="code"><pre><span class="line">            signal(Wmutex);</span></pre></td></tr><tr><td class="code"><pre><span class="line">        signal(Rmutex);</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125; </span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="function">process <span class="title">Writerj</span><span class="params">()</span><span class="comment">//(j=1，2，…)</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function">    </span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="comment">//有写者的话之后的w就不能访问了</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">        wait(w);</span></pre></td></tr><tr><td class="code"><pre><span class="line">        wait(Wmutex);</span></pre></td></tr><tr><td class="code"><pre><span class="line">        Writing;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        signal(Wmutex);</span></pre></td></tr><tr><td class="code"><pre><span class="line">        signal(w);</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">coend</span></pre></td></tr></table></figure>
+<p>这个算法解决了读者读完后除非已经没有读者否则被唤醒的一定是读者的问题。现在在写者写完后被唤醒的不一定是读者或写者，随缘。如果想要被唤醒的一定是写者，可以：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Wmutex用于写进程互斥访问Wcounter</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="comment">//Wsem用于封锁有写者时封锁后续写进程</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">semaphore Wmutex=Wsem= <span class="number">1</span>；</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="comment">//Rmutex用于读进程互斥访问Rcounter</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="comment">//Rsem1用于在有写者时封锁后续第一个读者</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="comment">//Rsem2用于在Rsem1起效后封锁后续所有读者</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">semaphore Rmutex=Rsem1=Rsem2=<span class="number">1</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> Rcounter = Wconuter = <span class="number">0</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">cobegin</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="function">process <span class="title">Reader_i</span> <span class="params">(i = <span class="number">1</span>，<span class="number">2</span>，…)</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function">    </span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="comment">//是否是写者后的读者后的读者</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">        wait(Rsem2);</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="comment">//是否是写者后的读者</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">        wait(Rsem1);</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="comment">//是否有人正在访问计数器</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">        wait(Rmutex);</span></pre></td></tr><tr><td class="code"><pre><span class="line">        Rcounter = Rcounter + <span class="number">1</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="comment">//如果当前仅有自己一个读者在访问文件</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="comment">//则判断是否有写者</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="keyword">if</span>(Rcounter==<span class="number">1</span>)</span></pre></td></tr><tr><td class="code"><pre><span class="line">            wait(Wsem);</span></pre></td></tr><tr><td class="code"><pre><span class="line">        signal(Rmutex);</span></pre></td></tr><tr><td class="code"><pre><span class="line">        signal(Rsem1);</span></pre></td></tr><tr><td class="code"><pre><span class="line">        signal(Rsem2);</span></pre></td></tr><tr><td class="code"><pre><span class="line">        Reading;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        wait(Rmutex);</span></pre></td></tr><tr><td class="code"><pre><span class="line">        Rcounter = Rcounter - <span class="number">1</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="comment">//如果当前仅有自己一个读者在访问文件并且刚刚关上</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="comment">//则判断是否有写者</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="keyword">if</span>(Rcounter==<span class="number">0</span>)</span></pre></td></tr><tr><td class="code"><pre><span class="line">            signal(Wsem);</span></pre></td></tr><tr><td class="code"><pre><span class="line">        signal(Rmutex);</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125; <span class="function">process <span class="title">Writer_j</span> <span class="params">(j=<span class="number">1</span>，<span class="number">2</span>，…)</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function">    </span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        wait(Wmutex);</span></pre></td></tr><tr><td class="code"><pre><span class="line">        Wcounter++;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="keyword">if</span> (Wcounter==<span class="number">1</span>)</span></pre></td></tr><tr><td class="code"><pre><span class="line">        wait(Rsem1);</span></pre></td></tr><tr><td class="code"><pre><span class="line">        signal(Wmutex);</span></pre></td></tr><tr><td class="code"><pre><span class="line">        wait(Wsem);</span></pre></td></tr><tr><td class="code"><pre><span class="line">        Writing( );</span></pre></td></tr><tr><td class="code"><pre><span class="line">        signal(Wsem);</span></pre></td></tr><tr><td class="code"><pre><span class="line">        wait(Wmutex);</span></pre></td></tr><tr><td class="code"><pre><span class="line">        Wcounter=Wcounter<span class="number">-1</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="keyword">if</span> (Wcounter==<span class="number">0</span>) </span></pre></td></tr><tr><td class="code"><pre><span class="line">            signal(Rsem1);</span></pre></td></tr><tr><td class="code"><pre><span class="line">        signal(Wmutex);</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">coend</span></pre></td></tr></table></figure>
+<h1 id="进程通信">进程通信</h1>
+<p>信号量机制效率太低了，且对用户不透明，因此需要设计允许透明地传送大量信息的方式，主要有：</p>
+<ul>
+<li>共享存储器通信，类似生产者消费者问题中的缓冲区，但效率更高；</li>
+<li>管道通信（共享文件）；</li>
+<li>消息传递通信，以上两个只适合单机，这个还适合网络通信：
+<ul>
+<li>直接通信方式</li>
+<li>间接通信方式——信箱通信</li>
+</ul></li>
+<li>客户机-服务器系统，仅适合网络通信。</li>
+</ul>
+<h1 id="作业与进程的调度">作业与进程的调度</h1>
+<p>就绪队列用中有许多进程，然而穷比只得起四核CPU，该让哪个进程先跑呢？要靠进程调度或作业调度。调度时有以下几种级别：</p>
+<p>（作业是比程序更广泛的概念，但仍可以使用类似PCB的方式描述，称为JCB。类似进程地，作业也有一些基本状态，收容、运行和完成状态。）</p>
+<ul>
+<li>高级调度，或者叫作业调度，决定把哪些作业由外存调至内存，要考虑调几个、分别是谁；</li>
+<li>中级调度，或者叫内存调度，主要负责进程的挂起和激活；</li>
+<li>低级调度，或者叫进程调度，决定哪个进程使用处理机，分抢占式——某个进程跑着跑着可以被其它进程顶下去——和非抢占式。</li>
+</ul>
+<p>我们希望有合适的调度算法，使处理机利用率（有效工作时间和有效工作时间加空闲时间之比）和I/O设备利用率尽可能高且对各进程公平、一些重要进程能立即被强制执行。</p>
+<p>有以下几种常用调度算法：</p>
+<h2 id="先来先服务fcfs">先来先服务（FCFS）</h2>
+<p>顾名思义。适合有很多耗时比较长、没什么I/O的作业或进程的情况。非抢占式。</p>
+<h2 id="短作业优先短进程优先sjfspf">短作业优先/短进程优先（SJF/SPF）</h2>
+<p>顾名思义。可以降低平均周转时间（到达到完成的时间），但长作业可能被饿死。而且用户给的预计运行时间未必准。非抢占式。</p>
+<h2 id="优先级调度psa">优先级调度（PSA）</h2>
+<p>前两种算法的加强版。即前两种算法分别是单纯以到达时间或作业预计时间为优先级。如果做成抢占式的，还可以用在实时系统中。</p>
+<p>可以静态或动态地确定优先级，通过进程类型（是I/O还是别的什么？）、资源耗费（包括时间内存等）和用户的指定等。动态确定时，可以提高一个等了很久的进程的优先级，慢慢降低正在执行的进程的优先级等。</p>
+<h2 id="高响应比优先调度算法hrrn">高响应比优先调度算法（HRRN）</h2>
+<p>一种求动态优先级的方式。等待时间与要求服务时间之和与要求服务时间的比例作为优先级，谁高调用谁。</p>
+<h2 id="基于时间片的轮转调度法rr">基于时间片的轮转调度法（RR）</h2>
+<p>按FCFS排列就绪队列，当处理机空闲时，将处理机分配给队首进程，等一个时间片过去，将正处理的进程排至队尾。</p>
+<h2 id="多级反馈队列调度算法mfq">多级反馈队列调度算法（MFQ）</h2>
+<p>设置多个优先级不同的就绪队列，每个队列时间片长度不同，优先级越高的队列时间片越长。当一个进程到达时，将它加入优先级最高的队列的末尾。处理机执行完时间片后如果当前进程未完成，则放到低一级的队列最后。最低优先级的队列内部使用RR算法调度。当最高优先级的队列为空时才执行低一级优先的队列，依次类推。如果正在执行时有高于当前进程优先级的进程到达（即执行非最高优先级进程时有进程到达），则将当前执行的进程放至原优先级对应队列的队尾，首先执行新来的进程。</p>
+<p>这种算法无需知道预期运行时间，比较NB。</p>
+<h2 id="示例">示例</h2>
+<p>有一个具有两道作业的批处理系统（最多可有两道作业同时装入内存执行）,作业调度采用计算时间短的作业优先调度算法,进程调度采用以优先数为基础的抢占式调度算法,今有如下作业序列（表中所列作业优先数即为进程优先数,数值越小优先级越高）:</p>
+<table>
+<thead>
+<tr class="header">
+<th>作业名</th>
+<th>到达时间</th>
+<th>估计运行时间</th>
+<th>优先数</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>J1</td>
+<td>10:10</td>
+<td>20分钟</td>
+<td>5</td>
+</tr>
+<tr class="even">
+<td>J2</td>
+<td>10:20</td>
+<td>30分钟</td>
+<td>3</td>
+</tr>
+<tr class="odd">
+<td>J3</td>
+<td>10:30</td>
+<td>25分钟</td>
+<td>4</td>
+</tr>
+<tr class="even">
+<td>J4</td>
+<td>10:50</td>
+<td>20分钟</td>
+<td>6</td>
+</tr>
+</tbody>
+</table>
+<p>显然J1在10:10先到，装入内存并运行了10min，10:20J2到达，装入内存，由于优先级更高，抢占J1直到执行完毕即10:50，此时J3和J4都到达了。作业调度遵循短作业优先，即J4又被装入内存，其优先级低于J1，于是J1执行完毕。此时是11:00，J3也被装入内存，其优先级更高，到11:25J3执行完毕，J4最后执行。</p>
+<h1 id="死锁">死锁</h1>
+<blockquote>
+<p>一组进程处于死锁状态是指：如果在一个进程集合中的每一个进程都在等待只能由该集合中的其它一个进程才能引发的事件，则称一组进程或系统发生了死锁。（孙钟秀主编《操作系统教程》）</p>
+</blockquote>
+<p>之前哲学家进餐问题有提过。主要出现原因是多个进程对某类资源有竞争、这些进程每次还不止要一个资源、且没规定好它们访问资源的顺序，就可能出现死锁。典型的情况是进程访问了一个资源，又去访问另一个，但另一个不可用，于是他在那等，又抓着已经拿到的资源不放手，导致产生一个循环，一个进程拿着另一个进程要的资源不放手，他要的资源又被另一个进程拿着不放手……</p>
+<h2 id="预防">预防</h2>
+<p>使临界资源不再临界，或一次性分配好资源而不是一个一个给，或允许进程释放已抢占的资源，或指定好访问顺序即可。</p>
+<p>第一种情况限制太大，一般还是想让临界资源互斥的；第二种情况会拖慢系统；第三种方式不好实现；第四种方式规定太死，实际使用哪能这么巧有个顺序。</p>
+<h2 id="避免">避免</h2>
+<p>既然从原理上预防死锁不太可行，于是考虑在分配资源时动态地预防。</p>
+<p>有些时候是不会进入死锁的，例如有三个进程，分别要10、4、9个资源，已分配5、2、2个，还剩3个。这时可以分2个给第二个进程让它跑完，还剩6个；再分5个给第一个进程，最后再满足最后一个进程。这时是安全的。</p>
+<p>有些时候会进入死锁，例如上例中的三个进程，分别要10、4、10个资源，已分配5、2、3个，还剩2个。这时可以分2个给第二个进程让它跑完，还剩4个；无论如何也找不到可以让剩下两个进程跑起来的方法了。这是不安全的。</p>
+<p>有个银行家算法可对此进行判断，其设计之初是为了防止银行的钱（剩余资源）不够放贷（进程请求资源）的：</p>
+<p>对有n个进程m类资源的情况，设置一个有m个元素的数组Availabe记录每个资源的剩余可用数，用三个n*m的矩阵Max、Allocation和Need表示每个进程对每种资源的需求数、已有数和还需要的数。</p>
+<p>一个进程发出资源请求Request后进行如下检查：</p>
+<ol type="1">
+<li>Requset中的元素是否不大于Need中对应元素？否则报错；</li>
+<li>Request中的元素是否不大于Available中对应元素？否则让进程等待；</li>
+<li>尝试模拟分配完成的情况，即Avalible中元素减去Request中对应元素，Allocation中元素加上Request中对应元素，Need中元素减去Request中对应元素。</li>
+<li>复制一个Available，名为Work。即分配完后的剩余资源数。建立一个布尔型数组Finish，对应每个进程的完成情况，初值均为false。</li>
+<li>找哪个尚未Finish的进程的Need小于等于Work，有的话意味着剩余资源足够它执行完并释放。假装释放了，把被占用的资源Alloction加到Work上，标记这个进程为完成。重复，直到所有进程都完成，或没有进程可以被完成。</li>
+<li>如果都能完成，说明安全，可以分配；否则不能分配。</li>
+</ol>
+<p>例如现有5个进程P0~P4，三类资源A、B和C分别共有10、5和7个，当前资源分配如下：</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;"></th>
+<th style="text-align: center;">Max A/B/C</th>
+<th style="text-align: center;">Allocation A/B/C</th>
+<th style="text-align: center;">Need A/B/C</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">P0</td>
+<td style="text-align: center;">7/5/3</td>
+<td style="text-align: center;">0/1/0</td>
+<td style="text-align: center;">7/4/3</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">P1</td>
+<td style="text-align: center;">3/2/2</td>
+<td style="text-align: center;">2/0/0</td>
+<td style="text-align: center;">1/2/2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">P2</td>
+<td style="text-align: center;">9/0/2</td>
+<td style="text-align: center;">3/0/2</td>
+<td style="text-align: center;">6/0/0</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">P3</td>
+<td style="text-align: center;">2/2/2</td>
+<td style="text-align: center;">2/1/1</td>
+<td style="text-align: center;">0/1/1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">P4</td>
+<td style="text-align: center;">4/3/3</td>
+<td style="text-align: center;">0/0/2</td>
+<td style="text-align: center;">4/3/1</td>
+</tr>
+</tbody>
+</table>
+<p>也就是说剩余如下：</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Avalibale A/B/C</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">3/3/2</td>
+</tr>
+</tbody>
+</table>
+<p>比方说现在P1请求<code>Request1(1/0/2)</code>，先与Need比较，OK；再与Avalible比较，OK。于是模拟分配。</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;"></th>
+<th style="text-align: center;">Max A/B/C</th>
+<th style="text-align: center;">Allocation A/B/C</th>
+<th style="text-align: center;">Need A/B/C</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">P0</td>
+<td style="text-align: center;">7/5/3</td>
+<td style="text-align: center;">0/1/0</td>
+<td style="text-align: center;">7/4/3</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">P1</td>
+<td style="text-align: center;">3/2/2</td>
+<td style="text-align: center;"><em><strong>3/0/2</strong></em></td>
+<td style="text-align: center;"><em><strong>0/2/0</strong></em></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">P2</td>
+<td style="text-align: center;">9/0/2</td>
+<td style="text-align: center;">3/0/2</td>
+<td style="text-align: center;">6/0/0</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">P3</td>
+<td style="text-align: center;">2/2/2</td>
+<td style="text-align: center;">2/1/1</td>
+<td style="text-align: center;">0/1/1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">P4</td>
+<td style="text-align: center;">4/3/3</td>
+<td style="text-align: center;">0/0/2</td>
+<td style="text-align: center;">4/3/1</td>
+</tr>
+</tbody>
+</table>
+<p>剩余如下：</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Avalibale A/B/C</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><em><strong>2/3/0</strong></em></td>
+</tr>
+</tbody>
+</table>
+<p>接下来检查安全性。</p>
+<p>最早的Work就是Avaliable，P0的Need太多，P1的够，于是有：</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;"></th>
+<th style="text-align: center;">Work A/B/C</th>
+<th style="text-align: center;">Allocation A/B/C</th>
+<th style="text-align: center;">Need A/B/C</th>
+<th style="text-align: center;">Work+Allocation A/B/C</th>
+<th style="text-align: center;">Finish</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">P1</td>
+<td style="text-align: center;">2/3/0</td>
+<td style="text-align: center;">3/0/2</td>
+<td style="text-align: center;">0/2/0</td>
+<td style="text-align: center;">5/3/2</td>
+<td style="text-align: center;">true</td>
+</tr>
+</tbody>
+</table>
+<p>现在我们的资源变成5、3和2了，P0仍然不够，P2也不够，P3够了，于是：</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;"></th>
+<th style="text-align: center;">Work A/B/C</th>
+<th style="text-align: center;">Allocation A/B/C</th>
+<th style="text-align: center;">Need A/B/C</th>
+<th style="text-align: center;">Work+Allocation A/B/C</th>
+<th style="text-align: center;">Finish</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">P1</td>
+<td style="text-align: center;">2/3/0</td>
+<td style="text-align: center;">3/0/2</td>
+<td style="text-align: center;">0/2/0</td>
+<td style="text-align: center;">5/3/2</td>
+<td style="text-align: center;">true</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">P3</td>
+<td style="text-align: center;">5/3/2</td>
+<td style="text-align: center;">2/1/1</td>
+<td style="text-align: center;">0/1/1</td>
+<td style="text-align: center;">7/4/3</td>
+<td style="text-align: center;">true</td>
+</tr>
+</tbody>
+</table>
+<p>依此类推发现所有进程都OK，于是可以分配资源。</p>
+<h2 id="检测">检测</h2>
+<p>资源分配图。</p>
+<h2 id="解除">解除</h2>
+<p>回收资源/撤销进程。</p>
+]]></content>
+      <categories>
+        <category>深蓝</category>
+        <category>操作系统</category>
+      </categories>
+      <tags>
+        <tag>操作系统</tag>
+        <tag>进程</tag>
+        <tag>死锁</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>apk文件的反编译</title>
-    <url>/2019/12/22/apk%E6%96%87%E4%BB%B6%E7%9A%84%E5%8F%8D%E7%BC%96%E8%AF%91/</url>
+    <url>/2019/12/22/%E6%88%8F%E6%B3%95/apk%E6%96%87%E4%BB%B6%E7%9A%84%E5%8F%8D%E7%BC%96%E8%AF%91/</url>
     <content><![CDATA[<p><img src="" /></p>
 <center>
 dex2jar、jd-GUI和apktool的简单介绍。
@@ -46,6 +463,65 @@ dex2jar、jd-GUI和apktool的简单介绍。
       </categories>
   </entry>
   <entry>
+    <title>操作系统・〇・引论</title>
+    <url>/2019/12/20/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E3%83%BB%E3%80%87%E3%83%BB%E5%BC%95%E8%AE%BA/</url>
+    <content><![CDATA[<p><img src="" /></p>
+<center>
+操作系统的历史和基本概念。
+</center>
+<a id="more"></a>
+<p>操作系统（Operating System，OS）是计算机硬件上的第一层软件，是计算机必须配置的最基本、最重要的系统软件。</p>
+<h1 id="设计目标与主要功能">设计目标与主要功能</h1>
+<p>我们希望有种东西能让用户通过I/O系统操作计算机而不是从硬件接口输入机器代码（打孔纸带啥的）从而使计算机更易用（<strong>方便性</strong>），且通过合理调度提高效率（<strong>有效性</strong>），现在软硬件啥的更新换代都贼快，我们还希望它能具有模块化、层次化、微内核结构等设计以易于升级和扩展（<strong>可扩展性</strong>），并能遵循一些通用规范使不同软硬件厂商的产品都能跑（<strong>开放性</strong>）。这个东西就是操作系统。</p>
+<p>方便性（用户角度，OS是用户和计算机硬件系统之间的接口）和有效性（资源管理角度，OS是计算机系统资源（软、硬）的管理者）是设计OS的两个最重要的目标（即综合以上两个角度，实现对计算机资源——<strong>处理器</strong>、<strong>存储器</strong>、<strong>I/O设备</strong>、<strong>数据和程序</strong>——的抽象）。</p>
+<p>对四种计算机资源的抽象，或叫管理，再加上方便用户使用的界面，构成了操作系统的主要功能：</p>
+<ul>
+<li>处理机管理功能，基本就是对进程的管理，主要是创建和撤销（控制）、协调不同进程（同步）、信息交换（通信）和分配处理机（调度）啥的；</li>
+<li>存储器管理功能，分配和保护内存、映射地址、虚拟存储啥的；</li>
+<li>设备管理功能，完成I/O请求即提升I/O的效率和用户体验；</li>
+<li>文件管理功能，存储空间和目录的管理、读写和保护；</li>
+<li>用户接口，命令接口（用户直接控制自己的作业）、程序接口（程序向系统请求服务）。</li>
+</ul>
+<p>除此之外，一个现代的操作系统还应具能保护自己的安全、支持多媒体、访问网络等服务。</p>
+<h1 id="运行机制">运行机制</h1>
+<p>从上面可以看出，操作系统和用户要跑的程序是相对独立的，用户程序该干啥干啥，OS负责进程创建啥啥啥的一堆操作，而恰好这堆操作又是很关键、很危险、消耗资源很多的，所以处理机就搞了个分级制度，例如x86一共有0-3四个级别，0特权级最高，3特权级最低。Windows、Linux/Unix之类仅使用特权级0和特权级3，特权级0叫<strong>管态</strong>，干啥都行，3叫<strong>目态</strong>，只有最低级的权限。</p>
+<p>自然，用户的程序就是运行在管态下的，OS主要运行在目态下，这部分叫OS内核，主要包括：</p>
+<ul>
+<li>时钟管理</li>
+<li>中断机制</li>
+<li>操作原语</li>
+<li>系统控制所需的数据结构及处理</li>
+</ul>
+<p>在目态下可通过系统调用、异常、中端三种方式进入管态。</p>
+<h1 id="发展过程">发展过程</h1>
+<p>最早的计算机没有操作系统，打孔纸带那种；因为太慢，后来可以先从外围机上输入到磁带，主机再从磁带调用；然后有了对磁带里的程序的监督程序，勉强算是操作系统了，但是还是要一个作业完成再调用下一个程序，所以叫“单道”批处理系统。</p>
+<p>问题在于，比方说一个作业中间要打印结果，但打印的时候处理机就闲着了。于是有了“多道”批处理系统，打印的时候再调用下一个程序跑。问题又来了，最开始的程序打印完之后的半截就得等鬼知道啥时候再被调用，用户也控制不了，于是资源调度、设备分配、用户接口等原来越复杂与完善，成了真正的OS。</p>
+<p>后来人们不满足与多人共用一台计算机，还得等，要是不用等（实时）多好，但世界上只有一种病，自己又买不起，于是有了分时系统。比方说现在有100个进程处于就绪状态，如果让处理机每20ms换一个进程执行的话那最多等两秒自己的程序就能跑了，激不激动。这就叫分时，那20ms就叫时间片的长度。</p>
+<p>喝不上牛奶的时候我想喝牛奶，等喝上了牛奶我还想用牛奶泡澡。人的欲望是无止境的，于是后来又有了实时系统。对操作系统各方面要求更高。</p>
+<p>结构设计上经历了如下变革：</p>
+<ol type="1">
+<li>无结构</li>
+<li>模块式结构</li>
+<li>层次式结构</li>
+<li>微内核结构</li>
+</ol>
+<p>微内核最近很火，被牢厂营销起来了。传统的操作系统，例如Linux，其内核包含有前面说的所有功能，但微内核只包含开关机、进程调度等最最基础的功能，而尽可能把其它功能放到目态。这样显然会变慢，所以以前没啥人做，不过现在科技发达了，所以技术实力强的公司开始作出尝试，例如谷歌基于Zircon的微内核的Fuchsia。</p>
+<p>不太理解这个东西和“模块化的内核”有啥区别，现在OS内核也都模块化了啊。</p>
+<p>还是太菜了。</p>
+<h1 id="基本特性">基本特性</h1>
+<p>OS最重要的特征是<strong>并发</strong>（两个或多个事件在同一时段发生，不需要同一时刻，同一时刻叫并行）。OS为每个程序建立一些由一组机器指令、数据和堆栈等组成的活动实体，这些活动实体叫进程，多个进程之间可以并发执行并交换信息，也可以共同使用系统资源（<strong>共享性</strong>，不一定是同时的，比方说一个打印机打着别的程序的文档呢肯定另一个程序不能用，还有表、栈等数据结构一个道理，这种叫临界资源，其共享方式叫互斥共享；相反就叫同时访问的共享）。也就是说，并发是共享的基础。但共享也影响并发，资源共享都协调不好并个毛线发不死循环就不错了。这俩是最重要的特征。</p>
+<p>由于进程的并发及其之间的资源共享，一个进程难免因为其它进程的干扰等了好久才获取资源完成任务，谁也说不准。这个叫<strong>异步性</strong>。</p>
+<p>OS的另一个重要特征是<strong>虚拟</strong>，想要抽象地表示计算机资源，把物理实体映射为逻辑上的概念就很重要，比如虚拟处理机（一核假装成四核）、虚拟内存（磁盘假装是内存）、虚拟外部设备（共享打印机）和虚拟信道等。</p>
+]]></content>
+      <categories>
+        <category>深蓝</category>
+        <category>操作系统</category>
+      </categories>
+      <tags>
+        <tag>操作系统</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>FFmpeg</title>
     <url>/2019/12/19/%E5%BF%AB%E9%97%A8%E5%B7%A5/FFmpeg/</url>
     <content><![CDATA[<p><img src="" /></p>
@@ -68,8 +544,11 @@ dex2jar、jd-GUI和apktool的简单介绍。
 <p>【用到啥更新啥】</p>
 <ul>
 <li>画面与声音合并：<code>ffmpeg -i 画面 -i 声音 -codec copy 目标视频</code>（参数<code>-i</code>指定这是一个输入项，<code>-codec</code>表示强制使用codec编解码方式。<code>copy</code>表示原始编解码数据必须被拷贝）。</li>
-<li>裁剪视频：<code>ffmpeg -i 输入视频 -ss 00:00:00 -t 10 输出视频</code>，单位为秒，不影响原视频。</li>
+<li>截取音视频：<code>ffmpeg -i 输入 -ss 00:00:00 -t 10 输出</code>，单位为秒，不影响输入内容；输出可以为gif格式。可添加<code>-b 2048k</code>参数指定比特虑，获得高质量gif。</li>
 <li>视频缩放：<code>ffmpeg -i 输入视频 -strict -2 -vf scale=-1:480 输出视频</code>（按比例缩放高度至480）或<code>ffmpeg -i 输入视频 -strict -2 -s 640x480 输出视频</code>。</li>
+<li>格式转换：<code>ffmpeg -i 输入 -vcodec 指定格式 输出</code>，可以是<code>h264</code>、<code>mpeg4</code>、<code>libxvid</code>、<code>wmv1</code>和<code>wmv2</code>等。</li>
+<li>速率调整：<code>ffmpeg -i 输入音画 -filter_complex &quot;[0:v]setpts=速率*PTS[v];[0:a]atempo=速率[a]&quot; -map &quot;[v]&quot; -map &quot;[a]&quot; 输出音画</code>，单独视频是<code>ffmpeg -i 输入视频 -an -filter:v &quot;setpts=速率*PTS&quot; 输出视频</code>，单独音频是<code>ffmpeg -i 输入音频 -filter:a &quot;atempo=2.0&quot; -vn 输出音频</code>。视频的变速范围为4倍（0.25~4），音频为2倍。</li>
+<li>将帧合成为视频：<code>ffmpeg -loop 1 -i ./%d.jpg -vcodec libx264 -r 帧率 test.mp4</code>。</li>
 </ul>
 ]]></content>
       <categories>
@@ -556,8 +1035,8 @@ MyEclipse的安装。
       </tags>
   </entry>
   <entry>
-    <title>肆・语义分析</title>
-    <url>/2019/12/11/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/%E8%82%86%E3%83%BB%E8%AF%AD%E4%B9%89%E5%88%86%E6%9E%90/</url>
+    <title>编译原理・肆・语义分析</title>
+    <url>/2019/12/11/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E3%83%BB%E8%82%86%E3%83%BB%E8%AF%AD%E4%B9%89%E5%88%86%E6%9E%90/</url>
     <content><![CDATA[<p><img src="" /></p>
 <center>
 </center>
@@ -585,8 +1064,8 @@ MyEclipse的安装。
       </tags>
   </entry>
   <entry>
-    <title>贰・自顶向下语法分析</title>
-    <url>/2019/12/11/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/%E8%B4%B0%E3%83%BB%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90/</url>
+    <title>编译原理・贰・自顶向下语法分析</title>
+    <url>/2019/12/11/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E3%83%BB%E8%B4%B0%E3%83%BB%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90/</url>
     <content><![CDATA[<p><img src="" /></p>
 <center>
 </center>
@@ -601,8 +1080,8 @@ MyEclipse的安装。
       </tags>
   </entry>
   <entry>
-    <title>贰・词法分析</title>
-    <url>/2019/12/10/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/%E5%A3%B9%E3%83%BB%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/</url>
+    <title>编译原理・贰・词法分析</title>
+    <url>/2019/12/10/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E3%83%BB%E5%A3%B9%E3%83%BB%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/</url>
     <content><![CDATA[<p><img src="" /></p>
 <center>
 </center>
@@ -617,8 +1096,8 @@ MyEclipse的安装。
       </tags>
   </entry>
   <entry>
-    <title>〇・编译原理总论</title>
-    <url>/2019/12/10/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/%E3%80%87%E3%83%BB%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/</url>
+    <title>编译原理・〇・总论</title>
+    <url>/2019/12/10/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E3%83%BB%E3%80%87%E3%83%BB%E6%80%BB%E8%AE%BA/</url>
     <content><![CDATA[<p><img src="" /></p>
 <center>
 编译程序的基本组成与相关概念。
@@ -797,8 +1276,8 @@ MyEclipse的安装。
       </categories>
   </entry>
   <entry>
-    <title>虚拟存储器</title>
-    <url>/2019/11/11/%E8%99%9A%E6%8B%9F%E5%AD%98%E5%82%A8%E5%99%A8/</url>
+    <title>操作系统・贰・存储器管理</title>
+    <url>/2019/11/11/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E3%83%BB%E8%B4%B0%E3%83%BB%E5%AD%98%E5%82%A8%E5%99%A8%E7%AE%A1%E7%90%86/</url>
     <content><![CDATA[<p><img src="" /></p>
 <center>
 坑待填
@@ -812,6 +1291,137 @@ MyEclipse的安装。
       </categories>
       <tags>
         <tag>操作系统</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>编译原理・终・实验</title>
+    <url>/2019/11/10/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E3%83%BB%E7%BB%88%E3%83%BB%E5%AE%9E%E9%AA%8C/</url>
+    <content><![CDATA[<h1 id="目标">目标</h1>
+<p>给定一个简单的玩具语言，由C语言小子集构成，为它设计一个编译器，完成词法分析、语法分析、语义分析等功能，并生成汇编语言。</p>
+<h1 id="使用的文法规则">使用的文法规则</h1>
+<h2 id="词法规则">词法规则</h2>
+<ol type="1">
+<li><p><span class="math inline">\(&lt;ID&gt;\rightarrow \left\{ \begin{aligned} &amp; &lt;ID&gt;&lt;LETTER&gt; \\ &amp; &lt;ID&gt;&lt;DIGIT&gt; \\ &amp; &lt;LETTER&gt; \end{aligned} \right.\)</span></p></li>
+<li><p><span class="math inline">\(&lt;NUM&gt;\rightarrow \left\{ \begin{aligned} &amp; &lt;DIGIT&gt; \\ &amp; &lt;NUM&gt;&lt;DIGIT&gt; \end{aligned} \right.\)</span></p></li>
+<li><p><span class="math inline">\(&lt;LETTER&gt;\rightarrow a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|q|r|s|t|u|v|w|x|y|z\)</span></p></li>
+<li><p><span class="math inline">\(&lt;DIGIT&gt;\rightarrow 0|1|2|3|4|5|6|7|8|9\)</span></p></li>
+<li><p><span class="math inline">\(&lt;PLUS\_MINUS&gt;\rightarrow +|-\)</span></p></li>
+<li><p><span class="math inline">\(&lt;STAR\_DIV&gt;\rightarrow *|/\)</span></p></li>
+<li><p><span class="math inline">\(&lt;RELOP&gt;\rightarrow &lt;|&gt;|!=|&gt;=|&lt;=|==\)</span></p></li>
+<li><p><span class="math inline">\(&lt;DELIMITER&gt;\rightarrow ,|;|(|)|\{|\}\)</span></p></li>
+<li><p><span class="math inline">\(&lt;KEY&gt;\rightarrow main|int|if|else|whileDo|do\)</span></p></li>
+</ol>
+<h2 id="语法规则">语法规则</h2>
+<ol type="1">
+<li><p><span class="math inline">\(&lt;Program&gt;\rightarrow main() \left\{ &lt;CompSt&gt; \right\}\)</span></p>
+<p>CompSt：由一对花括号括起来的语句块。该语句块内部先是一系列的变量定义DefList，然后是一系列的语句StmtList。</p></li>
+<li><p><span class="math inline">\(&lt;CompSt&gt;\rightarrow &lt;Def&gt;;&lt;StmtList&gt;\)</span></p>
+<p>Def：变量定义部分，由于选择的子集里只有int一种变量类型，所以不需要DefList，一条变量定义语句足矣。</p></li>
+<li><p><span class="math inline">\(&lt;Def&gt;\rightarrow &lt;Specifier&gt;&lt;IdList&gt;\)</span></p>
+<p>IdList：一个或多个标识符ID</p></li>
+<li><p><span class="math inline">\(&lt;Specifier&gt;\rightarrow INT\)</span></p></li>
+<li><p><span class="math inline">\(&lt;IdList&gt;\rightarrow \left\{ \begin{aligned} &amp; &lt;IdList&gt;,ID \\ &amp; ID \end{aligned} \right.\)</span></p></li>
+<li><p><span class="math inline">\(&lt;StmtList&gt;\rightarrow \left\{ \begin{aligned} &amp;&lt;StmtList&gt;,&lt;Stmt&gt; \\ &amp;&lt;Stmt&gt; \end{aligned} \right.\)</span></p></li>
+<li><p><span class="math inline">\(&lt;Stmt&gt;\rightarrow \left\{ \begin{aligned} &amp; &lt;Assign&gt; \\ &amp; &lt;IfElse&gt; \\ &amp; &lt;WhileDo&gt; \end{aligned} \right.\)</span></p>
+<p>一条语句，可以是一个以分号结尾的表达式，或一个条件语句，或一个循环语句，或一个返回语句。这里不考虑返回语句的情况，并且表达式只考虑简单的<code>Id = Exp;</code>的情况即赋值语句、条件语句只考虑<code>if (条件) 语句（块） else 语句（块）</code>的情况、循环语句只考虑<code>while (条件) 语句（块） do 语句（块）</code>的情况。</p></li>
+<li><p><span class="math inline">\(&lt;Assign&gt;\rightarrow ID=&lt;Exp&gt;\)</span></p></li>
+<li><p><span class="math inline">\(&lt;Exp&gt;\rightarrow \left\{ \begin{aligned} &amp; &lt;Exp&gt;&lt;PLUS\_MINUS&gt;&lt;Term&gt;\\ &amp; &lt;Term&gt; \\ \end{aligned} \right.\)</span></p></li>
+<li><p><span class="math inline">\(&lt;Term&gt;\rightarrow \left\{ \begin{aligned} &amp; &lt;Term&gt;&lt;STAR\_DIV&gt;&lt;Divisor&gt;\\ &amp; &lt;Divisor&gt; \\ \end{aligned} \right.\)</span></p></li>
+<li><p><span class="math inline">\(&lt;Divisor&gt;\rightarrow \left\{ \begin{aligned} &amp; ID \\ &amp; NUM \\ &amp; (&lt;Exp&gt;) \end{aligned} \right.\)</span></p></li>
+<li><p><span class="math inline">\(&lt;IfElse&gt;\rightarrow if(&lt;Condition&gt;)&lt;Inner&gt;else&lt;Inner&gt;\)</span></p></li>
+<li><p><span class="math inline">\(&lt;Condition&gt;\rightarrow &lt;Exp&gt;RELOP&lt;Exp&gt;\)</span></p></li>
+<li><p><span class="math inline">\(&lt;Inner&gt;\rightarrow &lt;Stmt&gt;|{&lt;StmtList&gt;}\)</span></p></li>
+<li><p><span class="math inline">\(&lt;WhileDo&gt;\rightarrow \left\{ \begin{aligned} &amp; while(&lt;Condition&gt;)do&lt;Inner&gt;\\ &amp; while(&lt;Condition&gt;)&lt;Inner&gt; \end{aligned} \right.\)</span></p></li>
+</ol>
+<p>可以看出，“C--”的语法规则类似C，但右花括号前的分号在右花括号外，且最外的右花括号后无分号。声明语句必须放在最前面。由于这个玩具语言只支持int，所以声明语句只需要一句，而且不需要进行各种类型检查；也没有数组、函数、结构体等概念。</p>
+<p>由于它很简单，使用这个语言编写的的程序能出的错也比较少，编译器大致只需要能够查出源代码中可能包含的下述几类错误:</p>
+<ul>
+<li>词法错误
+<ul>
+<li>词法中未定义的字符</li>
+<li>不符合词法单元定义的字符</li>
+</ul></li>
+<li>语法错误
+<ul>
+<li>任何不符合规则的语法</li>
+</ul></li>
+<li>语义错误
+<ul>
+<li>变量在使用时未经定义</li>
+<li>变量出现重复定义</li>
+<li>变量在使用时未经初始化</li>
+</ul></li>
+</ul>
+<h1 id="对给定文法规则的分析">对给定文法规则的分析</h1>
+<h2 id="消除左递归">消除左递归</h2>
+<p><strong>4、5、8、9四条规则是存在左递归的</strong>，在自顶向下的分析中左递归将导致死循环。可以容易地消除左递归：</p>
+<p>第4条：</p>
+<ul>
+<li><p><span class="math inline">\(&lt;IdList&gt;\rightarrow ID&lt;IdList&#39;&gt;\)</span></p></li>
+<li><p><span class="math inline">\(&lt;IdList&#39;&gt;\rightarrow \left\{ \begin{aligned} &amp; ,ID&lt;IdList&#39;&gt; \\ &amp; \epsilon \end{aligned} \right.\)</span></p></li>
+</ul>
+<p>第5条：</p>
+<ul>
+<li><p><span class="math inline">\(&lt;StmtList&gt;\rightarrow &lt;Stmt&gt;&lt;StmtList&#39;&gt;\)</span></p></li>
+<li><p><span class="math inline">\(&lt;StmtList&#39;&gt;\rightarrow \left\{ \begin{aligned} &amp; ;&lt;Stmt&gt;&lt;StmtList&#39;&gt; \\ &amp; \epsilon \end{aligned} \right.\)</span></p></li>
+</ul>
+<p>第8条：</p>
+<ul>
+<li><p><span class="math inline">\(&lt;Exp&gt;\rightarrow &lt;Term&gt;&lt;Exp&#39;&gt;\)</span></p></li>
+<li><p><span class="math inline">\(&lt;Exp&#39;&gt;\rightarrow \left\{ \begin{aligned} &amp; &lt;PLUS\_MINUS&gt;&lt;Term&gt;&lt;Exp&#39;&gt; \\ &amp; \epsilon \end{aligned} \right.\)</span></p></li>
+</ul>
+<p>第9条：</p>
+<ul>
+<li><p><span class="math inline">\(&lt;Term&gt;\rightarrow &lt;Divisor&gt;&lt;Term&#39;&gt;\)</span></p></li>
+<li><p><span class="math inline">\(&lt;Term&#39;&gt;\rightarrow \left\{ \begin{aligned} &amp; &lt;STAR\_DIV&gt;&lt;Divisor&gt;&lt;Term&#39;&gt; \\ &amp; \epsilon \end{aligned} \right.\)</span></p></li>
+</ul>
+<h2 id="拓展属性文法">拓展属性文法</h2>
+<p>声明语句需要扩展属性文法以生成符号表，网络上教属性文法的文章通常以此举例，可以容易地找到参考：</p>
+<ol type="1">
+<li><p><span class="math inline">\(&lt;Def&gt;\rightarrow &lt;Specifier&gt;&lt;IdList&gt;\{&lt;IdList&gt;.inh:=&lt;Specifier&gt;.type\}\)</span></p>
+<p>将类型声明指定的类型赋给所有后面的标识符。</p></li>
+<li><p><span class="math inline">\(&lt;Specifier&gt;\rightarrow INT \{&lt;Specifier&gt;.type:=integer\}\)</span></p>
+<p>返回类型声明指定的类型为int。</p></li>
+<li><p><span class="math inline">\(&lt;IdList&gt;\rightarrow ID\{addType(ID.entry,&lt;IdList&gt;.inh)\}&lt;IdList&#39;&gt;\{&lt;IdList&#39;&gt;.inh:=&lt;IdList&gt;.inh\}\)</span></p>
+<p>传入指定的类型，将ID入表，ID后的所有标识符类型将为前面传来的类型。</p></li>
+<li><p><span class="math inline">\(&lt;IdList&#39;&gt;\rightarrow \left\{ \begin{aligned} &amp; ,ID\{addType(ID.entry,&lt;IdList&#39;&gt;.inh)\}&lt;IdList_1&#39;&gt;\{&lt;IdList_1&#39;&gt;.inh:=&lt;IdList&#39;&gt;.inh\} \\ &amp; \epsilon \end{aligned} \right.\)</span></p>
+<p>传入指定的类型，将ID入表，ID后的所有标识符类型将为前面传来的类型；如果是空就不管。</p></li>
+</ol>
+<p>注意，这里可能出现重复声明的错误。</p>
+<p>赋值语句和表达式处也需要扩展属性文法以生成四元式。这个有点复杂，头秃。以表达式<span class="math inline">\(a+b\times c\)</span>为例，最先被规约的除了<span class="math inline">\(\epsilon\)</span>外就是<span class="math inline">\(\times c\)</span>了。想生成四元式，这里需要传入（也就是<span class="math inline">\(&lt;Term’&gt;\)</span>的继承属性）<span class="math inline">\(b\)</span>，并生成一个变量（也就是<span class="math inline">\(&lt;Term’&gt;\)</span>的综合属性）用于存储结果。将生成的变量——例如是<span class="math inline">\(tmp\)</span>——返回后再规约<span class="math inline">\(+tmp\)</span>，过程类似。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">           +------------------------------+Exp+---------------------------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">           |                                                                    |</span></pre></td></tr><tr><td class="code"><pre><span class="line">           v                                                                    v</span></pre></td></tr><tr><td class="code"><pre><span class="line">   +----+Term+---+             +-------------------+--------------------------+Exp&#39;+-----------------+</span></pre></td></tr><tr><td class="code"><pre><span class="line">   |             |             |                   |                                                 |</span></pre></td></tr><tr><td class="code"><pre><span class="line">   v             v             v                   v                                                 v</span></pre></td></tr><tr><td class="code"><pre><span class="line">Divisor        Term&#39;           +         +------+Term+-------------------+                          Exp&#39;</span></pre></td></tr><tr><td class="code"><pre><span class="line">   |             |                       |                               |                           |</span></pre></td></tr><tr><td class="code"><pre><span class="line">   v             v                       v                               v                           v</span></pre></td></tr><tr><td class="code"><pre><span class="line">   a           epsilon                Divisor         +---------------+Term&#39;+---------------+     epsilon</span></pre></td></tr><tr><td class="code"><pre><span class="line">                                         |            |                  |                  |</span></pre></td></tr><tr><td class="code"><pre><span class="line">                                         v            v                  v                  v</span></pre></td></tr><tr><td class="code"><pre><span class="line">                                         b            *              Divisior             Term&#39;</span></pre></td></tr><tr><td class="code"><pre><span class="line">                                                                         |                  |</span></pre></td></tr><tr><td class="code"><pre><span class="line">                                                                         v                  v</span></pre></td></tr><tr><td class="code"><pre><span class="line">                                                                         c                epsilon</span></pre></td></tr></table></figure>
+<ol type="1">
+<li><p><span class="math inline">\(&lt;Assign&gt;\rightarrow ID=&lt;Exp&gt;\{queue.push(&quot;=&quot;,&lt;Exp&gt;.val,N/A,ID)\}\)</span></p>
+<p><span class="math inline">\(&lt;Exp&gt;\)</span>将返回一个符号，生成赋值四元式入队列。</p></li>
+<li><p><span class="math inline">\(&lt;Exp&gt;\rightarrow &lt;Term&gt;&lt;Exp&#39;&gt;\{&lt;Exp&#39;&gt;.inh=&lt;Term&gt;.val;&lt;Exp&gt;.val=&lt;Exp&#39;&gt;.val\}\)</span></p>
+<p>把<span class="math inline">\(&lt;Term&gt;\)</span>的返回符号传入<span class="math inline">\(&lt;Exp&#39;&gt;\)</span>，<span class="math inline">\(&lt;Exp&#39;&gt;\)</span>将返回一个符号，将之返回。</p></li>
+<li><p><span class="math inline">\(&lt;Exp&#39;&gt;\rightarrow \left\{ \begin{aligned} &amp; &lt;PLUS\_MINUS&gt;&lt;Term&gt;&lt;Exp1&#39;&gt;\{&lt;Exp1&#39;&gt;.inh=&lt;Term&gt;.val;queue.push(&lt;PLUS\_MINUS&gt;,&lt;Exp&#39;&gt;.inh,&lt;Exp1&#39;&gt;.val,tmp);&lt;Exp&#39;&gt;.val=tmp\} \\ &amp; \epsilon\{&lt;Exp&#39;&gt;.val=&lt;Exp&#39;&gt;.inh\} \end{aligned} \right.\)</span></p>
+<p>传入一个符号，并把<span class="math inline">\(&lt;Term&gt;\)</span>的返回符号传入<span class="math inline">\(&lt;Exp1&#39;&gt;\)</span>，<span class="math inline">\(&lt;Exp1&#39;&gt;\)</span>将返回一个符号，将传入的符号与<span class="math inline">\(&lt;Exp1&#39;&gt;\)</span>返回的符号做加减运算，四元式入队列，结果存在<span class="math inline">\(tmp_i\)</span>，将<span class="math inline">\(tmp_i\)</span>返回；但若<span class="math inline">\(&lt;Exp&#39;&gt;\)</span>为空，则直接将传入的符号返回。</p></li>
+<li><p><span class="math inline">\(&lt;Term&gt;\rightarrow &lt;Divisor&gt;&lt;Term&#39;&gt;\{&lt;Term&#39;&gt;.inh=&lt;Divisor&gt;.val;&lt;Term&gt;.val=&lt;Term&#39;&gt;.val\}\)</span></p>
+<p>把<span class="math inline">\(&lt;Divisor&gt;\)</span>的返回符号传入<span class="math inline">\(&lt;Term&#39;&gt;\)</span>，<span class="math inline">\(&lt;Term&#39;&gt;\)</span>将返回一个符号，将之返回。</p></li>
+<li><p><span class="math inline">\(&lt;Term&#39;&gt;\rightarrow \left\{ \begin{aligned} &amp; &lt;STAR\_DIV&gt;&lt;Divisor&gt;&lt;Term1&#39;&gt;\{&lt;Term1&#39;&gt;.inh=&lt;Divisor&gt;.val;queue.push(&lt;STAR\_DIV&gt;,&lt;Term&#39;&gt;.inh,&lt;Term1&#39;&gt;.val,tmp);&lt;Term&#39;&gt;.val=tmp\} \\ &amp; \epsilon\{&lt;Term&#39;&gt;.val=&lt;Term&#39;&gt;.inh\} \end{aligned} \right.\)</span></p>
+<p>传入一个符号，并把<span class="math inline">\(&lt;Divisor&gt;\)</span>的返回符号传入<span class="math inline">\(&lt;Term1&#39;&gt;\)</span>，<span class="math inline">\(&lt;Term1&#39;&gt;\)</span>将返回一个符号，将传入的符号与<span class="math inline">\(&lt;Term1&#39;&gt;\)</span>返回的符号做乘除运算，四元式入队列，结果存在<span class="math inline">\(tmp_i\)</span>，将<span class="math inline">\(tmp_i\)</span>返回；但若<span class="math inline">\(&lt;Term&#39;&gt;\)</span>为空，则直接将传入的符号返回。</p></li>
+<li><p><span class="math inline">\(&lt;Divisor&gt;\rightarrow \left\{ \begin{aligned} &amp; ID \{&lt;Divisor&gt;.val=ID\}\\ &amp; NUM \{&lt;Divisor&gt;.val=NUM\}\\ &amp; (&lt;Exp&gt;) \end{aligned} \right.\)</span></p>
+<p>返回一个符号，这个符号可能是ID，或NUM，或一个<span class="math inline">\(&lt;Exp&gt;\)</span>的返回符号。</p></li>
+</ol>
+<p>注意，这里可能出现使用未经定义的变量的错误。</p>
+<p>条件语句和循环语句的四元式难点是怎么确定要跳转的位置我感觉，需要在分析到要跳转的地方后再回过头去修改最初跳转语句的目标位置为当前位置。</p>
+<ol type="1">
+<li><p><span class="math inline">\(&lt;IfElse&gt;\rightarrow if(&lt;Condition&gt;)\{queue.push(GO,&lt;Condition&gt;.val==false,N/A,else)\}&lt;Inner&gt;\{queue.push(GO,N/A,N/A,end)\}else&lt;Inner&gt;\)</span></p>
+<p>条件表达式将返回一个布尔变量，如果为真则执行完第一个条件体后跳转至结尾，如果为假则跳转至<code>else</code>的标号。</p></li>
+<li><p><span class="math inline">\(&lt;Condition&gt;\rightarrow &lt;Exp1&gt;\{&lt;Condition&gt;.exp1val=&lt;Exp1&gt;.val\}RELOP&lt;Exp2&gt;\{&lt;Condition&gt;.exp2val=&lt;Exp2&gt;.val\,queue.ppush(RELOP,&lt;Condition&gt;.exp1val,&lt;Condition&gt;.exp2val,tmp_i);&lt;Condition&gt;.val=tmp_i\}\)</span></p>
+<p>将两个表达式返回的符号做给定的比较运算，结果存在一个新符号中，入四元式并返回。</p></li>
+<li><p><span class="math inline">\(&lt;WhileDo&gt;\rightarrow \left\{ \begin{aligned} &amp; while(&lt;Condition&gt;)do&lt;Inner&gt;\\ &amp; while(&lt;Condition&gt;)&lt;Inner&gt; \end{aligned} \right.\)</span></p>
+<p>类似条件语句，只不过跳转回去的时候要跳到判断那里，属性文法懒得写了：）</p></li>
+</ol>
+<p>之后按平时作业的编程题正常写即可。要求具有一定排错能力，这个比较难。哪天想起来再补充吧。</p>
+]]></content>
+      <categories>
+        <category>深蓝</category>
+        <category>编译原理</category>
+      </categories>
+      <tags>
+        <tag>编译原理</tag>
       </tags>
   </entry>
   <entry>
@@ -925,8 +1535,8 @@ action跳转至页面、URL或另一个action。
       </tags>
   </entry>
   <entry>
-    <title>自底向上语法分析</title>
-    <url>/2019/10/28/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/%E5%8F%81%E3%83%BB%E8%87%AA%E5%BA%95%E5%90%91%E4%B8%8A%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90/</url>
+    <title>编译原理・叁・自底向上语法分析</title>
+    <url>/2019/10/28/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E3%83%BB%E5%8F%81%E3%83%BB%E8%87%AA%E5%BA%95%E5%90%91%E4%B8%8A%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90/</url>
     <content><![CDATA[<p><img src="https://blog-1256194686.cos.ap-shanghai.myqcloud.com/191028_ZiDiXlUhYuFaFfXi.png" /></p>
 <center>
 优先分析法和LR(0)、SLR(1)、LR(1)三种LR分析法。

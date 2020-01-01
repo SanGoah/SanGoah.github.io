@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/taglogo180.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/taglogo32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/taglogo16.png">
+  <link rel="mask-icon" href="/images/taglogo.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.lug.ustc.edu.cn/css?family=Noto Sans:300,300italic,400,400italic,700,700italic|Fira Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.6.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="目标 给定一个简单的玩具语言，由C语言小子集构成，为它设计一个编译器，完成词法分析、语法分析、语义分析等功能，并生成汇编语言。 使用的文法规则 词法规则  \(&amp;lt;ID&amp;gt;\rightarrow \left\{ \begin{aligned} &amp;amp; &amp;lt;ID&amp;gt;&amp;lt;LETTER&amp;gt; \\ &amp;amp; &amp;lt;ID&amp;gt;&amp;lt;DIGIT&amp;gt; \\ &amp;amp; &amp;">
+<meta name="keywords" content="编译原理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="编译原理・终・实验">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;10&#x2F;%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86&#x2F;%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E3%83%BB%E7%BB%88%E3%83%BB%E5%AE%9E%E9%AA%8C&#x2F;index.html">
+<meta property="og:site_name" content="Mech_Mind‘s blog">
+<meta property="og:description" content="目标 给定一个简单的玩具语言，由C语言小子集构成，为它设计一个编译器，完成词法分析、语法分析、语义分析等功能，并生成汇编语言。 使用的文法规则 词法规则  \(&amp;lt;ID&amp;gt;\rightarrow \left\{ \begin{aligned} &amp;amp; &amp;lt;ID&amp;gt;&amp;lt;LETTER&amp;gt; \\ &amp;amp; &amp;lt;ID&amp;gt;&amp;lt;DIGIT&amp;gt; \\ &amp;amp; &amp;">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-12-10T12:58:14.000Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2019/11/10/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E3%83%BB%E7%BB%88%E3%83%BB%E5%AE%9E%E9%AA%8C/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>编译原理・终・实验 | Mech_Mind‘s blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Mech_Mind‘s blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Mech_Mind‘s blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="Searching..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/10/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E3%83%BB%E7%BB%88%E3%83%BB%E5%AE%9E%E9%AA%8C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/logo.png">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="敲键盘 按快门 巡星空">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mech_Mind‘s blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          编译原理・终・实验
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-11-10 20:58:14" itemprop="dateCreated datePublished" datetime="2019-11-10T20:58:14+08:00">2019-11-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-12-10 20:58:14" itemprop="dateModified" datetime="2019-12-10T20:58:14+08:00">2019-12-10</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%B7%B1%E8%93%9D/" itemprop="url" rel="index">
+                    <span itemprop="name">深蓝</span>
+                  </a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%B7%B1%E8%93%9D/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" itemprop="url" rel="index">
+                    <span itemprop="name">编译原理</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="目标">目标</h1>
+<p>给定一个简单的玩具语言，由C语言小子集构成，为它设计一个编译器，完成词法分析、语法分析、语义分析等功能，并生成汇编语言。</p>
+<h1 id="使用的文法规则">使用的文法规则</h1>
+<h2 id="词法规则">词法规则</h2>
+<ol type="1">
+<li><p><span class="math inline">\(&lt;ID&gt;\rightarrow \left\{ \begin{aligned} &amp; &lt;ID&gt;&lt;LETTER&gt; \\ &amp; &lt;ID&gt;&lt;DIGIT&gt; \\ &amp; &lt;LETTER&gt; \end{aligned} \right.\)</span></p></li>
+<li><p><span class="math inline">\(&lt;NUM&gt;\rightarrow \left\{ \begin{aligned} &amp; &lt;DIGIT&gt; \\ &amp; &lt;NUM&gt;&lt;DIGIT&gt; \end{aligned} \right.\)</span></p></li>
+<li><p><span class="math inline">\(&lt;LETTER&gt;\rightarrow a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|q|r|s|t|u|v|w|x|y|z\)</span></p></li>
+<li><p><span class="math inline">\(&lt;DIGIT&gt;\rightarrow 0|1|2|3|4|5|6|7|8|9\)</span></p></li>
+<li><p><span class="math inline">\(&lt;PLUS\_MINUS&gt;\rightarrow +|-\)</span></p></li>
+<li><p><span class="math inline">\(&lt;STAR\_DIV&gt;\rightarrow *|/\)</span></p></li>
+<li><p><span class="math inline">\(&lt;RELOP&gt;\rightarrow &lt;|&gt;|!=|&gt;=|&lt;=|==\)</span></p></li>
+<li><p><span class="math inline">\(&lt;DELIMITER&gt;\rightarrow ,|;|(|)|\{|\}\)</span></p></li>
+<li><p><span class="math inline">\(&lt;KEY&gt;\rightarrow main|int|if|else|whileDo|do\)</span></p></li>
+</ol>
+<h2 id="语法规则">语法规则</h2>
+<ol type="1">
+<li><p><span class="math inline">\(&lt;Program&gt;\rightarrow main() \left\{ &lt;CompSt&gt; \right\}\)</span></p>
+<p>CompSt：由一对花括号括起来的语句块。该语句块内部先是一系列的变量定义DefList，然后是一系列的语句StmtList。</p></li>
+<li><p><span class="math inline">\(&lt;CompSt&gt;\rightarrow &lt;Def&gt;;&lt;StmtList&gt;\)</span></p>
+<p>Def：变量定义部分，由于选择的子集里只有int一种变量类型，所以不需要DefList，一条变量定义语句足矣。</p></li>
+<li><p><span class="math inline">\(&lt;Def&gt;\rightarrow &lt;Specifier&gt;&lt;IdList&gt;\)</span></p>
+<p>IdList：一个或多个标识符ID</p></li>
+<li><p><span class="math inline">\(&lt;Specifier&gt;\rightarrow INT\)</span></p></li>
+<li><p><span class="math inline">\(&lt;IdList&gt;\rightarrow \left\{ \begin{aligned} &amp; &lt;IdList&gt;,ID \\ &amp; ID \end{aligned} \right.\)</span></p></li>
+<li><p><span class="math inline">\(&lt;StmtList&gt;\rightarrow \left\{ \begin{aligned} &amp;&lt;StmtList&gt;,&lt;Stmt&gt; \\ &amp;&lt;Stmt&gt; \end{aligned} \right.\)</span></p></li>
+<li><p><span class="math inline">\(&lt;Stmt&gt;\rightarrow \left\{ \begin{aligned} &amp; &lt;Assign&gt; \\ &amp; &lt;IfElse&gt; \\ &amp; &lt;WhileDo&gt; \end{aligned} \right.\)</span></p>
+<p>一条语句，可以是一个以分号结尾的表达式，或一个条件语句，或一个循环语句，或一个返回语句。这里不考虑返回语句的情况，并且表达式只考虑简单的<code>Id = Exp;</code>的情况即赋值语句、条件语句只考虑<code>if (条件) 语句（块） else 语句（块）</code>的情况、循环语句只考虑<code>while (条件) 语句（块） do 语句（块）</code>的情况。</p></li>
+<li><p><span class="math inline">\(&lt;Assign&gt;\rightarrow ID=&lt;Exp&gt;\)</span></p></li>
+<li><p><span class="math inline">\(&lt;Exp&gt;\rightarrow \left\{ \begin{aligned} &amp; &lt;Exp&gt;&lt;PLUS\_MINUS&gt;&lt;Term&gt;\\ &amp; &lt;Term&gt; \\ \end{aligned} \right.\)</span></p></li>
+<li><p><span class="math inline">\(&lt;Term&gt;\rightarrow \left\{ \begin{aligned} &amp; &lt;Term&gt;&lt;STAR\_DIV&gt;&lt;Divisor&gt;\\ &amp; &lt;Divisor&gt; \\ \end{aligned} \right.\)</span></p></li>
+<li><p><span class="math inline">\(&lt;Divisor&gt;\rightarrow \left\{ \begin{aligned} &amp; ID \\ &amp; NUM \\ &amp; (&lt;Exp&gt;) \end{aligned} \right.\)</span></p></li>
+<li><p><span class="math inline">\(&lt;IfElse&gt;\rightarrow if(&lt;Condition&gt;)&lt;Inner&gt;else&lt;Inner&gt;\)</span></p></li>
+<li><p><span class="math inline">\(&lt;Condition&gt;\rightarrow &lt;Exp&gt;RELOP&lt;Exp&gt;\)</span></p></li>
+<li><p><span class="math inline">\(&lt;Inner&gt;\rightarrow &lt;Stmt&gt;|{&lt;StmtList&gt;}\)</span></p></li>
+<li><p><span class="math inline">\(&lt;WhileDo&gt;\rightarrow \left\{ \begin{aligned} &amp; while(&lt;Condition&gt;)do&lt;Inner&gt;\\ &amp; while(&lt;Condition&gt;)&lt;Inner&gt; \end{aligned} \right.\)</span></p></li>
+</ol>
+<p>可以看出，“C--”的语法规则类似C，但右花括号前的分号在右花括号外，且最外的右花括号后无分号。声明语句必须放在最前面。由于这个玩具语言只支持int，所以声明语句只需要一句，而且不需要进行各种类型检查；也没有数组、函数、结构体等概念。</p>
+<p>由于它很简单，使用这个语言编写的的程序能出的错也比较少，编译器大致只需要能够查出源代码中可能包含的下述几类错误:</p>
+<ul>
+<li>词法错误
+<ul>
+<li>词法中未定义的字符</li>
+<li>不符合词法单元定义的字符</li>
+</ul></li>
+<li>语法错误
+<ul>
+<li>任何不符合规则的语法</li>
+</ul></li>
+<li>语义错误
+<ul>
+<li>变量在使用时未经定义</li>
+<li>变量出现重复定义</li>
+<li>变量在使用时未经初始化</li>
+</ul></li>
+</ul>
+<h1 id="对给定文法规则的分析">对给定文法规则的分析</h1>
+<h2 id="消除左递归">消除左递归</h2>
+<p><strong>4、5、8、9四条规则是存在左递归的</strong>，在自顶向下的分析中左递归将导致死循环。可以容易地消除左递归：</p>
+<p>第4条：</p>
+<ul>
+<li><p><span class="math inline">\(&lt;IdList&gt;\rightarrow ID&lt;IdList&#39;&gt;\)</span></p></li>
+<li><p><span class="math inline">\(&lt;IdList&#39;&gt;\rightarrow \left\{ \begin{aligned} &amp; ,ID&lt;IdList&#39;&gt; \\ &amp; \epsilon \end{aligned} \right.\)</span></p></li>
+</ul>
+<p>第5条：</p>
+<ul>
+<li><p><span class="math inline">\(&lt;StmtList&gt;\rightarrow &lt;Stmt&gt;&lt;StmtList&#39;&gt;\)</span></p></li>
+<li><p><span class="math inline">\(&lt;StmtList&#39;&gt;\rightarrow \left\{ \begin{aligned} &amp; ;&lt;Stmt&gt;&lt;StmtList&#39;&gt; \\ &amp; \epsilon \end{aligned} \right.\)</span></p></li>
+</ul>
+<p>第8条：</p>
+<ul>
+<li><p><span class="math inline">\(&lt;Exp&gt;\rightarrow &lt;Term&gt;&lt;Exp&#39;&gt;\)</span></p></li>
+<li><p><span class="math inline">\(&lt;Exp&#39;&gt;\rightarrow \left\{ \begin{aligned} &amp; &lt;PLUS\_MINUS&gt;&lt;Term&gt;&lt;Exp&#39;&gt; \\ &amp; \epsilon \end{aligned} \right.\)</span></p></li>
+</ul>
+<p>第9条：</p>
+<ul>
+<li><p><span class="math inline">\(&lt;Term&gt;\rightarrow &lt;Divisor&gt;&lt;Term&#39;&gt;\)</span></p></li>
+<li><p><span class="math inline">\(&lt;Term&#39;&gt;\rightarrow \left\{ \begin{aligned} &amp; &lt;STAR\_DIV&gt;&lt;Divisor&gt;&lt;Term&#39;&gt; \\ &amp; \epsilon \end{aligned} \right.\)</span></p></li>
+</ul>
+<h2 id="拓展属性文法">拓展属性文法</h2>
+<p>声明语句需要扩展属性文法以生成符号表，网络上教属性文法的文章通常以此举例，可以容易地找到参考：</p>
+<ol type="1">
+<li><p><span class="math inline">\(&lt;Def&gt;\rightarrow &lt;Specifier&gt;&lt;IdList&gt;\{&lt;IdList&gt;.inh:=&lt;Specifier&gt;.type\}\)</span></p>
+<p>将类型声明指定的类型赋给所有后面的标识符。</p></li>
+<li><p><span class="math inline">\(&lt;Specifier&gt;\rightarrow INT \{&lt;Specifier&gt;.type:=integer\}\)</span></p>
+<p>返回类型声明指定的类型为int。</p></li>
+<li><p><span class="math inline">\(&lt;IdList&gt;\rightarrow ID\{addType(ID.entry,&lt;IdList&gt;.inh)\}&lt;IdList&#39;&gt;\{&lt;IdList&#39;&gt;.inh:=&lt;IdList&gt;.inh\}\)</span></p>
+<p>传入指定的类型，将ID入表，ID后的所有标识符类型将为前面传来的类型。</p></li>
+<li><p><span class="math inline">\(&lt;IdList&#39;&gt;\rightarrow \left\{ \begin{aligned} &amp; ,ID\{addType(ID.entry,&lt;IdList&#39;&gt;.inh)\}&lt;IdList_1&#39;&gt;\{&lt;IdList_1&#39;&gt;.inh:=&lt;IdList&#39;&gt;.inh\} \\ &amp; \epsilon \end{aligned} \right.\)</span></p>
+<p>传入指定的类型，将ID入表，ID后的所有标识符类型将为前面传来的类型；如果是空就不管。</p></li>
+</ol>
+<p>注意，这里可能出现重复声明的错误。</p>
+<p>赋值语句和表达式处也需要扩展属性文法以生成四元式。这个有点复杂，头秃。以表达式<span class="math inline">\(a+b\times c\)</span>为例，最先被规约的除了<span class="math inline">\(\epsilon\)</span>外就是<span class="math inline">\(\times c\)</span>了。想生成四元式，这里需要传入（也就是<span class="math inline">\(&lt;Term’&gt;\)</span>的继承属性）<span class="math inline">\(b\)</span>，并生成一个变量（也就是<span class="math inline">\(&lt;Term’&gt;\)</span>的综合属性）用于存储结果。将生成的变量——例如是<span class="math inline">\(tmp\)</span>——返回后再规约<span class="math inline">\(+tmp\)</span>，过程类似。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">           +------------------------------+Exp+---------------------------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">           |                                                                    |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">           v                                                                    v</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">   +----+Term+---+             +-------------------+--------------------------+Exp&#39;+-----------------+</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">   |             |             |                   |                                                 |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">   v             v             v                   v                                                 v</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">Divisor        Term&#39;           +         +------+Term+-------------------+                          Exp&#39;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">   |             |                       |                               |                           |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">   v             v                       v                               v                           v</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">   a           epsilon                Divisor         +---------------+Term&#39;+---------------+     epsilon</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">                                         |            |                  |                  |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">                                         v            v                  v                  v</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">                                         b            *              Divisior             Term&#39;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">                                                                         |                  |</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">                                                                         v                  v</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">                                                                         c                epsilon</span></pre></td></tr></table></figure>
+<ol type="1">
+<li><p><span class="math inline">\(&lt;Assign&gt;\rightarrow ID=&lt;Exp&gt;\{queue.push(&quot;=&quot;,&lt;Exp&gt;.val,N/A,ID)\}\)</span></p>
+<p><span class="math inline">\(&lt;Exp&gt;\)</span>将返回一个符号，生成赋值四元式入队列。</p></li>
+<li><p><span class="math inline">\(&lt;Exp&gt;\rightarrow &lt;Term&gt;&lt;Exp&#39;&gt;\{&lt;Exp&#39;&gt;.inh=&lt;Term&gt;.val;&lt;Exp&gt;.val=&lt;Exp&#39;&gt;.val\}\)</span></p>
+<p>把<span class="math inline">\(&lt;Term&gt;\)</span>的返回符号传入<span class="math inline">\(&lt;Exp&#39;&gt;\)</span>，<span class="math inline">\(&lt;Exp&#39;&gt;\)</span>将返回一个符号，将之返回。</p></li>
+<li><p><span class="math inline">\(&lt;Exp&#39;&gt;\rightarrow \left\{ \begin{aligned} &amp; &lt;PLUS\_MINUS&gt;&lt;Term&gt;&lt;Exp1&#39;&gt;\{&lt;Exp1&#39;&gt;.inh=&lt;Term&gt;.val;queue.push(&lt;PLUS\_MINUS&gt;,&lt;Exp&#39;&gt;.inh,&lt;Exp1&#39;&gt;.val,tmp);&lt;Exp&#39;&gt;.val=tmp\} \\ &amp; \epsilon\{&lt;Exp&#39;&gt;.val=&lt;Exp&#39;&gt;.inh\} \end{aligned} \right.\)</span></p>
+<p>传入一个符号，并把<span class="math inline">\(&lt;Term&gt;\)</span>的返回符号传入<span class="math inline">\(&lt;Exp1&#39;&gt;\)</span>，<span class="math inline">\(&lt;Exp1&#39;&gt;\)</span>将返回一个符号，将传入的符号与<span class="math inline">\(&lt;Exp1&#39;&gt;\)</span>返回的符号做加减运算，四元式入队列，结果存在<span class="math inline">\(tmp_i\)</span>，将<span class="math inline">\(tmp_i\)</span>返回；但若<span class="math inline">\(&lt;Exp&#39;&gt;\)</span>为空，则直接将传入的符号返回。</p></li>
+<li><p><span class="math inline">\(&lt;Term&gt;\rightarrow &lt;Divisor&gt;&lt;Term&#39;&gt;\{&lt;Term&#39;&gt;.inh=&lt;Divisor&gt;.val;&lt;Term&gt;.val=&lt;Term&#39;&gt;.val\}\)</span></p>
+<p>把<span class="math inline">\(&lt;Divisor&gt;\)</span>的返回符号传入<span class="math inline">\(&lt;Term&#39;&gt;\)</span>，<span class="math inline">\(&lt;Term&#39;&gt;\)</span>将返回一个符号，将之返回。</p></li>
+<li><p><span class="math inline">\(&lt;Term&#39;&gt;\rightarrow \left\{ \begin{aligned} &amp; &lt;STAR\_DIV&gt;&lt;Divisor&gt;&lt;Term1&#39;&gt;\{&lt;Term1&#39;&gt;.inh=&lt;Divisor&gt;.val;queue.push(&lt;STAR\_DIV&gt;,&lt;Term&#39;&gt;.inh,&lt;Term1&#39;&gt;.val,tmp);&lt;Term&#39;&gt;.val=tmp\} \\ &amp; \epsilon\{&lt;Term&#39;&gt;.val=&lt;Term&#39;&gt;.inh\} \end{aligned} \right.\)</span></p>
+<p>传入一个符号，并把<span class="math inline">\(&lt;Divisor&gt;\)</span>的返回符号传入<span class="math inline">\(&lt;Term1&#39;&gt;\)</span>，<span class="math inline">\(&lt;Term1&#39;&gt;\)</span>将返回一个符号，将传入的符号与<span class="math inline">\(&lt;Term1&#39;&gt;\)</span>返回的符号做乘除运算，四元式入队列，结果存在<span class="math inline">\(tmp_i\)</span>，将<span class="math inline">\(tmp_i\)</span>返回；但若<span class="math inline">\(&lt;Term&#39;&gt;\)</span>为空，则直接将传入的符号返回。</p></li>
+<li><p><span class="math inline">\(&lt;Divisor&gt;\rightarrow \left\{ \begin{aligned} &amp; ID \{&lt;Divisor&gt;.val=ID\}\\ &amp; NUM \{&lt;Divisor&gt;.val=NUM\}\\ &amp; (&lt;Exp&gt;) \end{aligned} \right.\)</span></p>
+<p>返回一个符号，这个符号可能是ID，或NUM，或一个<span class="math inline">\(&lt;Exp&gt;\)</span>的返回符号。</p></li>
+</ol>
+<p>注意，这里可能出现使用未经定义的变量的错误。</p>
+<p>条件语句和循环语句的四元式难点是怎么确定要跳转的位置我感觉，需要在分析到要跳转的地方后再回过头去修改最初跳转语句的目标位置为当前位置。</p>
+<ol type="1">
+<li><p><span class="math inline">\(&lt;IfElse&gt;\rightarrow if(&lt;Condition&gt;)\{queue.push(GO,&lt;Condition&gt;.val==false,N/A,else)\}&lt;Inner&gt;\{queue.push(GO,N/A,N/A,end)\}else&lt;Inner&gt;\)</span></p>
+<p>条件表达式将返回一个布尔变量，如果为真则执行完第一个条件体后跳转至结尾，如果为假则跳转至<code>else</code>的标号。</p></li>
+<li><p><span class="math inline">\(&lt;Condition&gt;\rightarrow &lt;Exp1&gt;\{&lt;Condition&gt;.exp1val=&lt;Exp1&gt;.val\}RELOP&lt;Exp2&gt;\{&lt;Condition&gt;.exp2val=&lt;Exp2&gt;.val\,queue.ppush(RELOP,&lt;Condition&gt;.exp1val,&lt;Condition&gt;.exp2val,tmp_i);&lt;Condition&gt;.val=tmp_i\}\)</span></p>
+<p>将两个表达式返回的符号做给定的比较运算，结果存在一个新符号中，入四元式并返回。</p></li>
+<li><p><span class="math inline">\(&lt;WhileDo&gt;\rightarrow \left\{ \begin{aligned} &amp; while(&lt;Condition&gt;)do&lt;Inner&gt;\\ &amp; while(&lt;Condition&gt;)&lt;Inner&gt; \end{aligned} \right.\)</span></p>
+<p>类似条件语句，只不过跳转回去的时候要跳到判断那里，属性文法懒得写了：）</p></li>
+</ol>
+<p>之后按平时作业的编程题正常写即可。要求具有一定排错能力，这个比较难。哪天想起来再补充吧。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" rel="tag"># 编译原理</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/11/07/%E8%A1%A8%E4%B8%96%E7%95%8C/Struts2/Struts2%E4%B8%ADAction%E7%9A%84%E5%87%A0%E7%A7%8D%E4%BC%A0%E5%80%BC%E6%96%B9%E5%BC%8F/" rel="prev" title="Struts2中Action的几种传值方式">
+      <i class="fa fa-chevron-left"></i> Struts2中Action的几种传值方式
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/11/11/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E3%83%BB%E8%B4%B0%E3%83%BB%E5%AD%98%E5%82%A8%E5%99%A8%E7%AE%A1%E7%90%86/" rel="next" title="操作系统・贰・存储器管理">
+      操作系统・贰・存储器管理 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    
+  <div class="comments" id="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC80NjgzMS8yMzMzMg=="></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#目标"><span class="nav-number">1.</span> <span class="nav-text">目标</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用的文法规则"><span class="nav-number">2.</span> <span class="nav-text">使用的文法规则</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#词法规则"><span class="nav-number">2.1.</span> <span class="nav-text">词法规则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#语法规则"><span class="nav-number">2.2.</span> <span class="nav-text">语法规则</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#对给定文法规则的分析"><span class="nav-number">3.</span> <span class="nav-text">对给定文法规则的分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#消除左递归"><span class="nav-number">3.1.</span> <span class="nav-text">消除左递归</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#拓展属性文法"><span class="nav-number">3.2.</span> <span class="nav-text">拓展属性文法</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt=""
+      src="/images/logo.png">
+  <p class="site-author-name" itemprop="name"></p>
+  <div class="site-description" itemprop="description">敲键盘 按快门 巡星空</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">31</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">35</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-fw fa-rss"></i>RSS</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.6.0
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<script>
+NexT.utils.loadComments(() => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":200,"height":290},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
