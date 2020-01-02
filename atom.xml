@@ -5,16 +5,16 @@
   
   <link href="/atom.xml" rel="self"/>
   
-  <link href="http://mechanical.cn/"/>
+  <link href="http://mechanicalmind.cn/"/>
   <updated>2020-01-02T09:12:58.000Z</updated>
-  <id>http://mechanical.cn/</id>
+  <id>http://mechanicalmind.cn/</id>
   
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
     <title>组成原理・肆・I/O系统</title>
-    <link href="http://mechanical.cn/2020/01/02/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E3%83%BB%E8%82%86%E3%83%BBI-O%E7%B3%BB%E7%BB%9F/"/>
-    <id>http://mechanical.cn/2020/01/02/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E3%83%BB%E8%82%86%E3%83%BBI-O%E7%B3%BB%E7%BB%9F/</id>
+    <link href="http://mechanicalmind.cn/2020/01/02/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E3%83%BB%E8%82%86%E3%83%BBI-O%E7%B3%BB%E7%BB%9F/"/>
+    <id>http://mechanicalmind.cn/2020/01/02/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E3%83%BB%E8%82%86%E3%83%BBI-O%E7%B3%BB%E7%BB%9F/</id>
     <published>2020-01-02T09:12:58.000Z</published>
     <updated>2020-01-02T09:12:58.000Z</updated>
     
@@ -34,8 +34,8 @@
   
   <entry>
     <title>组成原理・叁・控制器系统</title>
-    <link href="http://mechanical.cn/2020/01/02/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E3%83%BB%E5%8F%81%E3%83%BB%E6%8E%A7%E5%88%B6%E5%99%A8%E7%B3%BB%E7%BB%9F/"/>
-    <id>http://mechanical.cn/2020/01/02/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E3%83%BB%E5%8F%81%E3%83%BB%E6%8E%A7%E5%88%B6%E5%99%A8%E7%B3%BB%E7%BB%9F/</id>
+    <link href="http://mechanicalmind.cn/2020/01/02/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E3%83%BB%E5%8F%81%E3%83%BB%E6%8E%A7%E5%88%B6%E5%99%A8%E7%B3%BB%E7%BB%9F/"/>
+    <id>http://mechanicalmind.cn/2020/01/02/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E3%83%BB%E5%8F%81%E3%83%BB%E6%8E%A7%E5%88%B6%E5%99%A8%E7%B3%BB%E7%BB%9F/</id>
     <published>2020-01-02T09:12:32.000Z</published>
     <updated>2020-01-02T09:12:32.000Z</updated>
     
@@ -55,8 +55,8 @@
   
   <entry>
     <title>组成原理・贰・存储器系统</title>
-    <link href="http://mechanical.cn/2020/01/02/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E3%83%BB%E8%B4%B0%E3%83%BB%E5%AD%98%E5%82%A8%E5%99%A8%E7%B3%BB%E7%BB%9F/"/>
-    <id>http://mechanical.cn/2020/01/02/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E3%83%BB%E8%B4%B0%E3%83%BB%E5%AD%98%E5%82%A8%E5%99%A8%E7%B3%BB%E7%BB%9F/</id>
+    <link href="http://mechanicalmind.cn/2020/01/02/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E3%83%BB%E8%B4%B0%E3%83%BB%E5%AD%98%E5%82%A8%E5%99%A8%E7%B3%BB%E7%BB%9F/"/>
+    <id>http://mechanicalmind.cn/2020/01/02/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E3%83%BB%E8%B4%B0%E3%83%BB%E5%AD%98%E5%82%A8%E5%99%A8%E7%B3%BB%E7%BB%9F/</id>
     <published>2020-01-02T09:12:23.000Z</published>
     <updated>2020-01-02T09:12:23.000Z</updated>
     
@@ -76,8 +76,8 @@
   
   <entry>
     <title>组成原理・壹・运算器系统</title>
-    <link href="http://mechanical.cn/2020/01/02/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E3%83%BB%E5%A3%B9%E3%83%BB%E8%BF%90%E7%AE%97%E5%99%A8%E7%B3%BB%E7%BB%9F/"/>
-    <id>http://mechanical.cn/2020/01/02/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E3%83%BB%E5%A3%B9%E3%83%BB%E8%BF%90%E7%AE%97%E5%99%A8%E7%B3%BB%E7%BB%9F/</id>
+    <link href="http://mechanicalmind.cn/2020/01/02/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E3%83%BB%E5%A3%B9%E3%83%BB%E8%BF%90%E7%AE%97%E5%99%A8%E7%B3%BB%E7%BB%9F/"/>
+    <id>http://mechanicalmind.cn/2020/01/02/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E3%83%BB%E5%A3%B9%E3%83%BB%E8%BF%90%E7%AE%97%E5%99%A8%E7%B3%BB%E7%BB%9F/</id>
     <published>2020-01-02T09:12:15.000Z</published>
     <updated>2020-01-02T09:12:15.000Z</updated>
     
@@ -97,8 +97,8 @@
   
   <entry>
     <title>组成原理・〇・总论</title>
-    <link href="http://mechanical.cn/2020/01/02/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E3%83%BB%E3%80%87%E3%83%BB%E6%80%BB%E8%AE%BA/"/>
-    <id>http://mechanical.cn/2020/01/02/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E3%83%BB%E3%80%87%E3%83%BB%E6%80%BB%E8%AE%BA/</id>
+    <link href="http://mechanicalmind.cn/2020/01/02/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E3%83%BB%E3%80%87%E3%83%BB%E6%80%BB%E8%AE%BA/"/>
+    <id>http://mechanicalmind.cn/2020/01/02/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E3%83%BB%E3%80%87%E3%83%BB%E6%80%BB%E8%AE%BA/</id>
     <published>2020-01-02T09:09:32.000Z</published>
     <updated>2020-01-02T09:09:32.000Z</updated>
     
@@ -118,8 +118,8 @@
   
   <entry>
     <title>操作系统・壹・处理机管理</title>
-    <link href="http://mechanical.cn/2019/12/24/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E3%83%BB%E5%A3%B9%E3%83%BB%E5%A4%84%E7%90%86%E6%9C%BA%E7%AE%A1%E7%90%86/"/>
-    <id>http://mechanical.cn/2019/12/24/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E3%83%BB%E5%A3%B9%E3%83%BB%E5%A4%84%E7%90%86%E6%9C%BA%E7%AE%A1%E7%90%86/</id>
+    <link href="http://mechanicalmind.cn/2019/12/24/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E3%83%BB%E5%A3%B9%E3%83%BB%E5%A4%84%E7%90%86%E6%9C%BA%E7%AE%A1%E7%90%86/"/>
+    <id>http://mechanicalmind.cn/2019/12/24/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E3%83%BB%E5%A3%B9%E3%83%BB%E5%A4%84%E7%90%86%E6%9C%BA%E7%AE%A1%E7%90%86/</id>
     <published>2019-12-24T07:35:40.000Z</published>
     <updated>2019-12-24T16:00:00.000Z</updated>
     
@@ -135,23 +135,23 @@
     </summary>
     
     
-      <category term="深蓝" scheme="http://mechanical.cn/categories/%E6%B7%B1%E8%93%9D/"/>
+      <category term="深蓝" scheme="http://mechanicalmind.cn/categories/%E6%B7%B1%E8%93%9D/"/>
     
-      <category term="操作系统" scheme="http://mechanical.cn/categories/%E6%B7%B1%E8%93%9D/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
+      <category term="操作系统" scheme="http://mechanicalmind.cn/categories/%E6%B7%B1%E8%93%9D/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
     
     
-      <category term="操作系统" scheme="http://mechanical.cn/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
+      <category term="操作系统" scheme="http://mechanicalmind.cn/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
     
-      <category term="进程" scheme="http://mechanical.cn/tags/%E8%BF%9B%E7%A8%8B/"/>
+      <category term="进程" scheme="http://mechanicalmind.cn/tags/%E8%BF%9B%E7%A8%8B/"/>
     
-      <category term="死锁" scheme="http://mechanical.cn/tags/%E6%AD%BB%E9%94%81/"/>
+      <category term="死锁" scheme="http://mechanicalmind.cn/tags/%E6%AD%BB%E9%94%81/"/>
     
   </entry>
   
   <entry>
     <title>apk文件的反编译</title>
-    <link href="http://mechanical.cn/2019/12/22/%E6%88%8F%E6%B3%95/apk%E6%96%87%E4%BB%B6%E7%9A%84%E5%8F%8D%E7%BC%96%E8%AF%91/"/>
-    <id>http://mechanical.cn/2019/12/22/%E6%88%8F%E6%B3%95/apk%E6%96%87%E4%BB%B6%E7%9A%84%E5%8F%8D%E7%BC%96%E8%AF%91/</id>
+    <link href="http://mechanicalmind.cn/2019/12/22/%E6%88%8F%E6%B3%95/apk%E6%96%87%E4%BB%B6%E7%9A%84%E5%8F%8D%E7%BC%96%E8%AF%91/"/>
+    <id>http://mechanicalmind.cn/2019/12/22/%E6%88%8F%E6%B3%95/apk%E6%96%87%E4%BB%B6%E7%9A%84%E5%8F%8D%E7%BC%96%E8%AF%91/</id>
     <published>2019-12-22T11:06:10.000Z</published>
     <updated>2019-12-22T11:06:10.000Z</updated>
     
@@ -167,19 +167,19 @@ dex2jar、jd-GUI和apktool的简单介绍。
     </summary>
     
     
-      <category term="戏法" scheme="http://mechanical.cn/categories/%E6%88%8F%E6%B3%95/"/>
+      <category term="戏法" scheme="http://mechanicalmind.cn/categories/%E6%88%8F%E6%B3%95/"/>
     
     
-      <category term="Android" scheme="http://mechanical.cn/tags/Android/"/>
+      <category term="Android" scheme="http://mechanicalmind.cn/tags/Android/"/>
     
-      <category term="反编译" scheme="http://mechanical.cn/tags/%E5%8F%8D%E7%BC%96%E8%AF%91/"/>
+      <category term="反编译" scheme="http://mechanicalmind.cn/tags/%E5%8F%8D%E7%BC%96%E8%AF%91/"/>
     
   </entry>
   
   <entry>
     <title>一门水课的小组作业所反映的差距</title>
-    <link href="http://mechanical.cn/2019/12/22/%E5%85%B6%E5%AE%83/%E4%B8%80%E9%97%A8%E6%B0%B4%E8%AF%BE%E7%9A%84%E5%B0%8F%E7%BB%84%E4%BD%9C%E4%B8%9A%E6%89%80%E5%8F%8D%E6%98%A0%E7%9A%84%E5%B7%AE%E8%B7%9D/"/>
-    <id>http://mechanical.cn/2019/12/22/%E5%85%B6%E5%AE%83/%E4%B8%80%E9%97%A8%E6%B0%B4%E8%AF%BE%E7%9A%84%E5%B0%8F%E7%BB%84%E4%BD%9C%E4%B8%9A%E6%89%80%E5%8F%8D%E6%98%A0%E7%9A%84%E5%B7%AE%E8%B7%9D/</id>
+    <link href="http://mechanicalmind.cn/2019/12/22/%E5%85%B6%E5%AE%83/%E4%B8%80%E9%97%A8%E6%B0%B4%E8%AF%BE%E7%9A%84%E5%B0%8F%E7%BB%84%E4%BD%9C%E4%B8%9A%E6%89%80%E5%8F%8D%E6%98%A0%E7%9A%84%E5%B7%AE%E8%B7%9D/"/>
+    <id>http://mechanicalmind.cn/2019/12/22/%E5%85%B6%E5%AE%83/%E4%B8%80%E9%97%A8%E6%B0%B4%E8%AF%BE%E7%9A%84%E5%B0%8F%E7%BB%84%E4%BD%9C%E4%B8%9A%E6%89%80%E5%8F%8D%E6%98%A0%E7%9A%84%E5%B7%AE%E8%B7%9D/</id>
     <published>2019-12-22T08:01:13.000Z</published>
     <updated>2019-12-22T08:01:13.000Z</updated>
     
@@ -192,17 +192,17 @@ dex2jar、jd-GUI和apktool的简单介绍。
     </summary>
     
     
-      <category term="其它" scheme="http://mechanical.cn/categories/%E5%85%B6%E5%AE%83/"/>
+      <category term="其它" scheme="http://mechanicalmind.cn/categories/%E5%85%B6%E5%AE%83/"/>
     
-      <category term="柴米" scheme="http://mechanical.cn/categories/%E5%85%B6%E5%AE%83/%E6%9F%B4%E7%B1%B3/"/>
+      <category term="柴米" scheme="http://mechanicalmind.cn/categories/%E5%85%B6%E5%AE%83/%E6%9F%B4%E7%B1%B3/"/>
     
     
   </entry>
   
   <entry>
     <title>操作系统・〇・总论</title>
-    <link href="http://mechanical.cn/2019/12/20/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E3%83%BB%E3%80%87%E3%83%BB%E6%80%BB%E8%AE%BA/"/>
-    <id>http://mechanical.cn/2019/12/20/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E3%83%BB%E3%80%87%E3%83%BB%E6%80%BB%E8%AE%BA/</id>
+    <link href="http://mechanicalmind.cn/2019/12/20/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E3%83%BB%E3%80%87%E3%83%BB%E6%80%BB%E8%AE%BA/"/>
+    <id>http://mechanicalmind.cn/2019/12/20/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E3%83%BB%E3%80%87%E3%83%BB%E6%80%BB%E8%AE%BA/</id>
     <published>2019-12-20T07:35:40.000Z</published>
     <updated>2019-12-19T16:00:00.000Z</updated>
     
@@ -218,19 +218,19 @@ dex2jar、jd-GUI和apktool的简单介绍。
     </summary>
     
     
-      <category term="深蓝" scheme="http://mechanical.cn/categories/%E6%B7%B1%E8%93%9D/"/>
+      <category term="深蓝" scheme="http://mechanicalmind.cn/categories/%E6%B7%B1%E8%93%9D/"/>
     
-      <category term="操作系统" scheme="http://mechanical.cn/categories/%E6%B7%B1%E8%93%9D/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
+      <category term="操作系统" scheme="http://mechanicalmind.cn/categories/%E6%B7%B1%E8%93%9D/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
     
     
-      <category term="操作系统" scheme="http://mechanical.cn/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
+      <category term="操作系统" scheme="http://mechanicalmind.cn/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
     
   </entry>
   
   <entry>
     <title>FFmpeg</title>
-    <link href="http://mechanical.cn/2019/12/19/%E5%BF%AB%E9%97%A8%E5%B7%A5/FFmpeg/"/>
-    <id>http://mechanical.cn/2019/12/19/%E5%BF%AB%E9%97%A8%E5%B7%A5/FFmpeg/</id>
+    <link href="http://mechanicalmind.cn/2019/12/19/%E5%BF%AB%E9%97%A8%E5%B7%A5/FFmpeg/"/>
+    <id>http://mechanicalmind.cn/2019/12/19/%E5%BF%AB%E9%97%A8%E5%B7%A5/FFmpeg/</id>
     <published>2019-12-19T08:47:10.000Z</published>
     <updated>2020-01-01T08:47:10.000Z</updated>
     
@@ -246,19 +246,19 @@ dex2jar、jd-GUI和apktool的简单介绍。
     </summary>
     
     
-      <category term="快门工" scheme="http://mechanical.cn/categories/%E5%BF%AB%E9%97%A8%E5%B7%A5/"/>
+      <category term="快门工" scheme="http://mechanicalmind.cn/categories/%E5%BF%AB%E9%97%A8%E5%B7%A5/"/>
     
-      <category term="视频后期" scheme="http://mechanical.cn/categories/%E5%BF%AB%E9%97%A8%E5%B7%A5/%E8%A7%86%E9%A2%91%E5%90%8E%E6%9C%9F/"/>
+      <category term="视频后期" scheme="http://mechanicalmind.cn/categories/%E5%BF%AB%E9%97%A8%E5%B7%A5/%E8%A7%86%E9%A2%91%E5%90%8E%E6%9C%9F/"/>
     
     
-      <category term="FFmpeg" scheme="http://mechanical.cn/tags/FFmpeg/"/>
+      <category term="FFmpeg" scheme="http://mechanicalmind.cn/tags/FFmpeg/"/>
     
   </entry>
   
   <entry>
     <title>基于区域生长的图像分割</title>
-    <link href="http://mechanical.cn/2019/12/17/%E5%BF%AB%E9%97%A8%E5%B7%A5/%E5%9F%BA%E4%BA%8E%E5%8C%BA%E5%9F%9F%E7%94%9F%E9%95%BF%E7%9A%84%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2/"/>
-    <id>http://mechanical.cn/2019/12/17/%E5%BF%AB%E9%97%A8%E5%B7%A5/%E5%9F%BA%E4%BA%8E%E5%8C%BA%E5%9F%9F%E7%94%9F%E9%95%BF%E7%9A%84%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2/</id>
+    <link href="http://mechanicalmind.cn/2019/12/17/%E5%BF%AB%E9%97%A8%E5%B7%A5/%E5%9F%BA%E4%BA%8E%E5%8C%BA%E5%9F%9F%E7%94%9F%E9%95%BF%E7%9A%84%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2/"/>
+    <id>http://mechanicalmind.cn/2019/12/17/%E5%BF%AB%E9%97%A8%E5%B7%A5/%E5%9F%BA%E4%BA%8E%E5%8C%BA%E5%9F%9F%E7%94%9F%E9%95%BF%E7%9A%84%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2/</id>
     <published>2019-12-17T13:13:16.000Z</published>
     <updated>2019-12-17T13:13:16.000Z</updated>
     
@@ -273,23 +273,23 @@ dex2jar、jd-GUI和apktool的简单介绍。
     </summary>
     
     
-      <category term="快门工" scheme="http://mechanical.cn/categories/%E5%BF%AB%E9%97%A8%E5%B7%A5/"/>
+      <category term="快门工" scheme="http://mechanicalmind.cn/categories/%E5%BF%AB%E9%97%A8%E5%B7%A5/"/>
     
-      <category term="图像处理" scheme="http://mechanical.cn/categories/%E5%BF%AB%E9%97%A8%E5%B7%A5/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/"/>
+      <category term="图像处理" scheme="http://mechanicalmind.cn/categories/%E5%BF%AB%E9%97%A8%E5%B7%A5/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/"/>
     
     
-      <category term="图像处理" scheme="http://mechanical.cn/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/"/>
+      <category term="图像处理" scheme="http://mechanicalmind.cn/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/"/>
     
-      <category term="区域生长" scheme="http://mechanical.cn/tags/%E5%8C%BA%E5%9F%9F%E7%94%9F%E9%95%BF/"/>
+      <category term="区域生长" scheme="http://mechanicalmind.cn/tags/%E5%8C%BA%E5%9F%9F%E7%94%9F%E9%95%BF/"/>
     
-      <category term="图像分割" scheme="http://mechanical.cn/tags/%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2/"/>
+      <category term="图像分割" scheme="http://mechanicalmind.cn/tags/%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2/"/>
     
   </entry>
   
   <entry>
     <title>二值图像的轮廓提取与边界跟踪</title>
-    <link href="http://mechanical.cn/2019/12/17/%E5%BF%AB%E9%97%A8%E5%B7%A5/%E4%BA%8C%E5%80%BC%E5%9B%BE%E5%83%8F%E7%9A%84%E8%BD%AE%E5%BB%93%E6%8F%90%E5%8F%96%E4%B8%8E%E8%BE%B9%E7%95%8C%E8%B7%9F%E8%B8%AA/"/>
-    <id>http://mechanical.cn/2019/12/17/%E5%BF%AB%E9%97%A8%E5%B7%A5/%E4%BA%8C%E5%80%BC%E5%9B%BE%E5%83%8F%E7%9A%84%E8%BD%AE%E5%BB%93%E6%8F%90%E5%8F%96%E4%B8%8E%E8%BE%B9%E7%95%8C%E8%B7%9F%E8%B8%AA/</id>
+    <link href="http://mechanicalmind.cn/2019/12/17/%E5%BF%AB%E9%97%A8%E5%B7%A5/%E4%BA%8C%E5%80%BC%E5%9B%BE%E5%83%8F%E7%9A%84%E8%BD%AE%E5%BB%93%E6%8F%90%E5%8F%96%E4%B8%8E%E8%BE%B9%E7%95%8C%E8%B7%9F%E8%B8%AA/"/>
+    <id>http://mechanicalmind.cn/2019/12/17/%E5%BF%AB%E9%97%A8%E5%B7%A5/%E4%BA%8C%E5%80%BC%E5%9B%BE%E5%83%8F%E7%9A%84%E8%BD%AE%E5%BB%93%E6%8F%90%E5%8F%96%E4%B8%8E%E8%BE%B9%E7%95%8C%E8%B7%9F%E8%B8%AA/</id>
     <published>2019-12-17T11:20:25.000Z</published>
     <updated>2019-12-17T11:20:25.000Z</updated>
     
@@ -304,23 +304,23 @@ dex2jar、jd-GUI和apktool的简单介绍。
     </summary>
     
     
-      <category term="快门工" scheme="http://mechanical.cn/categories/%E5%BF%AB%E9%97%A8%E5%B7%A5/"/>
+      <category term="快门工" scheme="http://mechanicalmind.cn/categories/%E5%BF%AB%E9%97%A8%E5%B7%A5/"/>
     
-      <category term="图像处理" scheme="http://mechanical.cn/categories/%E5%BF%AB%E9%97%A8%E5%B7%A5/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/"/>
+      <category term="图像处理" scheme="http://mechanicalmind.cn/categories/%E5%BF%AB%E9%97%A8%E5%B7%A5/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/"/>
     
     
-      <category term="图像处理" scheme="http://mechanical.cn/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/"/>
+      <category term="图像处理" scheme="http://mechanicalmind.cn/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/"/>
     
-      <category term="轮廓提取" scheme="http://mechanical.cn/tags/%E8%BD%AE%E5%BB%93%E6%8F%90%E5%8F%96/"/>
+      <category term="轮廓提取" scheme="http://mechanicalmind.cn/tags/%E8%BD%AE%E5%BB%93%E6%8F%90%E5%8F%96/"/>
     
-      <category term="边界跟踪" scheme="http://mechanical.cn/tags/%E8%BE%B9%E7%95%8C%E8%B7%9F%E8%B8%AA/"/>
+      <category term="边界跟踪" scheme="http://mechanicalmind.cn/tags/%E8%BE%B9%E7%95%8C%E8%B7%9F%E8%B8%AA/"/>
     
   </entry>
   
   <entry>
     <title>HTML与CSS基础知识</title>
-    <link href="http://mechanical.cn/2019/12/16/%E8%A1%A8%E4%B8%96%E7%95%8C/HTML%E4%B8%8ECSS/HTML%E4%B8%8ECSS%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/"/>
-    <id>http://mechanical.cn/2019/12/16/%E8%A1%A8%E4%B8%96%E7%95%8C/HTML%E4%B8%8ECSS/HTML%E4%B8%8ECSS%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</id>
+    <link href="http://mechanicalmind.cn/2019/12/16/%E8%A1%A8%E4%B8%96%E7%95%8C/HTML%E4%B8%8ECSS/HTML%E4%B8%8ECSS%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/"/>
+    <id>http://mechanicalmind.cn/2019/12/16/%E8%A1%A8%E4%B8%96%E7%95%8C/HTML%E4%B8%8ECSS/HTML%E4%B8%8ECSS%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</id>
     <published>2019-12-15T16:00:00.000Z</published>
     <updated>2019-12-15T16:00:00.000Z</updated>
     
@@ -335,21 +335,21 @@ dex2jar、jd-GUI和apktool的简单介绍。
     </summary>
     
     
-      <category term="表世界" scheme="http://mechanical.cn/categories/%E8%A1%A8%E4%B8%96%E7%95%8C/"/>
+      <category term="表世界" scheme="http://mechanicalmind.cn/categories/%E8%A1%A8%E4%B8%96%E7%95%8C/"/>
     
-      <category term="HTML与CSS" scheme="http://mechanical.cn/categories/%E8%A1%A8%E4%B8%96%E7%95%8C/HTML%E4%B8%8ECSS/"/>
+      <category term="HTML与CSS" scheme="http://mechanicalmind.cn/categories/%E8%A1%A8%E4%B8%96%E7%95%8C/HTML%E4%B8%8ECSS/"/>
     
     
-      <category term="CSS" scheme="http://mechanical.cn/tags/CSS/"/>
+      <category term="CSS" scheme="http://mechanicalmind.cn/tags/CSS/"/>
     
-      <category term="HTML" scheme="http://mechanical.cn/tags/HTML/"/>
+      <category term="HTML" scheme="http://mechanicalmind.cn/tags/HTML/"/>
     
   </entry>
   
   <entry>
     <title>Struts2基础知识</title>
-    <link href="http://mechanical.cn/2019/12/16/%E8%A1%A8%E4%B8%96%E7%95%8C/Struts2/Structs2%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/"/>
-    <id>http://mechanical.cn/2019/12/16/%E8%A1%A8%E4%B8%96%E7%95%8C/Struts2/Structs2%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</id>
+    <link href="http://mechanicalmind.cn/2019/12/16/%E8%A1%A8%E4%B8%96%E7%95%8C/Struts2/Structs2%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/"/>
+    <id>http://mechanicalmind.cn/2019/12/16/%E8%A1%A8%E4%B8%96%E7%95%8C/Struts2/Structs2%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</id>
     <published>2019-12-15T16:00:00.000Z</published>
     <updated>2019-12-15T16:00:00.000Z</updated>
     
@@ -365,23 +365,23 @@ dex2jar、jd-GUI和apktool的简单介绍。
     </summary>
     
     
-      <category term="表世界" scheme="http://mechanical.cn/categories/%E8%A1%A8%E4%B8%96%E7%95%8C/"/>
+      <category term="表世界" scheme="http://mechanicalmind.cn/categories/%E8%A1%A8%E4%B8%96%E7%95%8C/"/>
     
-      <category term="Struts2" scheme="http://mechanical.cn/categories/%E8%A1%A8%E4%B8%96%E7%95%8C/Struts2/"/>
+      <category term="Struts2" scheme="http://mechanicalmind.cn/categories/%E8%A1%A8%E4%B8%96%E7%95%8C/Struts2/"/>
     
     
-      <category term="JSP" scheme="http://mechanical.cn/tags/JSP/"/>
+      <category term="JSP" scheme="http://mechanicalmind.cn/tags/JSP/"/>
     
-      <category term="Struts2" scheme="http://mechanical.cn/tags/Struts2/"/>
+      <category term="Struts2" scheme="http://mechanicalmind.cn/tags/Struts2/"/>
     
-      <category term="SSH" scheme="http://mechanical.cn/tags/SSH/"/>
+      <category term="SSH" scheme="http://mechanicalmind.cn/tags/SSH/"/>
     
   </entry>
   
   <entry>
     <title>JavaScript与jQuery基础知识</title>
-    <link href="http://mechanical.cn/2019/12/15/%E8%A1%A8%E4%B8%96%E7%95%8C/JavaScript%E4%B8%8EjQuery/JavaScript%E4%B8%8EjQuery%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/"/>
-    <id>http://mechanical.cn/2019/12/15/%E8%A1%A8%E4%B8%96%E7%95%8C/JavaScript%E4%B8%8EjQuery/JavaScript%E4%B8%8EjQuery%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</id>
+    <link href="http://mechanicalmind.cn/2019/12/15/%E8%A1%A8%E4%B8%96%E7%95%8C/JavaScript%E4%B8%8EjQuery/JavaScript%E4%B8%8EjQuery%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/"/>
+    <id>http://mechanicalmind.cn/2019/12/15/%E8%A1%A8%E4%B8%96%E7%95%8C/JavaScript%E4%B8%8EjQuery/JavaScript%E4%B8%8EjQuery%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</id>
     <published>2019-12-14T16:00:00.000Z</published>
     <updated>2019-12-15T16:00:00.000Z</updated>
     
@@ -396,21 +396,21 @@ dex2jar、jd-GUI和apktool的简单介绍。
     </summary>
     
     
-      <category term="表世界" scheme="http://mechanical.cn/categories/%E8%A1%A8%E4%B8%96%E7%95%8C/"/>
+      <category term="表世界" scheme="http://mechanicalmind.cn/categories/%E8%A1%A8%E4%B8%96%E7%95%8C/"/>
     
-      <category term="JavaScript与jQuery" scheme="http://mechanical.cn/categories/%E8%A1%A8%E4%B8%96%E7%95%8C/JavaScript%E4%B8%8EjQuery/"/>
+      <category term="JavaScript与jQuery" scheme="http://mechanicalmind.cn/categories/%E8%A1%A8%E4%B8%96%E7%95%8C/JavaScript%E4%B8%8EjQuery/"/>
     
     
-      <category term="HTML" scheme="http://mechanical.cn/tags/HTML/"/>
+      <category term="HTML" scheme="http://mechanicalmind.cn/tags/HTML/"/>
     
-      <category term="JavaScript" scheme="http://mechanical.cn/tags/JavaScript/"/>
+      <category term="JavaScript" scheme="http://mechanicalmind.cn/tags/JavaScript/"/>
     
   </entry>
   
   <entry>
     <title>JSP基础知识</title>
-    <link href="http://mechanical.cn/2019/12/14/%E8%A1%A8%E4%B8%96%E7%95%8C/JSP/JSP%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/"/>
-    <id>http://mechanical.cn/2019/12/14/%E8%A1%A8%E4%B8%96%E7%95%8C/JSP/JSP%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</id>
+    <link href="http://mechanicalmind.cn/2019/12/14/%E8%A1%A8%E4%B8%96%E7%95%8C/JSP/JSP%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/"/>
+    <id>http://mechanicalmind.cn/2019/12/14/%E8%A1%A8%E4%B8%96%E7%95%8C/JSP/JSP%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</id>
     <published>2019-12-13T16:00:00.000Z</published>
     <updated>2019-12-13T16:00:00.000Z</updated>
     
@@ -426,19 +426,19 @@ MyEclipse的安装。
     </summary>
     
     
-      <category term="表世界" scheme="http://mechanical.cn/categories/%E8%A1%A8%E4%B8%96%E7%95%8C/"/>
+      <category term="表世界" scheme="http://mechanicalmind.cn/categories/%E8%A1%A8%E4%B8%96%E7%95%8C/"/>
     
-      <category term="JSP" scheme="http://mechanical.cn/categories/%E8%A1%A8%E4%B8%96%E7%95%8C/JSP/"/>
+      <category term="JSP" scheme="http://mechanicalmind.cn/categories/%E8%A1%A8%E4%B8%96%E7%95%8C/JSP/"/>
     
     
-      <category term="JSP" scheme="http://mechanical.cn/tags/JSP/"/>
+      <category term="JSP" scheme="http://mechanicalmind.cn/tags/JSP/"/>
     
   </entry>
   
   <entry>
     <title>编译原理・肆・语义分析</title>
-    <link href="http://mechanical.cn/2019/12/11/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E3%83%BB%E8%82%86%E3%83%BB%E8%AF%AD%E4%B9%89%E5%88%86%E6%9E%90/"/>
-    <id>http://mechanical.cn/2019/12/11/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E3%83%BB%E8%82%86%E3%83%BB%E8%AF%AD%E4%B9%89%E5%88%86%E6%9E%90/</id>
+    <link href="http://mechanicalmind.cn/2019/12/11/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E3%83%BB%E8%82%86%E3%83%BB%E8%AF%AD%E4%B9%89%E5%88%86%E6%9E%90/"/>
+    <id>http://mechanicalmind.cn/2019/12/11/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E3%83%BB%E8%82%86%E3%83%BB%E8%AF%AD%E4%B9%89%E5%88%86%E6%9E%90/</id>
     <published>2019-12-11T12:58:14.000Z</published>
     <updated>2019-12-11T12:58:14.000Z</updated>
     
@@ -453,19 +453,19 @@ MyEclipse的安装。
     </summary>
     
     
-      <category term="深蓝" scheme="http://mechanical.cn/categories/%E6%B7%B1%E8%93%9D/"/>
+      <category term="深蓝" scheme="http://mechanicalmind.cn/categories/%E6%B7%B1%E8%93%9D/"/>
     
-      <category term="编译原理" scheme="http://mechanical.cn/categories/%E6%B7%B1%E8%93%9D/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/"/>
+      <category term="编译原理" scheme="http://mechanicalmind.cn/categories/%E6%B7%B1%E8%93%9D/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/"/>
     
     
-      <category term="编译原理" scheme="http://mechanical.cn/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/"/>
+      <category term="编译原理" scheme="http://mechanicalmind.cn/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/"/>
     
   </entry>
   
   <entry>
     <title>编译原理・贰・自顶向下语法分析</title>
-    <link href="http://mechanical.cn/2019/12/11/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E3%83%BB%E8%B4%B0%E3%83%BB%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90/"/>
-    <id>http://mechanical.cn/2019/12/11/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E3%83%BB%E8%B4%B0%E3%83%BB%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90/</id>
+    <link href="http://mechanicalmind.cn/2019/12/11/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E3%83%BB%E8%B4%B0%E3%83%BB%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90/"/>
+    <id>http://mechanicalmind.cn/2019/12/11/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E3%83%BB%E8%B4%B0%E3%83%BB%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90/</id>
     <published>2019-12-11T12:58:14.000Z</published>
     <updated>2019-12-11T12:58:14.000Z</updated>
     
@@ -480,19 +480,19 @@ MyEclipse的安装。
     </summary>
     
     
-      <category term="深蓝" scheme="http://mechanical.cn/categories/%E6%B7%B1%E8%93%9D/"/>
+      <category term="深蓝" scheme="http://mechanicalmind.cn/categories/%E6%B7%B1%E8%93%9D/"/>
     
-      <category term="编译原理" scheme="http://mechanical.cn/categories/%E6%B7%B1%E8%93%9D/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/"/>
+      <category term="编译原理" scheme="http://mechanicalmind.cn/categories/%E6%B7%B1%E8%93%9D/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/"/>
     
     
-      <category term="编译原理" scheme="http://mechanical.cn/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/"/>
+      <category term="编译原理" scheme="http://mechanicalmind.cn/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/"/>
     
   </entry>
   
   <entry>
     <title>编译原理・贰・词法分析</title>
-    <link href="http://mechanical.cn/2019/12/10/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E3%83%BB%E5%A3%B9%E3%83%BB%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/"/>
-    <id>http://mechanical.cn/2019/12/10/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E3%83%BB%E5%A3%B9%E3%83%BB%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/</id>
+    <link href="http://mechanicalmind.cn/2019/12/10/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E3%83%BB%E5%A3%B9%E3%83%BB%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/"/>
+    <id>http://mechanicalmind.cn/2019/12/10/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E3%83%BB%E5%A3%B9%E3%83%BB%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/</id>
     <published>2019-12-10T12:58:14.000Z</published>
     <updated>2019-12-10T12:58:14.000Z</updated>
     
@@ -507,19 +507,19 @@ MyEclipse的安装。
     </summary>
     
     
-      <category term="深蓝" scheme="http://mechanical.cn/categories/%E6%B7%B1%E8%93%9D/"/>
+      <category term="深蓝" scheme="http://mechanicalmind.cn/categories/%E6%B7%B1%E8%93%9D/"/>
     
-      <category term="编译原理" scheme="http://mechanical.cn/categories/%E6%B7%B1%E8%93%9D/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/"/>
+      <category term="编译原理" scheme="http://mechanicalmind.cn/categories/%E6%B7%B1%E8%93%9D/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/"/>
     
     
-      <category term="编译原理" scheme="http://mechanical.cn/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/"/>
+      <category term="编译原理" scheme="http://mechanicalmind.cn/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/"/>
     
   </entry>
   
   <entry>
     <title>编译原理・〇・总论</title>
-    <link href="http://mechanical.cn/2019/12/10/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E3%83%BB%E3%80%87%E3%83%BB%E6%80%BB%E8%AE%BA/"/>
-    <id>http://mechanical.cn/2019/12/10/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E3%83%BB%E3%80%87%E3%83%BB%E6%80%BB%E8%AE%BA/</id>
+    <link href="http://mechanicalmind.cn/2019/12/10/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E3%83%BB%E3%80%87%E3%83%BB%E6%80%BB%E8%AE%BA/"/>
+    <id>http://mechanicalmind.cn/2019/12/10/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E3%83%BB%E3%80%87%E3%83%BB%E6%80%BB%E8%AE%BA/</id>
     <published>2019-12-10T11:46:15.000Z</published>
     <updated>2019-12-10T11:46:15.000Z</updated>
     
@@ -535,12 +535,12 @@ MyEclipse的安装。
     </summary>
     
     
-      <category term="深蓝" scheme="http://mechanical.cn/categories/%E6%B7%B1%E8%93%9D/"/>
+      <category term="深蓝" scheme="http://mechanicalmind.cn/categories/%E6%B7%B1%E8%93%9D/"/>
     
-      <category term="编译原理" scheme="http://mechanical.cn/categories/%E6%B7%B1%E8%93%9D/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/"/>
+      <category term="编译原理" scheme="http://mechanicalmind.cn/categories/%E6%B7%B1%E8%93%9D/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/"/>
     
     
-      <category term="编译原理" scheme="http://mechanical.cn/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/"/>
+      <category term="编译原理" scheme="http://mechanicalmind.cn/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/"/>
     
   </entry>
   
