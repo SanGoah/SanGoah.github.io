@@ -122,14 +122,17 @@
 <h2 id="增加评论区">增加评论区</h2>
 <p>这个主题还提供了评论功能，有许多可选的服务提供商，不过没什么卵用。国内的要么倒闭了要么需要实名制，国外的又要扶墙……</p>
 <p>【更新】发现了一个比较好用的服务商，棒子的“<a href="https://www.livere.com/" target="_blank" rel="noopener">来必力</a>”。只需正常步骤注册即可获得一段代码 <del>，用此代码替换掉主题中的<code>layout/comment/livere.ejs</code>中的内容，再在主题配置文件中禁用<code>comment</code>项下的所有评论工具，在<code>comment</code>项外，比如上面一行添加<code>livere_uid: xxxxxxxx</code>，其中<code>xxxxxxx</code>为获取的代码中提供的UID。再将主题中的<code>layout/common/article.ejs</code>中最后一行<code>&lt;%- partial('comment/index') %&gt;</code>改为<code>&lt;%- partial('comment/livere') %&gt;</code>即可。</del> 【更新】划去部分针对Hueman。NexT只需在主题配置文件下找到<code>livere_uid:</code>填上代码中的UID即可。</p>
-<h2 id="使用不算子统计访问量">使用“不算子”统计访问量</h2>
-<p>添加网站访问数统计只需在<code>xx-analysis</code>项添加从分析网站比如百度分析、谷歌分析等等网站获得的哈希值即可。注册帐号后根据提示操作即可获得一段JS代码，哈希值在其中。但这类网站只能站主登录进去查看自己网站的访问情况，感觉没什么必要。若想在网站中显示访问数，可使用<a href="http://ibruce.info/2015/04/04/busuanzi/" target="_blank" rel="noopener">不算子</a><del>，注意<code>footer</code>文件的位置可能与官方描述有差别。不蒜子自身只提供标签与数字，具体内容由用户编辑。使用官方给出的简易程序对<code>footer</code>做如下修改将统计显示在页脚：</del>【更新】划去部分针对Hueman，Next集成不算子，只需调整<code>busuanzi_count</code>项即可。</p>
+<h2 id="使用不蒜子统计访问量">使用“不蒜子”统计访问量</h2>
+<p>添加网站访问数统计只需在<code>xx-analysis</code>项添加从分析网站比如百度分析、谷歌分析等等网站获得的哈希值即可。注册帐号后根据提示操作即可获得一段JS代码，哈希值在其中。但这类网站只能站主登录进去查看自己网站的访问情况，感觉没什么必要。若想在网站中显示访问数，可使用<a href="http://ibruce.info/2015/04/04/busuanzi/" target="_blank" rel="noopener">不蒜子</a><del>，注意<code>footer</code>文件的位置可能与官方描述有差别。不蒜子自身只提供标签与数字，具体内容由用户编辑。使用官方给出的简易程序对<code>footer</code>做如下修改将统计显示在页脚：</del>【更新】划去部分针对Hueman，Next集成不蒜子，只需调整<code>busuanzi_count</code>项即可。</p>
+<p>然而网站访问次数时显示时不显示，而且不显示的时候是只显示一个分割访问人数和人次的竖杠，人数和人次的图标和数目都不显示，所以这不是不蒜子服务器的原因而是插件的原因，但是为啥有时插件加载得出来有时又加载不出来就很奇怪。另外每篇文章的显示永远显示不出来，连竖杠都没有，就很奇怪。</p>
+<p>不蒜子不需要安装插件，官方说它只有两行代码，但是我愣是没找到这两行代码放在哪里了……</p>
 <h2 id="启用rss">启用RSS</h2>
 <p>开启RSS订阅，首先需要安装RSS插件<code>npm install hexo-generator-feed --save</code>，并在站点配置文件中添加RSS支持：</p>
 <figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># RSS订阅支持</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="attr">plugin:</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">  <span class="bullet">-</span> <span class="string">hexo-generator-feed</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="attr">feed:</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">  <span class="attr">type:</span> <span class="string">atom</span>                <span class="comment">#RSS的类型(atom/rss2)</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">  <span class="attr">path:</span> <span class="string">atom.xml</span>            <span class="comment">#文件路径,默认atom.xml/rss2.xml</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">  <span class="attr">limit:</span> <span class="number">20</span>                 <span class="comment">#展示文章的数量,0或false展示全部</span></span></pre></td></tr></table></figure>
 <p>最后将主题配置文件中的<code>rss</code>项改为<code>rss: /atom.xml</code>可开启RSS订阅，可在<code>public/</code>见<code>atom.xml</code>。</p>
 <h2 id="版权声明">版权声明</h2>
 <p>对于最新的NexT版本，在主题配置文件中启用<code>creative_commons</code>即可，默认的协议就很合适。</p>
+<p>这里的链接很奇怪，显示的链接是对的，但点它跳转的时候实际跳转到的地址多了个域名前缀，即重复两遍域名前缀。没找到对应源代码在哪里，不是什么大问题懒得研究了。</p>
 <h2 id="字数统计">字数统计</h2>
 <p>安装统计插件<code>npm install hexo-symbols-count-time --save</code>后修改<code>symbols_count_time:</code>项即可。</p>
 <h1 id="将博客公开展示">将博客公开展示</h1>
