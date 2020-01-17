@@ -1,6 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>PAT (Advanced Level) Practice 1002 A+B for Polynomials</title>
+    <url>/posts/3b6e04ed.html</url>
+    <content><![CDATA[<p><img src="" /></p>
+<center>
+多项式求和。
+</center>
+<a id="more"></a>
+<p>This time, you are supposed to find A+B where A and B are two <strong>polynomials（多项式）</strong>.</p>
+<p>Input Specification:</p>
+<p>Each input file contains one test case. Each case occupies 2 lines, and each line contains the information of a polynomial:</p>
+<p><span class="math display">\[
+K\space N_1\space a_{N_1}\space N_2\space a_{N_2}\space ...\space N_K\space a_{N_K}
+\]</span></p>
+<p>where K is the number of nonzero terms in the polynomial, <span class="math inline">\(N_i\)</span> and <span class="math inline">\(a_{N_​i}(i=1,2,⋯,K)\)</span> are the <strong>exponents（指数）</strong> and <strong>coefficients（系数）</strong>, respectively. It is given that <span class="math inline">\(1≤K≤10，0≤N_K&lt;⋯&lt;N_2&lt;N_1≤1000\)</span>.</p>
+<p>Output Specification:</p>
+<p>For each test case you should output the sum of A and B in one line, with the same format as the input. Notice that there must be NO extra space at the end of each line. Please be accurate to 1 decimal place.</p>
+<p>Sample Input:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">2 1 2.4 0 3.2</span></pre></td></tr><tr><td class="code"><pre><span class="line">2 2 1.5 1 0.5</span></pre></td></tr></table></figure>
+<p>Sample Output:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">3 2 1.5 1 2.9 0 3.2</span></pre></td></tr></table></figure>
+<p>主要的难点是有个坑，系数加完为0的情况。加句判断就好了。用map很方便，然而这个是<span class="math inline">\(0≤N_K&lt;⋯&lt;N_2&lt;N_1≤1000\)</span>，也就是按key的大小倒序排列，写完查了下才知道有<code>reverse_iterator</code>这个东西。</p>
+<p>另外输出格式控制，<code>setprecision(n)</code>指定输出的浮点数的最长有效数字的个数，一开始当成小数点后位数用了，贡献了几次WA。正确的做法是加一句<code>fixed</code>才是指定小数点后的位数。作用范围到下一个<code>setprecision(n)</code>，因为只对浮点数生效所以不需要因为中间要输出的整型指数修改，设置一次即可。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAXK 12</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> k, tmpe;</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="keyword">float</span> tmpc;</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="built_in">map</span>&lt;<span class="keyword">int</span>, <span class="keyword">float</span>&gt; m;</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="built_in">map</span>&lt;<span class="keyword">int</span>, <span class="keyword">float</span>&gt;::iterator i;</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function"></span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="built_in">cin</span> &gt;&gt; k;</span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="keyword">while</span> (k--)</span></pre></td></tr><tr><td class="code"><pre><span class="line">	&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">		<span class="built_in">cin</span> &gt;&gt; tmpe &gt;&gt; tmpc;</span></pre></td></tr><tr><td class="code"><pre><span class="line">		m.insert(make_pair(tmpe, tmpc));</span></pre></td></tr><tr><td class="code"><pre><span class="line">	&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="built_in">cin</span> &gt;&gt; k;</span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="keyword">while</span> (k--)</span></pre></td></tr><tr><td class="code"><pre><span class="line">	&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">		<span class="built_in">cin</span> &gt;&gt; tmpe &gt;&gt; tmpc;</span></pre></td></tr><tr><td class="code"><pre><span class="line">		i = m.find(tmpe);</span></pre></td></tr><tr><td class="code"><pre><span class="line">		<span class="keyword">if</span> (m.end() == i)</span></pre></td></tr><tr><td class="code"><pre><span class="line">			m.insert(make_pair(tmpe, tmpc));</span></pre></td></tr><tr><td class="code"><pre><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span> (i-&gt;second + tmpc != <span class="number">0</span>)</span></pre></td></tr><tr><td class="code"><pre><span class="line">			i-&gt;second += tmpc;</span></pre></td></tr><tr><td class="code"><pre><span class="line">		<span class="keyword">else</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">			m.erase(i);</span></pre></td></tr><tr><td class="code"><pre><span class="line">	&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="built_in">cout</span> &lt;&lt; fixed &lt;&lt; setprecision(<span class="number">1</span>) &lt;&lt; m.size();</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="comment">/*</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="comment">	i = m.end();</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="comment">	for (--i; i != m.begin(); --i)</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="comment">		cout &lt;&lt; ' ' &lt;&lt; i-&gt;first &lt;&lt; ' ' &lt;&lt; i-&gt;second;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="comment">	cout &lt;&lt; ' ' &lt;&lt; i-&gt;first &lt;&lt; ' ' &lt;&lt; i-&gt;second;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="comment">	*/</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="keyword">for</span> (<span class="built_in">map</span>&lt;<span class="keyword">int</span>, <span class="keyword">float</span>&gt;::reverse_iterator ri = m.rbegin(); ri != m.rend(); ++ri)</span></pre></td></tr><tr><td class="code"><pre><span class="line">		<span class="keyword">if</span> (ri-&gt;second)</span></pre></td></tr><tr><td class="code"><pre><span class="line">			<span class="built_in">cout</span> &lt;&lt; <span class="string">' '</span> &lt;&lt; ri-&gt;first &lt;&lt; <span class="string">' '</span> &lt;&lt; ri-&gt;second;</span></pre></td></tr><tr><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+<p>使用注释掉的部分最后一个用例会报段错误。所以遇到倒序还是用<code>reverse_iterator</code>吧。</p>
+<p>AC。</p>
+]]></content>
+      <categories>
+        <category>PAT</category>
+        <category>甲级</category>
+      </categories>
+      <tags>
+        <tag>PAT甲级</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>PAT (Advanced Level) Practice 1001 A+B Format</title>
     <url>/posts/d9519229.html</url>
     <content><![CDATA[<p><img src="" /></p>
@@ -26,6 +61,13 @@
 <p>其中<code>getloc()</code>获取当前程序所处的环境，然后修改原本的<code>numpunt</code>类中的<code>do_grouping()</code>为三个数一组，其默认的分隔符就是逗号。</p>
 <p>AC。</p>
 ]]></content>
+      <categories>
+        <category>PAT</category>
+        <category>甲级</category>
+      </categories>
+      <tags>
+        <tag>PAT甲级</tag>
+      </tags>
   </entry>
   <entry>
     <title>Manjaro Linux主力机的安装与及基本环境配置</title>

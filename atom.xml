@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://mechanicalmind.cn/"/>
-  <updated>2020-01-16T14:42:07.000Z</updated>
+  <updated>2020-01-17T13:08:50.000Z</updated>
   <id>http://mechanicalmind.cn/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>PAT (Advanced Level) Practice 1002 A+B for Polynomials</title>
+    <link href="http://mechanicalmind.cn/posts/3b6e04ed.html"/>
+    <id>http://mechanicalmind.cn/posts/3b6e04ed.html</id>
+    <published>2020-01-17T13:08:50.000Z</published>
+    <updated>2020-01-17T13:08:50.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="" /></p><center>多项式求和。</center><a id="more"></a><p>This time, you are supposed to find A+B where A and B are two <strong>polynomials（多项式）</strong>.</p><p>Input Specification:</p><p>Each input file contains one test case. Each case occupies 2 lines, and each line contains the information of a polynomial:</p><p><span class="math display">\[K\space N_1\space a_{N_1}\space N_2\space a_{N_2}\space ...\space N_K\space a_{N_K}\]</span></p><p>where K is the number of nonzero terms in the polynomial, <span class="math inline">\(N_i\)</span> and <span class="math inline">\(a_{N_​i}(i=1,2,⋯,K)\)</span> are the <strong>exponents（指数）</strong> and <strong>coefficients（系数）</strong>, respectively. It is given that <span class="math inline">\(1≤K≤10，0≤N_K&lt;⋯&lt;N_2&lt;N_1≤1000\)</span>.</p><p>Output Specification:</p><p>For each test case you should output the sum of A and B in one line, with the same format as the input. Notice that there must be NO extra space at the end of each line. Please be accurate to 1 decimal place.</p><p>Sample Input:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">2 1 2.4 0 3.2</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">2 2 1.5 1 0.5</span></pre></td></tr></table></figure><p>Sample Output:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">3 2 1.5 1 2.9 0 3.2</span></pre></td></tr></table></figure><p>主要的难点是有个坑，系数加完为0的情况。加句判断就好了。用map很方便，然而这个是<span class="math inline">\(0≤N_K&lt;⋯&lt;N_2&lt;N_1≤1000\)</span>，也就是按key的大小倒序排列，写完查了下才知道有<code>reverse_iterator</code>这个东西。</p><p>另外输出格式控制，<code>setprecision(n)</code>指定输出的浮点数的最长有效数字的个数，一开始当成小数点后位数用了，贡献了几次WA。正确的做法是加一句<code>fixed</code>才是指定小数点后的位数。作用范围到下一个<code>setprecision(n)</code>，因为只对浮点数生效所以不需要因为中间要输出的整型指数修改，设置一次即可。</p><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAXK 12</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> k, tmpe;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">float</span> tmpc;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line"><span class="built_in">map</span>&lt;<span class="keyword">int</span>, <span class="keyword">float</span>&gt; m;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line"><span class="built_in">map</span>&lt;<span class="keyword">int</span>, <span class="keyword">float</span>&gt;::iterator i;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line"><span class="function"></span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line"><span class="built_in">cin</span> &gt;&gt; k;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> (k--)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line"><span class="built_in">cin</span> &gt;&gt; tmpe &gt;&gt; tmpc;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">m.insert(make_pair(tmpe, tmpc));</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line"><span class="built_in">cin</span> &gt;&gt; k;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> (k--)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line"><span class="built_in">cin</span> &gt;&gt; tmpe &gt;&gt; tmpc;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">i = m.find(tmpe);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (m.end() == i)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">m.insert(make_pair(tmpe, tmpc));</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">else</span> <span class="keyword">if</span> (i-&gt;second + tmpc != <span class="number">0</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">i-&gt;second += tmpc;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">else</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line">m.erase(i);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">30</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">31</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">32</span></pre></td><td class="code"><pre><span class="line"><span class="built_in">cout</span> &lt;&lt; fixed &lt;&lt; setprecision(<span class="number">1</span>) &lt;&lt; m.size();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">33</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">34</span></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">35</span></pre></td><td class="code"><pre><span class="line"><span class="comment">i = m.end();</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">36</span></pre></td><td class="code"><pre><span class="line"><span class="comment">for (--i; i != m.begin(); --i)</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">37</span></pre></td><td class="code"><pre><span class="line"><span class="comment">cout &lt;&lt; ' ' &lt;&lt; i-&gt;first &lt;&lt; ' ' &lt;&lt; i-&gt;second;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">38</span></pre></td><td class="code"><pre><span class="line"><span class="comment">cout &lt;&lt; ' ' &lt;&lt; i-&gt;first &lt;&lt; ' ' &lt;&lt; i-&gt;second;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">39</span></pre></td><td class="code"><pre><span class="line"><span class="comment">*/</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">40</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">41</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="built_in">map</span>&lt;<span class="keyword">int</span>, <span class="keyword">float</span>&gt;::reverse_iterator ri = m.rbegin(); ri != m.rend(); ++ri)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">42</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (ri-&gt;second)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">43</span></pre></td><td class="code"><pre><span class="line"><span class="built_in">cout</span> &lt;&lt; <span class="string">' '</span> &lt;&lt; ri-&gt;first &lt;&lt; <span class="string">' '</span> &lt;&lt; ri-&gt;second;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">44</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure><p>使用注释掉的部分最后一个用例会报段错误。所以遇到倒序还是用<code>reverse_iterator</code>吧。</p><p>AC。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;center&gt;
+多项式求和。
+&lt;/center&gt;
+    
+    </summary>
+    
+    
+      <category term="PAT" scheme="http://mechanicalmind.cn/categories/PAT/"/>
+    
+      <category term="甲级" scheme="http://mechanicalmind.cn/categories/PAT/%E7%94%B2%E7%BA%A7/"/>
+    
+    
+      <category term="PAT甲级" scheme="http://mechanicalmind.cn/tags/PAT%E7%94%B2%E7%BA%A7/"/>
+    
+  </entry>
   
   <entry>
     <title>PAT (Advanced Level) Practice 1001 A+B Format</title>
@@ -35,6 +63,12 @@
     </summary>
     
     
+      <category term="PAT" scheme="http://mechanicalmind.cn/categories/PAT/"/>
+    
+      <category term="甲级" scheme="http://mechanicalmind.cn/categories/PAT/%E7%94%B2%E7%BA%A7/"/>
+    
+    
+      <category term="PAT甲级" scheme="http://mechanicalmind.cn/tags/PAT%E7%94%B2%E7%BA%A7/"/>
     
   </entry>
   
@@ -514,34 +548,6 @@ CSS及其BOX模型简介。
       <category term="HTML" scheme="http://mechanicalmind.cn/tags/HTML/"/>
     
       <category term="JavaScript" scheme="http://mechanicalmind.cn/tags/JavaScript/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>JSP基础知识</title>
-    <link href="http://mechanicalmind.cn/posts/337b2204.html"/>
-    <id>http://mechanicalmind.cn/posts/337b2204.html</id>
-    <published>2019-12-13T16:00:00.000Z</published>
-    <updated>2019-12-13T16:00:00.000Z</updated>
-    
-    <content type="html"><![CDATA[<p><img src="" /></p><center>MyEclipse的安装。</center><a id="more"></a><h1 id="servlet和jsp的关系">Servlet和JSP的关系</h1><p>JSP页面缺省的基类是HttpJspBase。</p><p>jsp在运行时首先被解析成一个java类，该类继承于org.apache.jasper.runtime.HtppJspBase类，这个类又继承了HttpServlet。</p><h1 id="jsp脚本元素">JSP脚本元素</h1><p>脚本元素提供了在jsp中插入java代码的能力。脚本元素有三种类型：</p><ul><li>脚本(scriptlet)是JSP页面中Java代码片段的容器。语法：<code>&lt;% java源代码 %&gt;</code>。</li><li>表达式(expression)将转换为String的Java表达式的值插入到返回给客户端的响应中。语法：<code>&lt;%= 表达式语句 %&gt;</code>。</li><li>声明(declarations)为JSP页面声明全局的方法和变量。语法：<code>&lt;%! 字段或方法声明 %&gt;</code>。</li></ul><h1 id="jsp指令元素">JSP指令元素</h1><h2 id="page指令">page指令</h2><p>用于设置页面属性。用<code>&lt;%@ page %&gt;</code>标记在JSP文件头部声明。</p><p>指定JSP页面使用JAVA语言时，使用指令<code>&lt;%@page language=&quot;java&quot;%&gt;</code>。<code>&lt;%@page language=&quot;java&quot; contentType=&quot;text/html&quot; pageEncoding=&quot;UTF-8&quot;%&gt;</code>中pageEncoding设置当前页面的页面编码字符集为UTF-8，contentType设置页面类型为text/html。</p><p>使用页面指令Page的<code>&lt;%@page import=&quot;&quot;%&gt;</code>属性在JSP文件引用一个外部Java类。例如JSP页面要用Java的Date类时，在JSP文件前面用<code>&lt;%@page import=&quot;Java.util.Date&quot;%&gt;</code>把Date类包含。</p><p>用JSP进行前端页面开发时，用<code>&lt;%@page errorPage=&quot;错误页面.jsp&quot;%&gt;</code>设置错误页面，从而方便把多个JSP页面的出错、错误处理信息集中到错误页面处理；对于错误页面，指定<code>&lt;%page isErrorPage=&quot;true&quot;%&gt;</code>。</p><h2 id="include指令">include指令</h2><p>include指令在JSP页面被转换成Servlet前将指定的文件包含。比如说，可能有多页面都需要用到一个logo和一些相应的连接啥的，但可以不每次都写一遍相关代码，而是将相关代码单独写一个<code>logo.jsp</code>，只需在想显示它的地方使用include指令包含进来<code>&lt;%@include file = &quot;logo.jsp&quot;%&gt;</code>。include只能包含静态的资源。</p><h2 id="taglib指令">taglib指令</h2><p>用于导入标签库，使用时需设置两个重要的属性分别是<code>uri</code>和<code>prefix</code>，例如导入jsp标准标签库：<code>&lt;%@ taglib uri=&quot;http://java.sun.com/jsp/jstl/core&quot; prefix=&quot;c&quot;%&gt;</code>。这玩意类似前面的include，但是包含的不是静态jsp，而是一段java代码。导入标签库之后就可以通过<code>&lt;前缀:类名 [参数1 [[参数2 [...]]]]&gt;&lt;/前缀:类名&gt;</code>插入这段代码。</p><h1 id="jsp动作元素">JSP动作元素</h1><p>标签库啥的的调用。</p><p><code>jsp:useBean</code>用于在JSP文件使用指定名称的JavaBean对象。例如在JSP页面会话中调用<code>Test.UserInfo</code>类，对象名为ui，则语句是<code>&lt;jsp:useBean id=&quot;ui&quot; class=&quot;Test.UserInfo&quot; scope=&quot;session&quot; type=&quot;...&quot;/&gt;</code>。</p><p><code>jsp:setProperty</code>设置JavaBean对象成员的值；用<code>jsp:getProperty</code>获取JavaBean对象成员的值。</p><p><code>jsp:forward</code>从当前页面转至其它JSP页面处理（请求转发）。<code>jsp:include</code>包含页面，但与上面的include指令不同，这里不是插入jsp代码，而是在运行后插入这段代码的应答。在转发或包含时，使用<code>jsp:param</code>传递参数。</p><h1 id="jsp的内置对象">jsp的内置对象</h1><ul><li><strong>application对象</strong>将信息保存在服务器中，直到服务器关闭。application对象中保存的信息在整个应用中有效。</li><li><strong>session对象</strong>是由服务器自动创建的与用户请求相关的对象。服务器为每个用户都生成一个session对象，用于保存该用户的信息，跟踪用户的操作状态。session对象内部使用Map类来保存数据，因此保存数据的格式为Key-value。session对象的value可以为复杂的对象类型，而不仅仅局限于字符串类型。<strong>内置对象session通过<code>setAttribute()</code>函数把数据以key-value形式写入保存，通过<code>getAttribute()</code>函数把保存的数据读取出来。JSP页面使用Session内置对象时，需要在JSP文件头部用<code>&lt;%@page session=&quot;true&quot; %&gt;</code>把Session属性设置为true。</strong></li><li><strong>request对象</strong>是javax.servlet.httpServletRequest类型的对象，代表客户端的请求信息，主要用于接受通过HTTP协议传送到服务器的数据。作用域为一次请求。</li><li><strong>response对象</strong>代表对客户端的响应，将JSP容器处理过的对象传回到客户端。response对象只在JSP页面内有效。</li><li><strong>page对象</strong>代表JSP本身，只在JSP页面内合法。类似于Java中的this。</li><li><strong>pageContext对象</strong>的作用是取得任何范围的参数，通过它可以获取JSP页面的out、request、reponse、session、application等对象。pageContext对象的创建和初始化都是由容器来完成的，在JSP页面中可以直接使用pageContext对象。</li><li>out对象用于在Web浏览器内输出信息，并且管理应用服务器上的输出缓冲区。。</li><li>config对象的主要作用是取得服务器的配置信息。通过pageConext对象的<code>getServletConfig()</code>方法可以获取一个config对象。</li><li>exception对象的作用是显示异常信息，在包含<code>isErrorPage=&quot;true&quot;</code>的页面中可以被使用。</li></ul><h1 id="javabean">JavaBean</h1><p>JavaBean是一种仅包含数据属性和对数据进行存取的函数的类。</p><h1 id="外部包">外部包</h1><p>JSP文件用到外部（第三方）JAR包时，应在web项目的web-inf目录下建立lib目录，把jar包复制到<code>web项目/web-inf目录/lib目录</code>。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;&quot; /&gt;&lt;/p&gt;
-&lt;center&gt;
-MyEclipse的安装。
-&lt;/center&gt;
-    
-    </summary>
-    
-    
-      <category term="表世界" scheme="http://mechanicalmind.cn/categories/%E8%A1%A8%E4%B8%96%E7%95%8C/"/>
-    
-      <category term="JSP" scheme="http://mechanicalmind.cn/categories/%E8%A1%A8%E4%B8%96%E7%95%8C/JSP/"/>
-    
-    
-      <category term="JSP" scheme="http://mechanicalmind.cn/tags/JSP/"/>
     
   </entry>
   
