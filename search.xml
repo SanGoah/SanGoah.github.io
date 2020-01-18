@@ -1,6 +1,210 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>PAT (Advanced Level) Practice 1003 Emergency</title>
+    <url>/posts/224301ee.html</url>
+    <content><![CDATA[<p><img src="" /></p>
+<center>
+</center>
+<a id="more"></a>
+<p>As an emergency rescue team leader of a city, you are given a special map of your country. The map shows several scattered cities connected by some roads. Amount of rescue teams in each city and the length of each road between any pair of cities are marked on the map. When there is an emergency call to you from some other city, your job is to lead your men to the place as quickly as possible, and at the mean time, call up as many hands on the way as possible.</p>
+<p>Input Specification:</p>
+<p>Each input file contains one test case. For each test case, the first line contains 4 positive integers: <span class="math inline">\(N (≤500)\)</span> - the number of cities (and the cities are numbered from 0 to N−1), M - the number of roads, <span class="math inline">\(C_1\)</span> and <span class="math inline">\(C_2\)</span> - the cities that you are currently in and that you must save, respectively. The next line contains N integers, where the i-th integer is the number of rescue teams in the i-th city. Then M lines follow, each describes a road with three integers <span class="math inline">\(c_1\)</span>, <span class="math inline">\(c_2\)</span> and L, which are the pair of cities connected by a road and the length of that road, respectively. It is guaranteed that there exists at least one path from <span class="math inline">\(C_1\)</span> to <span class="math inline">\(C_2\)</span>.</p>
+<p>Output Specification: For each test case, print in one line two numbers: the number of different shortest paths between <span class="math inline">\(C_1\)</span> and <span class="math inline">\(C_2\)</span> , and the maximum amount of rescue teams you can possibly gather. All the numbers in a line must be separated by exactly one space, and there is no extra space allowed at the end of a line.</p>
+<p>Sample Input:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">5 6 0 2</span></pre></td></tr><tr><td class="code"><pre><span class="line">1 2 1 5 3</span></pre></td></tr><tr><td class="code"><pre><span class="line">0 1 1</span></pre></td></tr><tr><td class="code"><pre><span class="line">0 2 2</span></pre></td></tr><tr><td class="code"><pre><span class="line">0 3 1</span></pre></td></tr><tr><td class="code"><pre><span class="line">1 2 1</span></pre></td></tr><tr><td class="code"><pre><span class="line">2 4 1</span></pre></td></tr><tr><td class="code"><pre><span class="line">3 4 1</span></pre></td></tr></table></figure>
+<p>Sample Output:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">2 4</span></pre></td></tr></table></figure>
+<p>看题目第一反应呀Dijkstra稍微改改，简单，一想诶Dijkstra咋写的来着忘掉了，这尼玛就很尴尬了。</p>
+<p>首先存储顶点间边的关系，以样例为例：</p>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th>0</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>0</strong></td>
+<td>0</td>
+<td>1</td>
+<td>2</td>
+<td>1</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><strong>1</strong></td>
+<td></td>
+<td>0</td>
+<td>1</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><strong>2</strong></td>
+<td></td>
+<td></td>
+<td>0</td>
+<td></td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td><strong>3</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td><strong>4</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p>因为是无向图，所以反过来也成立：</p>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th>0</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>0</strong></td>
+<td>0</td>
+<td>1</td>
+<td>2</td>
+<td>1</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><strong>1</strong></td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><strong>2</strong></td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+<td></td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td><strong>3</strong></td>
+<td>1</td>
+<td></td>
+<td></td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td><strong>4</strong></td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p>其它到不了，距离为无穷：</p>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th>0</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>0</strong></td>
+<td>0</td>
+<td>1</td>
+<td>2</td>
+<td>1</td>
+<td><span class="math inline">\(\infin\)</span></td>
+</tr>
+<tr class="even">
+<td><strong>1</strong></td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td><span class="math inline">\(\infin\)</span></td>
+<td><span class="math inline">\(\infin\)</span></td>
+</tr>
+<tr class="odd">
+<td><strong>2</strong></td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+<td><span class="math inline">\(\infin\)</span></td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td><strong>3</strong></td>
+<td>1</td>
+<td><span class="math inline">\(\infin\)</span></td>
+<td><span class="math inline">\(\infin\)</span></td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td><strong>4</strong></td>
+<td><span class="math inline">\(\infin\)</span></td>
+<td><span class="math inline">\(\infin\)</span></td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p>再用一个数组存储始点到其余点的路程：<span class="math inline">\(0,1,2,1,\infin\)</span>。</p>
+<p>接下来不停贪心，每次取距起点最近的点，并判断能否由这个点到其它点使距离变短。例如现在1和3距起点0最近，所以取1，判断到除起点0和当前点1之外其它点的距离有没有变短：</p>
+<ul>
+<li><code>1-&gt;2</code>为1加<code>0-&gt;1</code>为2没变；</li>
+<li><code>1-&gt;3</code>为无穷加<code>0-&gt;1</code>为无穷变大了；</li>
+<li><code>1-&gt;4</code>为无穷加<code>0-&gt;1</code>为无穷变大了。</li>
+</ul>
+<p>再取下一个点3，判断到除起点0和判断过的点1和当前点3之外其它点的距离有没有变短：</p>
+<ul>
+<li><code>3-&gt;2</code>为无穷加<code>0-&gt;3</code>为无穷变大了；</li>
+<li><code>3-&gt;4</code>为1加<code>0-&gt;3</code>为2变小了。</li>
+</ul>
+<p>新的数组为<span class="math inline">\(0,1,2,1,2\)</span>。</p>
+<p>因为这题的目标点是2，而现在2已经是没判断过的点中距离最小的了，所以可以结束。若想知道起点到所有点的最短距离只需对2和4进行类似的判断。</p>
+<p>然后这题还需要记录有几个最小以及分别的权数，难度不大。</p>
+<p>首先写出基本的Dijstra：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAX 512</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> INF 0x3f3f3f3f</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> n, m, c1, c2, tmpc1, tmpc2, min_dis, cur_c, tmp;</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> team_num[MAX], roads[MAX][MAX], dis[MAX];</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="keyword">bool</span> vis[MAX];</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function"></span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="built_in">cin</span> &gt;&gt; n &gt;&gt; m &gt;&gt; c1 &gt;&gt; c2;</span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="built_in">memset</span>(roads, <span class="number">0x3f</span>, <span class="keyword">sizeof</span>(roads));</span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; ++i)</span></pre></td></tr><tr><td class="code"><pre><span class="line">		<span class="built_in">cin</span> &gt;&gt; team_num[i], roads[i][i] = <span class="number">0</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; m &amp;&amp; <span class="built_in">cin</span> &gt;&gt; tmpc1 &amp;&amp; <span class="built_in">cin</span> &gt;&gt; tmpc2; ++i)</span></pre></td></tr><tr><td class="code"><pre><span class="line">		<span class="built_in">cin</span> &gt;&gt; roads[tmpc1][tmpc2], roads[tmpc2][tmpc1] = roads[tmpc1][tmpc2];</span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="comment">//初始化dis</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; ++i)</span></pre></td></tr><tr><td class="code"><pre><span class="line">		dis[i] = roads[c1][i];</span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="comment">//起点到起点距离已确定</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">	vis[c1] = <span class="literal">true</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="comment">//循环直至到c2的最短路被确定</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="keyword">while</span> (!vis[c2])</span></pre></td></tr><tr><td class="code"><pre><span class="line">	&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">		<span class="comment">//找到未被确定最短路的城市中路径最短的</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">		min_dis = INF;</span></pre></td></tr><tr><td class="code"><pre><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; ++i)</span></pre></td></tr><tr><td class="code"><pre><span class="line">			<span class="keyword">if</span> (!vis[i] &amp;&amp; dis[i] &lt; min_dis)</span></pre></td></tr><tr><td class="code"><pre><span class="line">				min_dis = dis[i], cur_c = i;</span></pre></td></tr><tr><td class="code"><pre><span class="line">		<span class="comment">//标明起点到该城市最短距离已确定</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">		vis[cur_c] = <span class="literal">true</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">		<span class="comment">//判断由此城市到其它城市会不会更近</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; ++i)</span></pre></td></tr><tr><td class="code"><pre><span class="line">			<span class="comment">//若当前所选城市能到达某城市i且未被确定</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">			<span class="keyword">if</span> (roads[cur_c][i] &lt; INF &amp;&amp; !vis[i])</span></pre></td></tr><tr><td class="code"><pre><span class="line">				<span class="comment">//如果从当前城市到某城市i更近</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">				<span class="keyword">if</span> (tmp = dis[cur_c] + roads[cur_c][i], dis[i] &gt; tmp)</span></pre></td></tr><tr><td class="code"><pre><span class="line">					<span class="comment">//修改从起点到i的最短距离</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">					dis[i] = tmp;</span></pre></td></tr><tr><td class="code"><pre><span class="line">	&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="built_in">cout</span> &lt;&lt; dis[c2];</span></pre></td></tr><tr><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+<p>然后加上两个数组<code>cnt</code>和<code>team_sum</code>，记录道路组合数目和队伍数。最开始不是把cnt作为数组而是作为一个整型，当发现到达目标城市有相同长度的路径时自增，有更短路径时置为1。牛客网AC但PAT测试点只过了两三个的亚子。研究了好久发现这种方法下如果到某中间城市有多种最短路径，该中间城市到目标城市有一条路径，且由此中间城市到目标城市所需总计最短距离与其它方式的最短距离相等时cnt会自增，但实际上应当增加由起点到该中间城市的最短路径的数目，所以cnt应当是个数组，记录到所有城市的最短路径数目，当发现经由当前城市到达某城市的最短路径与其它方式到达某城市有相同长度的路径时不是自增，而是增加到达当前城市的最短路径数。这个问题困扰了我大概三四个小时。</p>
+<p>所以最后应该是：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAX 512</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> INF 0x3f3f3f3f</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> n, m, c1, c2, tmpc1, tmpc2, min_dis, cur_c, tmp;</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> cnt[MAX], team_num[MAX], roads[MAX][MAX], dis[MAX], team_sum[MAX];</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="keyword">bool</span> vis[MAX];</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function"></span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="built_in">cin</span> &gt;&gt; n &gt;&gt; m &gt;&gt; c1 &gt;&gt; c2;</span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="built_in">memset</span>(roads, <span class="number">0x3f</span>, <span class="keyword">sizeof</span>(roads));</span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; ++i)</span></pre></td></tr><tr><td class="code"><pre><span class="line">		<span class="built_in">cin</span> &gt;&gt; team_num[i], roads[i][i] = <span class="number">0</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; m &amp;&amp; <span class="built_in">cin</span> &gt;&gt; tmpc1 &amp;&amp; <span class="built_in">cin</span> &gt;&gt; tmpc2; ++i)</span></pre></td></tr><tr><td class="code"><pre><span class="line">		<span class="built_in">cin</span> &gt;&gt; roads[tmpc1][tmpc2], roads[tmpc2][tmpc1] = roads[tmpc1][tmpc2];</span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="comment">//初始化dis、team_sum和cnt</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="comment">//因为肯定要收集初始点的队伍，所以可以先都加上初始点队伍数</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="comment">//如果起点可直达某点，则通路数记为1，否则记为0</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; ++i)</span></pre></td></tr><tr><td class="code"><pre><span class="line">		dis[i] = roads[c1][i], team_sum[i] = team_num[c1], cnt[i] = team_sum[i] == INF ? <span class="number">0</span> : <span class="number">1</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="comment">//起点到起点距离已确定</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">	vis[c1] = <span class="literal">true</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="comment">//循环直至到c2的最短路被确定</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="keyword">while</span> (!vis[c2])</span></pre></td></tr><tr><td class="code"><pre><span class="line">	&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">		<span class="comment">//找到未被确定最短路的城市中路径最短的</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">		min_dis = INF;</span></pre></td></tr><tr><td class="code"><pre><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; ++i)</span></pre></td></tr><tr><td class="code"><pre><span class="line">			<span class="keyword">if</span> (!vis[i] &amp;&amp; dis[i] &lt; min_dis)</span></pre></td></tr><tr><td class="code"><pre><span class="line">				min_dis = dis[i], cur_c = i;</span></pre></td></tr><tr><td class="code"><pre><span class="line">		<span class="comment">//标明起点到该城市最短距离已确定，并加上该城市具有的队伍数</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">		vis[cur_c] = <span class="literal">true</span>, team_sum[cur_c] += team_num[cur_c];</span></pre></td></tr><tr><td class="code"><pre><span class="line">		<span class="comment">//判断由此城市到其它城市会不会更近</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; ++i)</span></pre></td></tr><tr><td class="code"><pre><span class="line">			<span class="comment">//若当前所选城市能到达某城市i且未被确定</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">			<span class="keyword">if</span> (roads[cur_c][i] &lt; INF &amp;&amp; !vis[i])</span></pre></td></tr><tr><td class="code"><pre><span class="line">				<span class="comment">//如果从当前城市到某城市i更近</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">				<span class="keyword">if</span> (tmp = dis[cur_c] + roads[cur_c][i], dis[i] &gt; tmp)</span></pre></td></tr><tr><td class="code"><pre><span class="line">				&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">					<span class="comment">//修改从起点到i的最短距离和路径数</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">					dis[i] = tmp, cnt[i] = cnt[cur_c];</span></pre></td></tr><tr><td class="code"><pre><span class="line">					<span class="comment">//修改以最小距离到达i可获得的队伍数为以最小距离到当前城市可获得的队伍数</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">					team_sum[i] = team_sum[cur_c];</span></pre></td></tr><tr><td class="code"><pre><span class="line">				&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">				<span class="comment">//如果从当前城市到某城市i距离相同</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">				<span class="keyword">else</span> <span class="keyword">if</span> (dis[i] == tmp)</span></pre></td></tr><tr><td class="code"><pre><span class="line">				&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">					<span class="comment">//如果是当前城市到目的城市距离与原先相同则通路数加当前城市最短路径数</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">					cnt[i] += cnt[cur_c];</span></pre></td></tr><tr><td class="code"><pre><span class="line">					<span class="comment">//如果从当前城市到目的城市可获得的队伍数更多则修改之</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">					team_sum[i] = team_sum[i] &gt; team_sum[cur_c] ? team_sum[i] : team_sum[cur_c];</span></pre></td></tr><tr><td class="code"><pre><span class="line">				&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">	&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="built_in">cout</span> &lt;&lt; cnt[c2] &lt;&lt; <span class="string">' '</span> &lt;&lt; team_sum[c2];</span></pre></td></tr><tr><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+<p>AC。</p>
+]]></content>
+  </entry>
+  <entry>
     <title>PAT (Advanced Level) Practice 1002 A+B for Polynomials</title>
     <url>/posts/3b6e04ed.html</url>
     <content><![CDATA[<p><img src="" /></p>
@@ -1955,9 +2159,9 @@ MyEclipse的安装。
         <category>JSP</category>
       </categories>
       <tags>
-        <tag>JSP</tag>
         <tag>MyEclipse</tag>
         <tag>Java</tag>
+        <tag>JSP</tag>
       </tags>
   </entry>
   <entry>
@@ -3790,8 +3994,8 @@ action跳转至页面、URL或另一个action。
         <category>Struts2</category>
       </categories>
       <tags>
-        <tag>JSP</tag>
         <tag>MyEclipse</tag>
+        <tag>JSP</tag>
         <tag>Struts2</tag>
       </tags>
   </entry>
