@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>沉痛悼念李文亮医生</title>
+    <url>/posts/a37770e.html</url>
+    <content><![CDATA[<p><img src="https://blog-1256194686.cos.ap-shanghai.myqcloud.com/lwl.jpg" /></p>
+<h3 div align="center" style="color:#901900">
+能，明白。
+</h3>
+<p align="right">
+——李文亮
+</p>
+]]></content>
+  </entry>
+  <entry>
     <title>PAT (Advanced Level) Practice 1003 Emergency</title>
     <url>/posts/224301ee.html</url>
     <content><![CDATA[<p><img src="" /></p>
@@ -635,6 +647,8 @@ K\space N_1\space a_{N_1}\space N_2\space a_{N_2}\space ...\space N_K\space a_{N
 <p>【用到啥更新啥】</p>
 <ul>
 <li>将文件夹内的图片合并为pdf：<code>convert *.jpg xxx.pdf</code>；</li>
+<li>类似地，<code>convert xxx.jpg xxx.png</code>可以进行格式转换；</li>
+<li>类似地，<code>convert *.jpg xxx.gif</code>可以合并gif；</li>
 <li>将文件夹内的图片保持比例缩放至指定大小，尽可能填充满，空余部分以白色填充：<code>magick mogrify -resize 200x200 -gravity center -extent 200x200 *.jpg</code>；</li>
 <li>将文件夹内的图片不保持比例缩放至指定大小：<code>magick mogrify -resize 358x441! *.jpg</code>；</li>
 </ul>
@@ -2159,9 +2173,9 @@ MyEclipse的安装。
         <category>JSP</category>
       </categories>
       <tags>
+        <tag>JSP</tag>
         <tag>MyEclipse</tag>
         <tag>Java</tag>
-        <tag>JSP</tag>
       </tags>
   </entry>
   <entry>
@@ -3994,8 +4008,8 @@ action跳转至页面、URL或另一个action。
         <category>Struts2</category>
       </categories>
       <tags>
-        <tag>MyEclipse</tag>
         <tag>JSP</tag>
+        <tag>MyEclipse</tag>
         <tag>Struts2</tag>
       </tags>
   </entry>
