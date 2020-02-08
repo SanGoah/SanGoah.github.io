@@ -2173,9 +2173,9 @@ MyEclipse的安装。
         <category>JSP</category>
       </categories>
       <tags>
-        <tag>JSP</tag>
         <tag>MyEclipse</tag>
         <tag>Java</tag>
+        <tag>JSP</tag>
       </tags>
   </entry>
   <entry>
@@ -4008,8 +4008,8 @@ action跳转至页面、URL或另一个action。
         <category>Struts2</category>
       </categories>
       <tags>
-        <tag>JSP</tag>
         <tag>MyEclipse</tag>
+        <tag>JSP</tag>
         <tag>Struts2</tag>
       </tags>
   </entry>
