@@ -587,13 +587,15 @@ K\space N_1\space a_{N_1}\space N_2\space a_{N_2}\space ...\space N_K\space a_{N
 <p>设置头像只需简单修改<code>Sidebar Avatar</code>字段。</p>
 <p>字体配置先找到<code>font</code>并启用，这样就可以自定义字体怎么用而不是通过默认的谷歌字库外链加载默认字体。全局设置使用思源黑体，谷歌和奥多比联合开发，品质保证！<code>code</code>要以等宽字体显示所以需要设置为等宽字体，“Fira Code”虽然样子只能说还行，但提供了极好的连字模式，如果只是想表示<span class="math inline">\(\rightarrow\)</span>之类可以直接代码块<code>-&gt;</code>，非常方便。缺点是会给读者造成误解，管它呢，这破博客本身就是写了自嗨的。可选择字库外链，中科大的地址是<code>//fonts.lug.ustc.edu.cn</code>，速度勉强，偶尔会崩。</p>
 <h2 id="在主题内渲染自定义页面">在主题内渲染自定义页面</h2>
-<p>想要新建一个页面，需要在主题配置文件<code>menu</code>下新增相应的行，这将在博客菜单栏中增加一个指向该页面的按钮。以增加博客的关于页面为例，这个比较简单，将<code>menu</code>下已经有的那一行取注即可。</p>
+<p>想要新建一个页面，需要在主题配置文件<code>menu</code>下新增相应的行，这将在博客菜单栏中增加一个指向该页面的按钮。以增加博客的关于页面为例，这个比较简单，将<code>menu</code>下已经有的那一行取注即可，Hexo在工作时会自动生成相关页面。</p>
+<p>对于其它页面，还需做以下工作：</p>
 <p>所有主题内的待渲染页面均以markdown形式放置在<code>source/</code>，如<code>source/_post/</code>存放了所有文章的markdown文件。想要新建一个页面，需要生成一个对应的文件夹，例如通过<code>hexo new page &quot;about&quot;</code>生成关于页面所在的文件夹，这同时会生成一个<code>index.md</code>文件。在其内写入正文即可：</p>
 <figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="meta">---</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="attr">title:</span> <span class="string">自动生成</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="attr">date:</span> <span class="string">自动生成</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="meta">---</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="string">正文</span></span></pre></td></tr></table></figure>
 <p>就实现了一个关于页面。</p>
-<p>如果希望这个页面使用自己编写的html而不是渲染markdown，则在<code>index.md</code>中写入一行<code>layout: false</code>：</p>
+<p>如果希望这个页面使用自己编写的html而不是渲染markdown，则在<code>index.md</code>中写入一行<code>layout: false</code>，这样Hexo就不会把这个markdown当作markdown渲染：</p>
 <figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="meta">---</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="attr">title:</span> <span class="string">自动生成</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="attr">date:</span> <span class="string">自动生成</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="attr">layout:</span> <span class="literal">false</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="meta">---</span></span></pre></td></tr></table></figure>
-<p>并新建一<code>index.html</code>，在其中编写网页。此时该网页将被直接插入到hexo生成的页面中，因此具有与主题相同的布局等。如果不想要这种效果而是完全自己写网页，则需要再在站点配置文件中配置<code>skip_render</code>项，如<code>deepBreath/**</code>，此时该文件夹将不被做任何处理而拷贝至公开内容中。</p>
+<p>并新建一<code>index.html</code>，在其中编写网页。此时该网页将被直接插入到hexo生成的页面中，因此具有与主题相同的布局等。</p>
+<p>如果不想要这种效果而是完全自己写网页，则将网页写在此<code>.md</code>中并以<code>`和`</code>包起。</p>
 <h2 id="使用latex语法">使用LaTex语法</h2>
 <p>在主题配置文件中开启“mathjax”一项为<code>true</code>即可使用LaTex语法，某些主题可能还需要将“math”开启，可选择是每个页面都开启还是需要手动开启。</p>
 <p>注意，与正常使用Markdown不同，Hexo不支持LaTex，mathjax并非对<code>.md</code>渲染，而是渲染Hexo生成的Html。因此要确保Hexo不会误将LaTex标记渲染为Html标签。一种方法是在公式块中使用Markdown语法符号时使用转义，更一劳永逸的方法是更换Hexo的渲染引擎。</p>
