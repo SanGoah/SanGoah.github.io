@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://mechanicalmind.cn/mergeableCalendar/index.html</loc>
+    
+    <lastmod>2020-02-23T14:26:59.039Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://mechanicalmind.cn/deepBreath/index.html</loc>
     
     <lastmod>2020-02-23T14:06:32.923Z</lastmod>
@@ -9,9 +16,9 @@
   </url>
   
   <url>
-    <loc>http://mechanicalmind.cn/mergeableCalendar/index.html</loc>
+    <loc>http://mechanicalmind.cn/mergeableCalendar/archive.json</loc>
     
-    <lastmod>2020-02-23T14:02:44.756Z</lastmod>
+    <lastmod>2020-02-22T14:43:56.715Z</lastmod>
     
   </url>
   
