@@ -1,6 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title> 蓝桥杯2020模拟赛</title>
+    <url>/posts/33d846cd.html</url>
+    <content><![CDATA[<p><img src="" /></p>
+<center>
+2020年蓝桥杯因为疫情延期，搞了个线上模拟赛。讲真，完全没有也不想准备这比赛了，要是干脆取消这一届退钱就好了……
+</center>
+<a id="more"></a>
+<h1 id="单位换算">单位换算</h1>
+<p>侮辱智商，拒绝作答。</p>
+<h1 id="约数统计">约数统计</h1>
+<p>暴力。</p>
+<h1 id="在1至2019中有多少个数的数位中包含数字9">在1至2019中，有多少个数的数位中包含数字9？</h1>
+<p>因为是各自在家比赛，其实是可以百度的。想找找stl里有没有啥逃课的方法，果然找到了个<code>find()</code>：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function"></span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">int</span> cnt=<span class="number">0</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=<span class="number">2019</span>;++i)</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="built_in">string</span> cur=to_string(i);</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="keyword">if</span>(cur.find(<span class="string">'9'</span>)!= cur.npos)</span></pre></td></tr><tr><td class="code"><pre><span class="line">            ++cnt;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="built_in">cout</span>&lt;&lt;cnt;</span></pre></td></tr><tr><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+<p>注意如果找不到返回的是<code>string.npos</code>而不是0或-1之类。</p>
+<h1 id="树的结点数">树的结点数</h1>
+<p>总觉得这题做过好多好多次了……</p>
+<h1 id="寻找数位递增的数">寻找数位递增的数</h1>
+<p>写的转string暴力一位一位比。不过事后一想可能会超时？最多的样例会有百万次判断，按每次判断进行4次比较算一秒钟应该也OK……</p>
+<p>看到有大佬用DP：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> n, a[<span class="number">11</span>], dp[<span class="number">11</span>][<span class="number">10</span>];</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> pos, <span class="keyword">int</span> pre, <span class="keyword">bool</span> limit)</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function"></span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">if</span> (pos == <span class="number">-1</span>)</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">if</span> (!limit &amp;&amp; dp[pos][pre] != <span class="number">-1</span>)</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="keyword">return</span> dp[pos][pre];</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">int</span> up = limit ? a[pos] : <span class="number">9</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">int</span> ans = <span class="number">0</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = pre; i &lt;= up; ++i)</span></pre></td></tr><tr><td class="code"><pre><span class="line">        ans += dfs(pos - <span class="number">1</span>, i, limit &amp;&amp; i == a[pos]);</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">if</span> (!limit)</span></pre></td></tr><tr><td class="code"><pre><span class="line">        dp[pos][pre] = ans;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">return</span> ans;</span></pre></td></tr><tr><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function"></span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="built_in">memset</span>(dp, <span class="number">-1</span>, <span class="keyword">sizeof</span>(dp));</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="built_in">cin</span> &gt;&gt; n;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">int</span> k = <span class="number">0</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="comment">//注意数组和原数相反了，现在是找递减。</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">while</span> (n)</span></pre></td></tr><tr><td class="code"><pre><span class="line">        a[k++] = n % <span class="number">10</span>,n /= <span class="number">10</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="built_in">cout</span> &lt;&lt; dfs(k - <span class="number">1</span>, <span class="number">0</span>, <span class="literal">true</span>) - <span class="number">1</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+<h1 id="寻找hello这样的单词">寻找hello这样的单词</h1>
+<p>字符串判断的题。</p>
+<h1 id="寻找递增三元组的中心">寻找递增三元组的中心</h1>
+<p>上来先写了判断是否存在递增三元组的代码，每找到一个就记录这个三元组的中心，看最后有多少个中心：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> N 10005</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> INF 0x3f3f3f3f</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> n,num[N],min1,min2,idx_min2;</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="built_in">set</span>&lt;<span class="keyword">int</span>&gt; s;</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function"></span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="built_in">cin</span>&gt;&gt;n;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;++i)</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="built_in">cin</span>&gt;&gt;num[i];</span></pre></td></tr><tr><td class="code"><pre><span class="line">    min1=min2=INF;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;++i) </span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="keyword">if</span> (num[i]&lt;=min1) min1 = num[i];</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (num[i] &lt; min2) min2 = num[i],idx_min2=i;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (num[i] &gt; min2) s.insert(idx_min2);</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="built_in">cout</span>&lt;&lt;s.size();</span></pre></td></tr><tr><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+<p>写完发现不对，这个算法是判断是否存在三元组的，不是找到所有三元组，对于有许多递增三元组的数列它找不全，例如数列<code>1 2 5 3 5</code>，它只会给出<code>1 2 5</code>、<code>1 2 3</code>和<code>1 2 5</code>，<code>1 3 5</code>不会给出，所以对这个样例来说会少掉“3”这一中心。</p>
+<p>最后用的笨方法，对每个数判断之前、之后的最小、最大值，不过使用两个数组保存某位置之前的最小值、之后的最大值，只需一遍遍历，其实很快。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> N 10005</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> n, num[N], max_after_cur_idx[N], min_befor_cur_idx[N], ans;</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function"></span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="built_in">cin</span> &gt;&gt; n;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; ++i)</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="built_in">cin</span> &gt;&gt; num[i];</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">    min_befor_cur_idx[<span class="number">0</span>] = num[<span class="number">0</span>],</span></pre></td></tr><tr><td class="code"><pre><span class="line">    max_after_cur_idx[n - <span class="number">1</span>] = num[n - <span class="number">1</span>];</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++)</span></pre></td></tr><tr><td class="code"><pre><span class="line">        min_befor_cur_idx[i] = min(min_befor_cur_idx[i - <span class="number">1</span>], num[i]),</span></pre></td></tr><tr><td class="code"><pre><span class="line">        max_after_cur_idx[n - <span class="number">1</span> - i] = max(max_after_cur_idx[n - i], num[n - <span class="number">1</span> - i]);</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; n - <span class="number">1</span>; ++i)</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="keyword">if</span> (min_befor_cur_idx[i - <span class="number">1</span>] &lt; num[i] &amp;&amp; max_after_cur_idx[i + <span class="number">1</span>] &gt; num[i])</span></pre></td></tr><tr><td class="code"><pre><span class="line">            ++ans;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="built_in">cout</span> &lt;&lt; ans;</span></pre></td></tr><tr><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+<h1 id="满足条件的数列">满足条件的数列</h1>
+<p>DFS。</p>
+<h1 id="草坪扩张">草坪扩张</h1>
+<p>BFS，跟淹海岛的题一样。</p>
+<h1 id="组织晚会">组织晚会</h1>
+<p>小明发现，观众对于晚上的喜欢程度与前几个节目的好看程度有非常大的关系，他希望选出的第一个节目尽可能好看，在此前提下希望第二个节目尽可能好看，依次类推。</p>
+<p>小明给每个节目定义了一个好看值，请你帮助小明选择出 m 个节目，满足他的要求。</p>
+<h2 id="输入格式">输入格式：</h2>
+<p>输入的第一行包含两个整数 n, m ，表示节目的数量和要选择的数量。</p>
+<p>第二行包含 n 个整数，依次为每个节目的好看值。</p>
+<h2 id="输出格式">输出格式：</h2>
+<p>输出一行包含 m 个整数，为选出的节目的好看值。</p>
+<h2 id="样例输入">样例输入</h2>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">5 3</span></pre></td></tr><tr><td class="code"><pre><span class="line">3 1 2 5 4</span></pre></td></tr></table></figure>
+<p>样例输出</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">3 5 4</span></pre></td></tr></table></figure>
+<h2 id="样例说明">样例说明</h2>
+<p>选择了第1, 4, 5个节目。</p>
+<h2 id="评测用例规模与约定">评测用例规模与约定</h2>
+<p>对于 30% 的评测用例，1 &lt;= n &lt;= 20；</p>
+<p>对于 60% 的评测用例，1 &lt;= n &lt;= 100；</p>
+<p>对于所有评测用例，1 &lt;= n &lt;= 100000，0 &lt;= 节目的好看值 &lt;= 100000。</p>
+<h2 id="解">解</h2>
+<p>这题想了好久……后来网上找到解法发现极为简单，好吧，这么简单的代码居然是最后一道题，不知道是不是预料到大家会往复杂了想。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> n, m, cur;</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">node</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="class">&#123;</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">int</span> idx, val;</span></pre></td></tr><tr><td class="code"><pre><span class="line">&#125;;</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;node&gt; ans;</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">cmp_val</span><span class="params">(node a, node b)</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function"></span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">return</span> a.val &gt; b.val;</span></pre></td></tr><tr><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">cmp_idx</span><span class="params">(node a, node b)</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function"></span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">return</span> a.idx &lt; b.idx;</span></pre></td></tr><tr><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function"></span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="built_in">cin</span> &gt;&gt; n &gt;&gt; m;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n &amp;&amp; <span class="built_in">cin</span> &gt;&gt; cur; i++)</span></pre></td></tr><tr><td class="code"><pre><span class="line">        ans.push_back(&#123;i, cur&#125;);</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="comment">//从大到小排列节目</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    sort(ans.begin(), ans.end(), cmp_val);</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="comment">//最大的m个再按编号从小到大排列</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    sort(ans.begin(), ans.begin() + m, cmp_idx);</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="built_in">cout</span> &lt;&lt; ans[<span class="number">0</span>].val;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; m; i++)</span></pre></td></tr><tr><td class="code"><pre><span class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="string">" "</span> &lt;&lt; ans[i].val;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>基础算法</category>
+        <category>蓝桥杯</category>
+      </categories>
+      <tags>
+        <tag>蓝桥杯</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>沉痛悼念李文亮医生</title>
     <url>/posts/a37770e.html</url>
     <content><![CDATA[<p><img src="https://blog-1256194686.cos.ap-shanghai.myqcloud.com/lwl.jpg" /></p>
@@ -215,6 +279,14 @@
 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAX 512</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> INF 0x3f3f3f3f</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> n, m, c1, c2, tmpc1, tmpc2, min_dis, cur_c, tmp;</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> cnt[MAX], team_num[MAX], roads[MAX][MAX], dis[MAX], team_sum[MAX];</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="keyword">bool</span> vis[MAX];</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function"></span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="built_in">cin</span> &gt;&gt; n &gt;&gt; m &gt;&gt; c1 &gt;&gt; c2;</span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="built_in">memset</span>(roads, <span class="number">0x3f</span>, <span class="keyword">sizeof</span>(roads));</span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; ++i)</span></pre></td></tr><tr><td class="code"><pre><span class="line">		<span class="built_in">cin</span> &gt;&gt; team_num[i], roads[i][i] = <span class="number">0</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; m &amp;&amp; <span class="built_in">cin</span> &gt;&gt; tmpc1 &amp;&amp; <span class="built_in">cin</span> &gt;&gt; tmpc2; ++i)</span></pre></td></tr><tr><td class="code"><pre><span class="line">		<span class="built_in">cin</span> &gt;&gt; roads[tmpc1][tmpc2], roads[tmpc2][tmpc1] = roads[tmpc1][tmpc2];</span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="comment">//初始化dis、team_sum和cnt</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="comment">//因为肯定要收集初始点的队伍，所以可以先都加上初始点队伍数</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="comment">//如果起点可直达某点，则通路数记为1，否则记为0</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; ++i)</span></pre></td></tr><tr><td class="code"><pre><span class="line">		dis[i] = roads[c1][i], team_sum[i] = team_num[c1], cnt[i] = team_sum[i] == INF ? <span class="number">0</span> : <span class="number">1</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="comment">//起点到起点距离已确定</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">	vis[c1] = <span class="literal">true</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="comment">//循环直至到c2的最短路被确定</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="keyword">while</span> (!vis[c2])</span></pre></td></tr><tr><td class="code"><pre><span class="line">	&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">		<span class="comment">//找到未被确定最短路的城市中路径最短的</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">		min_dis = INF;</span></pre></td></tr><tr><td class="code"><pre><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; ++i)</span></pre></td></tr><tr><td class="code"><pre><span class="line">			<span class="keyword">if</span> (!vis[i] &amp;&amp; dis[i] &lt; min_dis)</span></pre></td></tr><tr><td class="code"><pre><span class="line">				min_dis = dis[i], cur_c = i;</span></pre></td></tr><tr><td class="code"><pre><span class="line">		<span class="comment">//标明起点到该城市最短距离已确定，并加上该城市具有的队伍数</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">		vis[cur_c] = <span class="literal">true</span>, team_sum[cur_c] += team_num[cur_c];</span></pre></td></tr><tr><td class="code"><pre><span class="line">		<span class="comment">//判断由此城市到其它城市会不会更近</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; ++i)</span></pre></td></tr><tr><td class="code"><pre><span class="line">			<span class="comment">//若当前所选城市能到达某城市i且未被确定</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">			<span class="keyword">if</span> (roads[cur_c][i] &lt; INF &amp;&amp; !vis[i])</span></pre></td></tr><tr><td class="code"><pre><span class="line">				<span class="comment">//如果从当前城市到某城市i更近</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">				<span class="keyword">if</span> (tmp = dis[cur_c] + roads[cur_c][i], dis[i] &gt; tmp)</span></pre></td></tr><tr><td class="code"><pre><span class="line">				&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">					<span class="comment">//修改从起点到i的最短距离和路径数</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">					dis[i] = tmp, cnt[i] = cnt[cur_c];</span></pre></td></tr><tr><td class="code"><pre><span class="line">					<span class="comment">//修改以最小距离到达i可获得的队伍数为以最小距离到当前城市可获得的队伍数</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">					team_sum[i] = team_sum[cur_c];</span></pre></td></tr><tr><td class="code"><pre><span class="line">				&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">				<span class="comment">//如果从当前城市到某城市i距离相同</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">				<span class="keyword">else</span> <span class="keyword">if</span> (dis[i] == tmp)</span></pre></td></tr><tr><td class="code"><pre><span class="line">				&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">					<span class="comment">//如果是当前城市到目的城市距离与原先相同则通路数加当前城市最短路径数</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">					cnt[i] += cnt[cur_c];</span></pre></td></tr><tr><td class="code"><pre><span class="line">					<span class="comment">//如果从当前城市到目的城市可获得的队伍数更多则修改之</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">					team_sum[i] = team_sum[i] &gt; team_sum[cur_c] ? team_sum[i] : team_sum[cur_c];</span></pre></td></tr><tr><td class="code"><pre><span class="line">				&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">	&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="built_in">cout</span> &lt;&lt; cnt[c2] &lt;&lt; <span class="string">' '</span> &lt;&lt; team_sum[c2];</span></pre></td></tr><tr><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
 <p>AC。</p>
 ]]></content>
+      <categories>
+        <category>基础算法</category>
+        <category>PAT</category>
+        <category>甲级</category>
+      </categories>
+      <tags>
+        <tag>PAT甲级</tag>
+      </tags>
   </entry>
   <entry>
     <title>PAT (Advanced Level) Practice 1002 A+B for Polynomials</title>
@@ -244,6 +316,7 @@ K\space N_1\space a_{N_1}\space N_2\space a_{N_2}\space ...\space N_K\space a_{N
 <p>AC。</p>
 ]]></content>
       <categories>
+        <category>基础算法</category>
         <category>PAT</category>
         <category>甲级</category>
       </categories>
@@ -278,6 +351,7 @@ K\space N_1\space a_{N_1}\space N_2\space a_{N_2}\space ...\space N_K\space a_{N
 <p>AC。</p>
 ]]></content>
       <categories>
+        <category>基础算法</category>
         <category>PAT</category>
         <category>甲级</category>
       </categories>
@@ -2185,9 +2259,9 @@ MyEclipse的安装。
         <category>JSP</category>
       </categories>
       <tags>
+        <tag>JSP</tag>
         <tag>MyEclipse</tag>
         <tag>Java</tag>
-        <tag>JSP</tag>
       </tags>
   </entry>
   <entry>
@@ -2363,6 +2437,22 @@ MyEclipse的安装。
       </tags>
   </entry>
   <entry>
+    <title>编译原理・贰・自顶向下语法分析</title>
+    <url>/posts/7f0a7ddf.html</url>
+    <content><![CDATA[<p><img src="" /></p>
+<center>
+</center>
+<a id="more"></a>
+]]></content>
+      <categories>
+        <category>深蓝</category>
+        <category>编译原理</category>
+      </categories>
+      <tags>
+        <tag>编译原理</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>编译原理・肆・语义分析</title>
     <url>/posts/deb46a29.html</url>
     <content><![CDATA[<p><img src="" /></p>
@@ -2382,22 +2472,6 @@ MyEclipse的安装。
 <figure class="highlight c"><table><tr><td class="code"><pre><span class="line">    a=x;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    b=y;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    c=<span class="number">1</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="built_in">begin</span>:</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">if</span> b&lt;=<span class="number">0</span> <span class="keyword">goto</span> <span class="built_in">end</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">if</span> b%<span class="number">2</span> != <span class="number">1</span> <span class="keyword">goto</span> nxt;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    c=c*a;</span></pre></td></tr><tr><td class="code"><pre><span class="line">nxt:</span></pre></td></tr><tr><td class="code"><pre><span class="line">    b=b/<span class="number">2</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    a=a*a;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">goto</span> <span class="built_in">begin</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="built_in">end</span>:</span></pre></td></tr></table></figure>
 <p>容易得到四元式：</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">01 &#x3D; ,x,&#x2F;,a</span></pre></td></tr><tr><td class="code"><pre><span class="line">02 &#x3D; ,y,&#x2F;,b</span></pre></td></tr><tr><td class="code"><pre><span class="line">03 &#x3D; ,1,&#x2F;,c</span></pre></td></tr><tr><td class="code"><pre><span class="line">04 &lt;&#x3D;,b,0,11</span></pre></td></tr><tr><td class="code"><pre><span class="line">05 % ,b,2,t</span></pre></td></tr><tr><td class="code"><pre><span class="line">06 !&#x3D;,t,1,8</span></pre></td></tr><tr><td class="code"><pre><span class="line">07 * ,c,a,c</span></pre></td></tr><tr><td class="code"><pre><span class="line">08 &#x2F; ,b,2,b</span></pre></td></tr><tr><td class="code"><pre><span class="line">09 * ,a,a,a</span></pre></td></tr><tr><td class="code"><pre><span class="line">10 go,&#x2F;,&#x2F;,4</span></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>深蓝</category>
-        <category>编译原理</category>
-      </categories>
-      <tags>
-        <tag>编译原理</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>编译原理・贰・自顶向下语法分析</title>
-    <url>/posts/7f0a7ddf.html</url>
-    <content><![CDATA[<p><img src="" /></p>
-<center>
-</center>
-<a id="more"></a>
 ]]></content>
       <categories>
         <category>深蓝</category>
@@ -4020,8 +4094,8 @@ action跳转至页面、URL或另一个action。
         <category>Struts2</category>
       </categories>
       <tags>
-        <tag>MyEclipse</tag>
         <tag>JSP</tag>
+        <tag>MyEclipse</tag>
         <tag>Struts2</tag>
       </tags>
   </entry>
