@@ -658,7 +658,8 @@ K\space N_1\space a_{N_1}\space N_2\space a_{N_2}\space ...\space N_K\space a_{N
 <figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Local search</span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="attr">local_search:</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="attr">enable:</span> <span class="literal">true</span></span></pre></td></tr></table></figure>
 <p>添加：</p>
 <figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">search:</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="attr">path:</span> <span class="string">search.xml</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="attr">field:</span> <span class="string">post</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="attr">format:</span> <span class="string">html</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">	<span class="attr">limit:</span> <span class="number">10000</span></span></pre></td></tr></table></figure>
-<p>设置头像只需简单修改<code>Sidebar Avatar</code>字段。</p>
+<p>设置头像只需简单修改<code>Sidebar Avatar</code>字段，这里头像指的是有侧栏的主题中侧栏里显示的，不是指网站logo。</p>
+<p>设置网站logo只需修改<code>favicon:</code>字段。</p>
 <p>字体配置先找到<code>font</code>并启用，这样就可以自定义字体怎么用而不是通过默认的谷歌字库外链加载默认字体。全局设置使用思源黑体，谷歌和奥多比联合开发，品质保证！<code>code</code>要以等宽字体显示所以需要设置为等宽字体，“Fira Code”虽然样子只能说还行，但提供了极好的连字模式，如果只是想表示<span class="math inline">\(\rightarrow\)</span>之类可以直接代码块<code>-&gt;</code>，非常方便。缺点是会给读者造成误解，管它呢，这破博客本身就是写了自嗨的。可选择字库外链，中科大的地址是<code>//fonts.lug.ustc.edu.cn</code>，速度勉强，偶尔会崩。</p>
 <h2 id="在主题内渲染自定义页面">在主题内渲染自定义页面</h2>
 <p>想要新建一个页面，需要在主题配置文件<code>menu</code>下新增相应的行，这将在博客菜单栏中增加一个指向该页面的按钮。以增加博客的关于页面为例，这个比较简单，将<code>menu</code>下已经有的那一行取注即可，Hexo在工作时会自动生成相关页面。</p>
@@ -731,7 +732,7 @@ K\space N_1\space a_{N_1}\space N_2\space a_{N_2}\space ...\space N_K\space a_{N
 <h1 id="使用">使用</h1>
 <p>【用到啥更新啥】</p>
 <ul>
-<li>将文件夹内的图片合并为pdf：<code>convert *.jpg xxx.pdf</code>；</li>
+<li>将文件夹内的图片合并为pdf：<code>convert *.jpg xxx.pdf</code>，相反操作不能直接执行，需要安装其它包；</li>
 <li>类似地，<code>convert xxx.jpg xxx.png</code>可以进行格式转换；</li>
 <li>类似地，<code>convert *.jpg xxx.gif</code>可以合并gif；</li>
 <li>将文件夹内的图片保持比例缩放至指定大小，尽可能填充满，空余部分以白色填充：<code>magick mogrify -resize 200x200 -gravity center -extent 200x200 *.jpg</code>；</li>
@@ -2259,9 +2260,9 @@ MyEclipse的安装。
         <category>JSP</category>
       </categories>
       <tags>
-        <tag>JSP</tag>
         <tag>MyEclipse</tag>
         <tag>Java</tag>
+        <tag>JSP</tag>
       </tags>
   </entry>
   <entry>
@@ -2437,22 +2438,6 @@ MyEclipse的安装。
       </tags>
   </entry>
   <entry>
-    <title>编译原理・贰・自顶向下语法分析</title>
-    <url>/posts/7f0a7ddf.html</url>
-    <content><![CDATA[<p><img src="" /></p>
-<center>
-</center>
-<a id="more"></a>
-]]></content>
-      <categories>
-        <category>深蓝</category>
-        <category>编译原理</category>
-      </categories>
-      <tags>
-        <tag>编译原理</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>编译原理・肆・语义分析</title>
     <url>/posts/deb46a29.html</url>
     <content><![CDATA[<p><img src="" /></p>
@@ -2472,6 +2457,22 @@ MyEclipse的安装。
 <figure class="highlight c"><table><tr><td class="code"><pre><span class="line">    a=x;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    b=y;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    c=<span class="number">1</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="built_in">begin</span>:</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">if</span> b&lt;=<span class="number">0</span> <span class="keyword">goto</span> <span class="built_in">end</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">if</span> b%<span class="number">2</span> != <span class="number">1</span> <span class="keyword">goto</span> nxt;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    c=c*a;</span></pre></td></tr><tr><td class="code"><pre><span class="line">nxt:</span></pre></td></tr><tr><td class="code"><pre><span class="line">    b=b/<span class="number">2</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    a=a*a;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">goto</span> <span class="built_in">begin</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="built_in">end</span>:</span></pre></td></tr></table></figure>
 <p>容易得到四元式：</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">01 &#x3D; ,x,&#x2F;,a</span></pre></td></tr><tr><td class="code"><pre><span class="line">02 &#x3D; ,y,&#x2F;,b</span></pre></td></tr><tr><td class="code"><pre><span class="line">03 &#x3D; ,1,&#x2F;,c</span></pre></td></tr><tr><td class="code"><pre><span class="line">04 &lt;&#x3D;,b,0,11</span></pre></td></tr><tr><td class="code"><pre><span class="line">05 % ,b,2,t</span></pre></td></tr><tr><td class="code"><pre><span class="line">06 !&#x3D;,t,1,8</span></pre></td></tr><tr><td class="code"><pre><span class="line">07 * ,c,a,c</span></pre></td></tr><tr><td class="code"><pre><span class="line">08 &#x2F; ,b,2,b</span></pre></td></tr><tr><td class="code"><pre><span class="line">09 * ,a,a,a</span></pre></td></tr><tr><td class="code"><pre><span class="line">10 go,&#x2F;,&#x2F;,4</span></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>深蓝</category>
+        <category>编译原理</category>
+      </categories>
+      <tags>
+        <tag>编译原理</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>编译原理・贰・自顶向下语法分析</title>
+    <url>/posts/7f0a7ddf.html</url>
+    <content><![CDATA[<p><img src="" /></p>
+<center>
+</center>
+<a id="more"></a>
 ]]></content>
       <categories>
         <category>深蓝</category>
@@ -4094,8 +4095,8 @@ action跳转至页面、URL或另一个action。
         <category>Struts2</category>
       </categories>
       <tags>
-        <tag>JSP</tag>
         <tag>MyEclipse</tag>
+        <tag>JSP</tag>
         <tag>Struts2</tag>
       </tags>
   </entry>
