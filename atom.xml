@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://mechanicalmind.cn/"/>
-  <updated>2020-05-04T08:40:10.000Z</updated>
+  <updated>2020-05-06T08:03:28.000Z</updated>
   <id>http://mechanicalmind.cn/</id>
   
   <author>
@@ -15,6 +15,53 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Keil uVision 51单片机环境配置</title>
+    <link href="http://mechanicalmind.cn/posts/d5919c41.html"/>
+    <id>http://mechanicalmind.cn/posts/d5919c41.html</id>
+    <published>2020-05-06T08:03:28.000Z</published>
+    <updated>2020-05-06T08:03:28.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="" /></p><center></center><a id="more"></a><p>一开始打算通过安装native Linux的软件来配置开发环境，例如SDCC等，但最后发现还是通过wine安装windows的IDE最方便。环境如下：</p><ul><li>wine 5.7-1</li><li>winetricks 20200412-1</li></ul><p>本来是打算安装官方的面向学习者的Lite版本，但是官网的下载页面打不开……</p><p>Keil的安装包有“MDK”后缀和“C51”后缀两种，分别对应ARM的芯片和8051的芯片。一开始搞错了，使用了<code>MDK412</code>的版本。</p><p>首先正常安装安装包（wine挺慢的，要等很久才能打开），然后正常打开，进入<code>File</code>-&gt;<code>License Management</code>，复制CID，打开注册码生成机，输入CID，选ARM，生成注册码再输回去即可。</p><p>之后才发现这个版本的uVision貌似不带51单片机相关的开发套件，于是又找到了<code>c51v802</code>版本来安装，两次安装到一个文件夹，完成后发现并未生成新的快捷方式，两个软件自动合并了，再次打开原先的快捷方式，发现已经可以建立51单片机相关的工程了。</p><p>至此，51单片机开发环境配置完毕。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;center&gt;
+&lt;/center&gt;
+    
+    </summary>
+    
+    
+      <category term="51单片机" scheme="http://mechanicalmind.cn/categories/51%E5%8D%95%E7%89%87%E6%9C%BA/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>弱小的人，才习惯嘲讽和否定</title>
+    <link href="http://mechanicalmind.cn/posts/18d24c8.html"/>
+    <id>http://mechanicalmind.cn/posts/18d24c8.html</id>
+    <published>2020-05-06T08:02:38.000Z</published>
+    <updated>2020-05-06T08:02:38.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="" /></p><center>最近两天都在思考这句话，再抬头看，发现整个世界都不一样了。</center><a id="more"></a><blockquote><p>在自然语言和形式语言中，如果一句句子直接或间接提及自身，就称为自指（Self-reference）。</p></blockquote><p>生活中经常见到自指，比如“我随手一打就是这么标准的十五字”。这个自指很安全，但是许多情况下自指是危险的，比如“弱小的人，才习惯嘲讽和否定”，如果说话的人认为这句话是对的，那么他将不得不承认自己是弱小的。</p><p>一个更熟悉的例子，“停机问题”：能否写出这样一个判断程序，输入一个程序及其传入参数时，这个判断程序能够判断此时输入程序是否陷入死循环？</p><p>不难证明，答案是否定的：假如写出了这样一个程序<code>bool isLoop(func input_func, para input_para)</code>，当输入程序<code>input_func()</code>在接受<code>input_para</code>后将陷入死循环时返回<code>1</code>，否则返回<code>0</code>——现在不妨将其改写一个很hack的程序<code>void hack(func input)</code>，在其中调用一次<code>isLoop()</code>，其中的两个参数均为<code>input</code>，当<code>isLoop()</code>返回<code>true</code>即<code>input()</code>在传入<code>input()</code>时会陷入死循环时，<code>hack()</code>返回，否则进入一段类似<code>while(true)</code>的代码。</p><p>现调用一次<code>isLoop(hack,hack)</code>：</p><ul><li>若返回<code>true</code>，则<code>hack()</code>在输入<code>hack()</code>时将陷入死循环，则<code>hack(hack)</code>中调用的<code>isLoop(hack,hack)</code>返回了<code>false</code>，矛盾；</li><li>若返回<code>false</code>，则<code>hack()</code>在输入<code>hack()</code>时不会陷入死循环，则<code>hack(hack)</code>中调用的<code>isLoop(hack,hack)</code>返回了<code>true</code>，矛盾。</li></ul><p>故写不出这样的程序。</p><p>这个例子比让B站和背后站台的一票大媒体承认自己是弱小的危险一点，但还好。现在用类似的方法构造一个更危险的命题，也就是著名的罗素悖论：</p><p>假设有一个集合，该集合为全体非本身子集构成的集合。现给定该集合的一个子集，问后者是否属于前者？</p><ul><li>后者是前者的子集，则后者不应当属于前者；</li><li>假如后者不属于前者，则后者不是前者的子集。</li></ul><p>故这样的集合不存在——但它应当是存在的。给定一个性质，符合该性质的元素归入一个集合，这不是理所应当的么？集合的定义就是这样的啊！</p><p>对于这个悖论的处理，数学大佬们是修改了集合的定义，比如罗素本人的类型论和现在主流的公理化集合论，在笔者看来都是用很hack的手法排除了这些涉及自我指涉的情况，笔者作为一个数学的门外汉觉得……emmm，好像这种不算解决吧？类似假装看不见的行为……</p><p>很容易从这上面联想到哥德尔不完备定理。虽然笔者并未研究过其推导等，但对结论的了解应该偏差不大，即不能从一个足够复杂的形式化系统中推导出它应当包含的所有命题，笔者不清楚“自指”一类的问题相关的结论是否属于这一类，但显然“集合论”这一系统无力处理这一情况。</p><p>在今天之前，笔者一直坚信没有什么是数学无法处理的，只要数学家能搞明白，程序员就能给它整得服服贴贴。当初转专业时曾看过许多知乎上的经验贴，印像最深的是一位国际关系的学长转数学系，立志要写出一本《社会科学的数学原理》。现在想来，恐怕他的志向比想象中还要难得多吧，现在的数学工具对于如此复杂的系统真的能进行足够好的描述么？最著名的不能描述的（不知道是小说设定还是真的求不出解）就是三体问题了吧，这还只是三个球而已。</p><p>——提到三体，突然想到有些科幻小说中有所谓“数学武器”的设定，可以修改区域内的数学规律使敌人的武器等失去理论基础而失效。看似荒谬至极的设定现在看来也有那么点道理——数学规律真的是宇宙内秉的么？还是只是人类发明的？</p><p>当然，哥德尔可没说“人类是有极限的”，只是说一个形式化的系统是有极限的，而人类可以构建很多不同的形式化系统，在一个形式化系统中不可证明的命题在另一个形式化系统中便可能可以证明，所以笔者的信仰并没有完全破碎，哈哈。哥德尔只是说不能仅仅根据公理通过推导得出所有结论——回到题目的这句话，不论这句话本身意义如何，试图用一句话讲明白某个道理（因为“弱小……”这句话冲突性不够强，再举个例子：没有什么是绝对的。这只是“自指”这一种难以处理的情况，谁知道有多少其它情况？）本身就是错误的思想——如此错综复杂的世界，显然超出了一句话加上简单推理所能判断的能力范围。</p><p>我们不能只用有限的、形式化的方式给这世界下判断，无论是数学的、程序的还是自然语言的——想到这里再抬头看这世界，顿感广袤无垠。</p><p>上一段用一句话下了个判断，矛盾，所以上一句话是伪命题，散了吧。</p><p>我知道为啥哲学家自杀的多了。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;center&gt;
+最近两天都在思考这句话，再抬头看，发现整个世界都不一样了。
+&lt;/center&gt;
+    
+    </summary>
+    
+    
+      <category term="地球Online加载Tips" scheme="http://mechanicalmind.cn/categories/%E5%9C%B0%E7%90%83Online%E5%8A%A0%E8%BD%BDTips/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>Linux网络编程</title>
@@ -469,57 +516,6 @@ dex2jar、jd-GUI和apktool的简单介绍。
       <category term="Android" scheme="http://mechanicalmind.cn/tags/Android/"/>
     
       <category term="反编译" scheme="http://mechanicalmind.cn/tags/%E5%8F%8D%E7%BC%96%E8%AF%91/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>一门水课的小组作业所反映的差距</title>
-    <link href="http://mechanicalmind.cn/posts/b0df0b0e.html"/>
-    <id>http://mechanicalmind.cn/posts/b0df0b0e.html</id>
-    <published>2019-12-22T08:01:13.000Z</published>
-    <updated>2019-12-22T08:01:13.000Z</updated>
-    
-    <content type="html"><![CDATA[<div id="hexo-blog-encrypt" data-wpm="Oh, this is an invalid password. Check and try again, please." data-whm="OOPS, these decrypted content may changed, but you can still have a look.">  <div class="hbe-input-container">  <input type="password" id="hbePass" placeholder="" />    <label for="hbePass">Hey, password is required here.</label>    <div class="bottom-line"></div>  </div>  <script id="hbeData" type="hbeData" data-hmacdigest="895f8912709e16aceb7396ca207928b9bf6923447562b7fa1f3b65813d8a8b12">8e6b8bba21e65be07381da90a4aa46f97ee602985d12dab54a84f4bf0121e8a96e2527de0895061a64fbe3c9ec7d1789ab56e0fb044cbe6a09ca7788ec31ce9a7645705abaf6bf40bdd88f973a1d890902b775798b5db1f98a8ed6b92756ac8c2097a6b714913a5bf791b47c95862b050f1a0c221b531579c7b97343fc214015f836deed4b34350e55cc475d3563055f747aabda502b16e4041bcd684ef3f8a7c9b1e1cf435db7479ff3e3000d2393552e40cb26a067f296b89451340d4bfaf2347e393b3608f22c84baecd09d267e40f55d7e749ba5f1e9cd8f773018237b1534a0bb9de8e7cd97e8b86a2cf211bb7bea739e939fc2f9022f57edfd471e43505111992f06308d19e9b6794ecaaaa43c749a7b14c7d375026c50b8a84c6f6c0bf21ab7cc7494c168cf5054a8c11b123d79e0dfb9a05bacf4e19ec72da6c6947b6e07cd7e67faafec6f80f0660f463b57c0018b98b8c77d4af0cb667ad40241cc47a64ec0740ba1ba66f764fd17a59026c3b4243562f69b7432d6807b8499bc80c7893a44c730ae722b1299435d33bd199d14487b7a340792f9b0068351d2e765ee6d69fc35317d82e50180cc17934fe1f4f41ac5e807e1aa52bba33064f349b28af1c1936f952de863a4240895ff4db4f1b9c07af04b184d2e43e04c3b89c25da903ced0f1a92e169c9600cb88d63a91b4e0f941ca9adbab3151aa24410a89e4fd358e528e90e069d9f69401e29a1968520d462027900a098e92a4ae8e8269c55138e37dce2ca86e8cde4e11b41158691cca42bcf50492bc9db034b6ef2471ddcfccdec5db2d2c1412f50becf4bf0ca46ce2e339739456b48cda517f4242faf3164769bf69b0293ab64aed2e3017f57a16c89f17dc4202a3ff34a4a34d056174117c1015aaf32d647adc7369b463158f3bc82fd522dc5b57c5727f14473752b8b68f70287c7666403ad98ef770ae9d599da73f0f4cf8c140f42a4b60d82bf6e653de9a9b9930aac9b415a380755fb1b7614a2c1333efc5d76156f50b1c3e11d9748107b15dd4a56c8560ce2b65b9226212e76833c8dfc2d378e27d243d096523abbc626bd147bed7925d83d1e224269fd78f60b3d1f877e9bb9d4cb22e5cd08f11563fea97afd691f2b5f40fe83728f1ac11fa4ba3d9e3b08f12d545d7f368f42e77b881a0059d079eb4c6be77fd478ff6b6469629527dadf9775c67c3c4c0ede659de6760a6ef44678cb0767874382108c8e3d0c2b865e111e5fc28cf1727680e26d535f453f14dbb9f27517397980400e28f25af683673a9bed44b08c39adbc2a9403a50ddefb53293963fbcdc8e36ea0f55f118055353fd504fda3d2b5f8c7c1aeddba921493e7a2b7b500dc35816b9079e7db1f27b9b3669615bf05dd1ad15d2aa8723cd1b944c603a1b08bcde41343232706c543a4c6baf4de1aed09d4bac039ee4369dce8df1eb95170ff141bfa7b74d7341a54cf1317b7c39c0e8dc95fd93c7ad06282e0b6c873b82c6e751ec9508ff77adf1b51e740985ec0a0bc1cf099f50a324f22144927441492ecec29c8fc078e0cc29e911b67d55be626232c2234af4e8824652ed0d360f3919cfd3c39a7b2f91ce64f9dd61f1bc6ea5095d8156f00987752aa123182e53c5e5d36403eed1e2523b300ab0e819593c674884b1c2f0e9fcfbc96859e30ea11ef3eb08e86248563f6573c4313d8a2c054a3ffcba0f1a69f3a80d88a7b6ff6579f7ec4140baca25313c041849ad9d97145f78674caa1be69c1a5197977d1b074701ea36605c6df94b33d9b2012a0edf2edf624b29ad2c3da8fb2c5aa89f00349723fa8df71ea97de25b411bdcb7e15f71b672d33c66e8cc34ef79ea1b9449c4536720b59b4b2c316b3f460cce39a0d142b5e0611d3b900fb480af77da85adc3d1831fcace5a80a76c10d84821abe32350dbab3a4853c42f50009da95564ae246ed139d13f9464256b7f801e510e1899b70c3274dbd76e8719b62d606eb1914db56cb9283c2a9c95df6090f9ef4637888166b5b58ce15d20b23b05439edf5076f0d412f58d2e7d61d18e986c1998f398f370a9c008d0df4c7bb2c26d0548d5989aea43e0136cbc7f2da17d7e7a23247c629601e7019b47a7f4d93e4451c3c98024c44a8328091effd48c4552f2a5d0e80054678a46fbc8111ffb2f78da3141e5d0f780a37135dedb0da44f27b069c13330a657e8c3b7c41b3b91ee3b85b173c8c1b088fad4109cdeea2190bc1096509a491696a915064cebf1da99eddd807c579fd2a93e21b6e328f191f679f02d7e329e83e6a3b9041e2b950ab50eb6191a0644415c4099bdb4c2f6610030bc2902a123e615dc61309524c8665f3f33ee00cecfc08ab38a2282c513857285872da4c6f5d6d0d87d86175dfec0c590889dcd6c546df5e6fb512036c87a2c7f178cbade04c6c91d460a643d45d15125f8a68b7282f82b4400ddfbad3977bc2095927aa479edda3e2fcf0c8e4667e039e83c2c862b1fbc09fd4127514fb94c8bad7d00292949df089b7bed09ddcd1ac68f67dc75b8ca2a78eec63f1e7a73407b087fb07023683c292e000b67b2bf916f5a7a54342906be824e36f6d6155979132de0d12ac5ae144c270ee6af2f4f2c659133399165ba242f58404902b8f666109aa6aa7b43e7630689aedfc9bbf7ee7eea788c865ebc8081d2e0e547d5f562a6da3a514c67cab5126789e45f2bffe1d5471fb253fa1b463ca7adc47722f1be9ffbd2bbed716f755f0586187b9c4070d5941c0fe12a9d8a9c622ff9d04f00a8e0db5e777f41cf73737f769f5d9fff73381286be740f07c64e7a226f8456a11bde110eba821dba8ce006c19d6ccabe0f6718e84289399849ac01238bf1f32c562a85e99394db73eb3cb63eb6d449d8f3586136a0c3e1d659cc689fa44a07c218fb1520d2c8672fe8fb62e56a59403644538cc6efb880f758de177139b442fb7271b94f914483f97d33deb25d4851314d1e2cde814ec2be1ed8af0bb58f0113514584ccd4e2c0807ae92ec54a66fec2f92af5f8d44e2d75b1678fbc2cda41d0bd5ce12853a40b5f898372bbe9599ad08edd8db30b704badd3ca29a46b30e0b6ac78fb9c93d8b82bfaca6f28b4d308d4b9e505818bddf47c5cd1d1b645c2a0762c23f7343b12c2147cecbd93f82a1ba6fd07a09be909937ec2271fc1d43370209c284c220f7dc5701763d754457639800aea9c54c8be341a8e9d7e9e2b9311b48373f57cbdc876ee1b61adc1731e914fe9ff4a8a4a61b8b8882162561f81f7cbf2227656c6150f406747a5663078a61f279479fa55da0d7d7aabc49099e0a4706fed2870d35a5ff329bdb15dd594e78986edca377ec0506df52fc001836c45ab0e2f8449d475b07bb43dcc28f661c9a186e19b940f5cc8a0e2189aab79765afffed83692029aa7cde4cc63839e747a9ef4c434e94020e2e2ee458f2aed384174b4528e41f370c39a4c377242026c46600c6718e9283e30f3f7162f240adc511e4565ff2db56f7fb08af9d35ec5ffbd316a68056dab5c8a7e8994a5a9dfb9e95d7bd4c6afc33b1897b5a92215284c31137acf17c693e5e7c220dd73eb3c10e61967e67f92ba1bf199ae091da0c1ac7a6edbf203a2452c7e31e120802d5dc53a25b5a72fb87818aa12a56c12f0f7c91bfae0fbda72b28c3b95ecf2b1c036f50acd5fc0423daad96b8067abac5b1f402aeda48bb9e75bad86c9ef7cfa9ad93d3068894487f1a3a5c7620b598efd8b777dce4c47456db62ef8e9a81c2431bb2eb1abca4db531dc9aac8ba4a6cc0176c9c8a032b8ba74dce7e2b6f51cf1d26d8bfb13fcc72ab958b5729e9c04bc6e14cbcd76c9437bce2aa2d189019faa61c56e756fa2c2ab55a6cc39f470923d15821ccf1816743d3e4e606cbacb6775f5aabeb07001e4e2481a70e51852a40a89b6a36735a6e35a7eedd3658719eb46817cfe691b5e0458c9cffc1549f3ad3bf1b61fe26aca3d263338781133c4321f9b6e9f94fd6dd3336f9625481e5fc82bb0b0b174e62067c06583577bfb5495ee6da20e35f7901d13a2bad456bf79e166ad5c294d798250806fe215ddbf7cc85c3e3cb7316673d7b770d69184ab51fcc812bbaf204d1825595b2dfed88a72b8fd8be0c34be9a37289494770fee8c257d8071bff8bd1c39299979f4bfe13bdcfc45c94fb267492e7ea4bb2f0d1809303769aad231997a345b8545365391f0c4a134303de3f9ba4a6170a9bf3afb19a0018031c4d486247c921f410516d0ce450739ac429df23869dbbc16fc874f8bfc111300b8541730d52b6fefd08b2b1d2ef4f095453446c771df2da651d7276ded85548d83b0ab84331549f700d9f4b5f9375a64426188d129085a70bf445c1a5baf885e9b7de7eb70592822e5355e27a91734681fcba4df6d0faba96fd5535a30c8ac570fc928779e78dc7b3d0b96d9e53e7c037276fc777b8f869dd1d501cb71f1842b75de752309f44942b1142465679dfc8c97a56162e756b0b001ac3ceb3f92cae2da44c3c64e73ebb37671780b4032801daf6064bb199259adca43383e143f766074e6592e182115f76def6ca9ea25e9cd1ee24fa03ae2518e7666b40e855f51f9d6ae527e46179aa0ee3572849c5e32afca7fcb07ae81d68aee69f7246b048c4466bb655c41ed1397e18a78501e34ad54cc32856edfecc6cf0aa7c31d093587b7afc1d39e372923555480da70fd46e2a4c0f45457e4943d77dcf4f0125dd2b86b80bd3c7cc8040a229ae2b894e2d58b63500885066d9365b66478e5584d0b638364008d741b79620018617fdda557ab8079d3c2203cd982179678dc28aadcfaea7e3dd7b23e323c1ca799a617eb7be2b4fa69daef5248cd205ed665a9c0e223b25527d0e013bf937c69dafd03c446eb9728c73a4cd51a94da6b6a944287a7aa82cf5c8ee81ab16d23d91d18639da9f32133db8aae131bf026921ce8b497955224732db666ff0275a823fdd4fe5efddf1cb6e7409d2a6d469edb71493324f8611fbc65b5fc8ed37cedd0d24b2e73002572d3bed71ecd1edfb65082a3b17c70286e296fc80351d8c9cd78641b3e4947985d9d0d15d67488a733c1c42247534eefa25314c4ff9369c0bc8ad2f16190c97829c1396c88b018c72e9945db4dcee1156aee83bf6e2691678cdb58216e6fc8c160a1ff3ae40d53029a30c119d493a0bc3e049371950f70ad74d9012c74f89cadbb84bea412f624d0f94b741be0823f58fcab8e7bb6c4a33a0e885245385513d72a88087f4c7a6b8780abe6716cf32f42d83e1cab1f614823e1166cd68ea1a1372e6868df0b39a70a367e92e1c17ec62c8a38d359e4d503842c2ed6787037d2f5545b62865474bece9279dffe223c249f68ac4c484bde125c1a5cd8f9423d7284d7040dbfc99152b99957ea3d557e697360d1ce8a8a37e15c16a7c0473615661247c78d1d93e4653b127151f38d9666c98401ae0823a39797c4d7b689ab6b85383de697cc3ab33e08177d5038ce7a7a4e7b80e1e564f923f8db8fe7b672f739c285182b250367ad8a36d6104c77651d56c3098292ceacd3b47b5eb23a83f06fbb9dca6ddd6a06b25ab70c61ca56005754654c29ea0564d9b3564d89308e037416b83d1b390f8f4f8b1999fdd866592bc20638513e8040b1df6b3a4133574fd880c9312c02c84ec496d3eae6c801b76719adb7d712477e8dcdab3a2d3159e2f5728bb8ece5ca262c37e0d98fbc3fc4ee0e25ce401eef3a0318d483777a12ed9b110c6063a05428bc35d5b66856e6b1e143a836f01b87970594d785a605818ebd127643621a20686e2d337d8273e1d747e435b593d760124893bfb1f0e5c72726b96c5f4a83bbcfb2d00ce58ed541e5739c00957b35b46e029612a22f2867b5b42d912cc5f2e02b19ec92fddfd53123b989769e1976d7c7c135e52134723eb52259445045e024370ffc66d9e70e3e6bbd126522fb46769310e971d2d0c16e5eea3cb1f5a437030f0b79d51f1cf35218d7867713eee633502c69324f571f2e1bbd3e46c84334ad52e748c038adc52c26f1bf2da593c786bf1f670fb7dd49ef9f6b1ad1c9c0a5f8278aab9db973a37937d8514fd2ea18c4e2c5e789ff979b6adee73398b6cf088fb20cb72647814cf0fec29b53550bbeb715375864da3a828ec13a8a5e610dabbbcaa4f58e856d25b48d240a53c8bade6c6d11572f9157309f02520acc9a5b748846ff1be2e29e9c478382e544f340d2c78133c4c7b64890eb547ce3d3fb4b1c621d4bfc3ca862d319fa05e364bd8ef0ef8d8ced5c1f3787e77981b87250992c7fea094b0c48971063374ea891aa824252189a12204ab6799ce2fb694ca44ea8c759bff615f1fc2e7c66ed1c842b1fac8491e5d294aca793d7dc22f55ceb2dacefa487821a7042c84a289b472776a34360eea58f59c2fae2f1d45d55b893bef7eede841baffff8261e979338b6a56ed491d498deb7b74fcf2dd219b384ac2a855cdb187851ce824392a49badd00ca49559e3d715b27e24cd472730030bb4729e9ef89c98bd0590257667a48736ad0ba74e4874177151f3f0ad482c19e6aaf9fd524abe8a8d85ec6584f32316499ca53dc3544fb5eb12e5b93035eb88719db6cdc966d8788821baa97944a1ce59d8e5fd47804d7f6502ec94ec7d703</script></div><script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">]]></content>
-    
-    <summary type="html">
-    
-      Here&#39;s something encrypted, password is required to continue reading.
-    
-    </summary>
-    
-    
-      <category term="其它" scheme="http://mechanicalmind.cn/categories/%E5%85%B6%E5%AE%83/"/>
-    
-      <category term="柴米" scheme="http://mechanicalmind.cn/categories/%E5%85%B6%E5%AE%83/%E6%9F%B4%E7%B1%B3/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>操作系统・〇・总论</title>
-    <link href="http://mechanicalmind.cn/posts/232ed1d5.html"/>
-    <id>http://mechanicalmind.cn/posts/232ed1d5.html</id>
-    <published>2019-12-20T07:35:40.000Z</published>
-    <updated>2019-12-19T16:00:00.000Z</updated>
-    
-    <content type="html"><![CDATA[<p><img src="" /></p><center>操作系统的历史和基本概念。</center><a id="more"></a><p>操作系统（Operating System，OS）是计算机硬件上的第一层软件，是计算机必须配置的最基本、最重要的系统软件。</p><h1 id="设计目标与主要功能">设计目标与主要功能</h1><p>我们希望有种东西能让用户通过I/O系统操作计算机而不是从硬件接口输入机器代码（打孔纸带啥的）从而使计算机更易用（<strong>方便性</strong>），且通过合理调度提高效率（<strong>有效性</strong>），现在软硬件啥的更新换代都贼快，我们还希望它能具有模块化、层次化、微内核结构等设计以易于升级和扩展（<strong>可扩展性</strong>），并能遵循一些通用规范使不同软硬件厂商的产品都能跑（<strong>开放性</strong>）。这个东西就是操作系统。</p><p>方便性（用户角度，OS是用户和计算机硬件系统之间的接口）和有效性（资源管理角度，OS是计算机系统资源（软、硬）的管理者）是设计OS的两个最重要的目标（即综合以上两个角度，实现对计算机资源——<strong>处理器</strong>、<strong>存储器</strong>、<strong>I/O设备</strong>、<strong>数据和程序</strong>——的抽象）。</p><p>对四种计算机资源的抽象，或叫管理，再加上方便用户使用的界面，构成了操作系统的主要功能：</p><ul><li>处理机管理功能，基本就是对进程的管理，主要是创建和撤销（控制）、协调不同进程（同步）、信息交换（通信）和分配处理机（调度）啥的；</li><li>存储器管理功能，分配和保护内存、映射地址、虚拟存储啥的；</li><li>设备管理功能，完成I/O请求即提升I/O的效率和用户体验；</li><li>文件管理功能，存储空间和目录的管理、读写和保护；</li><li>用户接口，命令接口（用户直接控制自己的作业）、程序接口（程序向系统请求服务）。</li></ul><p>除此之外，一个现代的操作系统还应具能保护自己的安全、支持多媒体、访问网络等服务。</p><h1 id="运行机制">运行机制</h1><p>从上面可以看出，操作系统和用户要跑的程序是相对独立的，用户程序该干啥干啥，OS负责进程创建啥啥啥的一堆操作，而恰好这堆操作又是很关键、很危险、消耗资源很多的，所以处理机就搞了个分级制度，例如x86一共有0-3四个级别，0特权级最高，3特权级最低。Windows、Linux/Unix之类仅使用特权级0和特权级3，特权级0叫<strong>管态</strong>，干啥都行，3叫<strong>目态</strong>，只有最低级的权限。</p><p>自然，用户的程序就是运行在管态下的，OS主要运行在目态下，这部分叫OS内核，主要包括：</p><ul><li>时钟管理</li><li>中断机制</li><li>操作原语</li><li>系统控制所需的数据结构及处理</li></ul><p>在目态下可通过系统调用、异常、中端三种方式进入管态。</p><h1 id="发展过程">发展过程</h1><p>最早的计算机没有操作系统，打孔纸带那种；因为太慢，后来可以先从外围机上输入到磁带，主机再从磁带调用；然后有了对磁带里的程序的监督程序，勉强算是操作系统了，但是还是要一个作业完成再调用下一个程序，所以叫“单道”批处理系统。</p><p>问题在于，比方说一个作业中间要打印结果，但打印的时候处理机就闲着了。于是有了“多道”批处理系统，打印的时候再调用下一个程序跑。问题又来了，最开始的程序打印完之后的半截就得等鬼知道啥时候再被调用，用户也控制不了，于是资源调度、设备分配、用户接口等原来越复杂与完善，成了真正的OS。</p><p>后来人们不满足与多人共用一台计算机，还得等，要是不用等（实时）多好，但世界上只有一种病，自己又买不起，于是有了分时系统。比方说现在有100个进程处于就绪状态，如果让处理机每20ms换一个进程执行的话那最多等两秒自己的程序就能跑了，激不激动。这就叫分时，那20ms就叫时间片的长度。</p><p>喝不上牛奶的时候我想喝牛奶，等喝上了牛奶我还想用牛奶泡澡。人的欲望是无止境的，于是后来又有了实时系统。对操作系统各方面要求更高。</p><p>结构设计上经历了如下变革：</p><ol type="1"><li>无结构</li><li>模块式结构</li><li>层次式结构</li><li>微内核结构</li></ol><p>微内核最近很火，被牢厂营销起来了。传统的操作系统，例如Linux，其内核包含有前面说的所有功能，但微内核只包含开关机、进程调度等最最基础的功能，而尽可能把其它功能放到目态。这样显然会变慢，所以以前没啥人做，不过现在科技发达了，所以技术实力强的公司开始作出尝试，例如谷歌基于Zircon的微内核的Fuchsia。</p><p>不太理解这个东西和“模块化的内核”有啥区别，现在OS内核也都模块化了啊。</p><p>还是太菜了。</p><h1 id="基本特性">基本特性</h1><p>OS最重要的特征是<strong>并发</strong>（两个或多个事件在同一时段发生，不需要同一时刻，同一时刻叫并行）。OS为每个程序建立一些由一组机器指令、数据和堆栈等组成的活动实体，这些活动实体叫进程，多个进程之间可以并发执行并交换信息，也可以共同使用系统资源（<strong>共享性</strong>，不一定是同时的，比方说一个打印机打着别的程序的文档呢肯定另一个程序不能用，还有表、栈等数据结构一个道理，这种叫临界资源，其共享方式叫互斥共享；相反就叫同时访问的共享）。也就是说，并发是共享的基础。但共享也影响并发，资源共享都协调不好并个毛线发不死循环就不错了。这俩是最重要的特征。</p><p>由于进程的并发及其之间的资源共享，一个进程难免因为其它进程的干扰等了好久才获取资源完成任务，谁也说不准。这个叫<strong>异步性</strong>。</p><p>OS的另一个重要特征是<strong>虚拟</strong>，想要抽象地表示计算机资源，把物理实体映射为逻辑上的概念就很重要，比如虚拟处理机（一核假装成四核）、虚拟内存（磁盘假装是内存）、虚拟外部设备（共享打印机）和虚拟信道等。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;&quot; /&gt;&lt;/p&gt;
-&lt;center&gt;
-操作系统的历史和基本概念。
-&lt;/center&gt;
-    
-    </summary>
-    
-    
-      <category term="深蓝" scheme="http://mechanicalmind.cn/categories/%E6%B7%B1%E8%93%9D/"/>
-    
-      <category term="操作系统" scheme="http://mechanicalmind.cn/categories/%E6%B7%B1%E8%93%9D/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
-    
-    
-      <category term="操作系统" scheme="http://mechanicalmind.cn/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
     
   </entry>
   
