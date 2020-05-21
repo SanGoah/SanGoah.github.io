@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://mechanicalmind.cn/tools/index.html</loc>
+    
+    <lastmod>2020-05-21T07:05:22.230Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://mechanicalmind.cn/posts/d5919c41.html</loc>
     
     <lastmod>2020-05-06T08:03:28.000Z</lastmod>
@@ -40,34 +47,6 @@
     <loc>http://mechanicalmind.cn/posts/33d846cd.html</loc>
     
     <lastmod>2020-03-16T09:24:55.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://mechanicalmind.cn/mergeableCalendar/index.html</loc>
-    
-    <lastmod>2020-02-23T14:26:59.039Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://mechanicalmind.cn/deepBreath/index.html</loc>
-    
-    <lastmod>2020-02-23T14:06:32.923Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://mechanicalmind.cn/mergeableCalendar/archive.json</loc>
-    
-    <lastmod>2020-02-22T14:43:56.715Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://mechanicalmind.cn/deepBreath/index.html</loc>
-    
-    <lastmod>2020-02-15T11:04:51.824Z</lastmod>
     
   </url>
   
