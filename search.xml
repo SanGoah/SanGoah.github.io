@@ -1,11 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>实验一：数据排序</title>
+    <url>/posts/ad5f8869.html</url>
+    <content><![CDATA[<p><img src="" /></p>
+<center>
+在Keil中调试冒泡。
+</center>
+<a id="more"></a>
+<h1 id="环境">环境</h1>
+<ul>
+<li>Keil µVision3</li>
+</ul>
+<h1 id="代码">代码</h1>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ORG 0000H</span></pre></td></tr><tr><td class="code"><pre><span class="line">LJMP MAIN</span></pre></td></tr><tr><td class="code"><pre><span class="line">ORG 0100H</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">MAIN:</span></pre></td></tr><tr><td class="code"><pre><span class="line">	MOV R0, #30H	;R0&#x3D;数据起始地址</span></pre></td></tr><tr><td class="code"><pre><span class="line">	MOV R7, #09H	;R7&#x3D;数据个数</span></pre></td></tr><tr><td class="code"><pre><span class="line">LP1:</span></pre></td></tr><tr><td class="code"><pre><span class="line">	MOV A, R7</span></pre></td></tr><tr><td class="code"><pre><span class="line">	MOV R6, A		;R6&#x3D;R7</span></pre></td></tr><tr><td class="code"><pre><span class="line">	MOV A, R0</span></pre></td></tr><tr><td class="code"><pre><span class="line">	MOV R1, A		;R1&#x3D;R0</span></pre></td></tr><tr><td class="code"><pre><span class="line">	INC R1			;++R1</span></pre></td></tr><tr><td class="code"><pre><span class="line">LP2:</span></pre></td></tr><tr><td class="code"><pre><span class="line">	MOV A, @R0		;A&#x3D;(R0)</span></pre></td></tr><tr><td class="code"><pre><span class="line">	CLR C			;清进位标志</span></pre></td></tr><tr><td class="code"><pre><span class="line">	SUBB A, @R1</span></pre></td></tr><tr><td class="code"><pre><span class="line">	JC LP3			;if(A&lt;&#x3D;(R1)) goto LP3</span></pre></td></tr><tr><td class="code"><pre><span class="line">	MOV A, @R0</span></pre></td></tr><tr><td class="code"><pre><span class="line">	XCH A, @R1</span></pre></td></tr><tr><td class="code"><pre><span class="line">	MOV @R0, A		;swap((R0),(R1))</span></pre></td></tr><tr><td class="code"><pre><span class="line">LP3:</span></pre></td></tr><tr><td class="code"><pre><span class="line">	INC R1			;++R1</span></pre></td></tr><tr><td class="code"><pre><span class="line">	DJNZ R6, LP2	;if(--R6) goto LP2</span></pre></td></tr><tr><td class="code"><pre><span class="line">	INC R0			;++R0</span></pre></td></tr><tr><td class="code"><pre><span class="line">	DJNZ R7, LP1	;if(--R7) goto LP1</span></pre></td></tr><tr><td class="code"><pre><span class="line">	SJMP $</span></pre></td></tr><tr><td class="code"><pre><span class="line">END</span></pre></td></tr></table></figure>
+<h1 id="步骤">步骤</h1>
+<ol type="1">
+<li>编程，编译，链接，调试；</li>
+<li>为30H～39H赋初值：在命令行中键入<code>E CHAR D:30H＝10个数逗号隔开</code>后回车；</li>
+<li>将光标移到语句行SJMP $处，点击命令，将程序运行到该行；</li>
+</ol>
+]]></content>
+      <categories>
+        <category>51单片机</category>
+      </categories>
+  </entry>
+  <entry>
     <title>51单片机开发环境配置</title>
     <url>/posts/d5919c41.html</url>
     <content><![CDATA[<p><img src="" /></p>
 <center>
-Keil µVision4 + Proteus ISIS.
+Keil µVision3/4 + Proteus ISIS.
 </center>
 <a id="more"></a>
 <h1 id="环境">环境</h1>
@@ -19,7 +44,7 @@ Keil µVision4 + Proteus ISIS.
 <p>本来是打算安装官方的面向学习者的Lite版本，但是官网的下载页面打不开……</p>
 <p>Keil的安装包有“MDK”后缀和“C51”后缀两种，分别对应ARM的芯片和8051的芯片。一开始搞错了，使用了<code>MDK412</code>的版本。</p>
 <p>首先正常安装安装包（wine挺慢的，要等很久才能打开），然后正常打开，进入<code>File</code>-&gt;<code>License Management</code>，复制CID，打开注册码生成机，输入CID，选ARM，生成注册码再输回去即可。</p>
-<p>之后才发现这个版本的uVision貌似不带51单片机相关的开发套件，于是又找到了<code>c51v802</code>版本来安装，两次安装到一个文件夹，完成后发现生成了新的快捷方式，但两个软件自动合并了，再次打开原先的快捷方式，发现已经可以建立51单片机相关的工程了。</p>
+<p>之后才发现这个版本的uVision貌似不带51单片机相关的开发套件，于是又找到了<code>c51v802</code>版本来安装，两次安装到一个文件夹，完成后发现生成了新的<code>c51v802</code>的快捷方式，但再次打开原先<code>MDK412</code>的快捷方式，发现已经可以建立51单片机相关的工程了，但在<code>MDK412</code>中调试会提示不兼容，如果有P1等寄存器连编译都通不过。</p>
 <p>关于Keil的使用，先新建一个页面，写入代码，保存（汇编就<code>.asm</code>后缀、c51就<code>.c</code>后缀），在项目上右键添加到项目，就可以编译了。</p>
 <p>编译的时候要注意设置，一是在<code>Device</code>选项卡中把两个框都勾上，否则报错“FATAL ERROR L210”；二是在<code>Output</code>选项卡中勾上“Create HEX File”。</p>
 <h1 id="proteus">Proteus</h1>
@@ -2396,9 +2421,9 @@ MyEclipse的安装。
         <category>JSP</category>
       </categories>
       <tags>
-        <tag>JSP</tag>
         <tag>MyEclipse</tag>
         <tag>Java</tag>
+        <tag>JSP</tag>
       </tags>
   </entry>
   <entry>
@@ -4231,8 +4256,8 @@ action跳转至页面、URL或另一个action。
         <category>Struts2</category>
       </categories>
       <tags>
-        <tag>JSP</tag>
         <tag>MyEclipse</tag>
+        <tag>JSP</tag>
         <tag>Struts2</tag>
       </tags>
   </entry>

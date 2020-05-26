@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://mechanicalmind.cn/"/>
-  <updated>2020-05-06T08:03:28.000Z</updated>
+  <updated>2020-05-25T07:40:24.000Z</updated>
   <id>http://mechanicalmind.cn/</id>
   
   <author>
@@ -17,19 +17,43 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>实验一：数据排序</title>
+    <link href="http://mechanicalmind.cn/posts/ad5f8869.html"/>
+    <id>http://mechanicalmind.cn/posts/ad5f8869.html</id>
+    <published>2020-05-25T07:40:20.000Z</published>
+    <updated>2020-05-25T07:40:24.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="" /></p><center>在Keil中调试冒泡。</center><a id="more"></a><h1 id="环境">环境</h1><ul><li>Keil µVision3</li></ul><h1 id="代码">代码</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">ORG 0000H</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">LJMP MAIN</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">ORG 0100H</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">MAIN:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">MOV R0, #30H;R0&#x3D;数据起始地址</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">MOV R7, #09H;R7&#x3D;数据个数</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">LP1:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">MOV A, R7</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">MOV R6, A;R6&#x3D;R7</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">MOV A, R0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">MOV R1, A;R1&#x3D;R0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">INC R1;++R1</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">LP2:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">MOV A, @R0;A&#x3D;(R0)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">CLR C;清进位标志</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">SUBB A, @R1</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">JC LP3;if(A&lt;&#x3D;(R1)) goto LP3</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">MOV A, @R0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">XCH A, @R1</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">MOV @R0, A;swap((R0),(R1))</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">LP3:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">INC R1;++R1</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">DJNZ R6, LP2;if(--R6) goto LP2</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">INC R0;++R0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">DJNZ R7, LP1;if(--R7) goto LP1</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">SJMP $</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line">END</span></pre></td></tr></table></figure><h1 id="步骤">步骤</h1><ol type="1"><li>编程，编译，链接，调试；</li><li>为30H～39H赋初值：在命令行中键入<code>E CHAR D:30H＝10个数逗号隔开</code>后回车；</li><li>将光标移到语句行SJMP $处，点击命令，将程序运行到该行；</li></ol>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;center&gt;
+在Keil中调试冒泡。
+&lt;/center&gt;
+    
+    </summary>
+    
+    
+      <category term="51单片机" scheme="http://mechanicalmind.cn/categories/51%E5%8D%95%E7%89%87%E6%9C%BA/"/>
+    
+    
+  </entry>
+  
+  <entry>
     <title>51单片机开发环境配置</title>
     <link href="http://mechanicalmind.cn/posts/d5919c41.html"/>
     <id>http://mechanicalmind.cn/posts/d5919c41.html</id>
     <published>2020-05-06T08:03:28.000Z</published>
     <updated>2020-05-06T08:03:28.000Z</updated>
     
-    <content type="html"><![CDATA[<p><img src="" /></p><center>Keil µVision4 + Proteus ISIS.</center><a id="more"></a><h1 id="环境">环境</h1><p>一开始打算通过安装native Linux的软件来配置开发环境，例如SDCC等，但最后发现还是通过wine安装windows的软件最方便。环境如下：</p><ul><li>wine 5.7-1</li><li>winetricks 20200412-1</li></ul><p>开发环境主要有两个部分，一是Keil µVision，为ARM旗下的KEIL公司开发的一个IDE；二是Proteus，为Lab Center Electronics公司推出的电子设计自动化（EDA）软件，主要用到其ISIS组件的仿真功能。</p><h1 id="keil">Keil</h1><p>本来是打算安装官方的面向学习者的Lite版本，但是官网的下载页面打不开……</p><p>Keil的安装包有“MDK”后缀和“C51”后缀两种，分别对应ARM的芯片和8051的芯片。一开始搞错了，使用了<code>MDK412</code>的版本。</p><p>首先正常安装安装包（wine挺慢的，要等很久才能打开），然后正常打开，进入<code>File</code>-&gt;<code>License Management</code>，复制CID，打开注册码生成机，输入CID，选ARM，生成注册码再输回去即可。</p><p>之后才发现这个版本的uVision貌似不带51单片机相关的开发套件，于是又找到了<code>c51v802</code>版本来安装，两次安装到一个文件夹，完成后发现生成了新的快捷方式，但两个软件自动合并了，再次打开原先的快捷方式，发现已经可以建立51单片机相关的工程了。</p><p>关于Keil的使用，先新建一个页面，写入代码，保存（汇编就<code>.asm</code>后缀、c51就<code>.c</code>后缀），在项目上右键添加到项目，就可以编译了。</p><p>编译的时候要注意设置，一是在<code>Device</code>选项卡中把两个框都勾上，否则报错“FATAL ERROR L210”；二是在<code>Output</code>选项卡中勾上“Create HEX File”。</p><h1 id="proteus">Proteus</h1><p>笔者所使用的安装包来自<a href="http://www.pc6.com/softview/SoftView_55565.html" target="_blank" rel="noopener">这里</a>，按说明安装即可（但是汉化完后少部分字符会乱码，似乎是wine的问题，注意备份原文件）。</p><p>安装完成后可以导入<code>.DSN</code>工程文件，导入工程文件后可在其单片机上双击调出属性窗口，导入<code>.HEX</code>文件；工程文件可能指定了<code>.ASM</code>文件的路径，需要在<code>源代码</code>-&gt;<code>添加/删除源文件</code>处删除之。</p><p>开始调试后在<code>调试</code>菜单最下面几行可以打开看内存的值。</p><h1 id="小结">小结</h1><p>至此，51单片机开发环境配置完毕。</p>]]></content>
+    <content type="html"><![CDATA[<p><img src="" /></p><center>Keil µVision3/4 + Proteus ISIS.</center><a id="more"></a><h1 id="环境">环境</h1><p>一开始打算通过安装native Linux的软件来配置开发环境，例如SDCC等，但最后发现还是通过wine安装windows的软件最方便。环境如下：</p><ul><li>wine 5.7-1</li><li>winetricks 20200412-1</li></ul><p>开发环境主要有两个部分，一是Keil µVision，为ARM旗下的KEIL公司开发的一个IDE；二是Proteus，为Lab Center Electronics公司推出的电子设计自动化（EDA）软件，主要用到其ISIS组件的仿真功能。</p><h1 id="keil">Keil</h1><p>本来是打算安装官方的面向学习者的Lite版本，但是官网的下载页面打不开……</p><p>Keil的安装包有“MDK”后缀和“C51”后缀两种，分别对应ARM的芯片和8051的芯片。一开始搞错了，使用了<code>MDK412</code>的版本。</p><p>首先正常安装安装包（wine挺慢的，要等很久才能打开），然后正常打开，进入<code>File</code>-&gt;<code>License Management</code>，复制CID，打开注册码生成机，输入CID，选ARM，生成注册码再输回去即可。</p><p>之后才发现这个版本的uVision貌似不带51单片机相关的开发套件，于是又找到了<code>c51v802</code>版本来安装，两次安装到一个文件夹，完成后发现生成了新的<code>c51v802</code>的快捷方式，但再次打开原先<code>MDK412</code>的快捷方式，发现已经可以建立51单片机相关的工程了，但在<code>MDK412</code>中调试会提示不兼容，如果有P1等寄存器连编译都通不过。</p><p>关于Keil的使用，先新建一个页面，写入代码，保存（汇编就<code>.asm</code>后缀、c51就<code>.c</code>后缀），在项目上右键添加到项目，就可以编译了。</p><p>编译的时候要注意设置，一是在<code>Device</code>选项卡中把两个框都勾上，否则报错“FATAL ERROR L210”；二是在<code>Output</code>选项卡中勾上“Create HEX File”。</p><h1 id="proteus">Proteus</h1><p>笔者所使用的安装包来自<a href="http://www.pc6.com/softview/SoftView_55565.html" target="_blank" rel="noopener">这里</a>，按说明安装即可（但是汉化完后少部分字符会乱码，似乎是wine的问题，注意备份原文件）。</p><p>安装完成后可以导入<code>.DSN</code>工程文件，导入工程文件后可在其单片机上双击调出属性窗口，导入<code>.HEX</code>文件；工程文件可能指定了<code>.ASM</code>文件的路径，需要在<code>源代码</code>-&gt;<code>添加/删除源文件</code>处删除之。</p><p>开始调试后在<code>调试</code>菜单最下面几行可以打开看内存的值。</p><h1 id="小结">小结</h1><p>至此，51单片机开发环境配置完毕。</p>]]></content>
     
     <summary type="html">
     
       &lt;p&gt;&lt;img src=&quot;&quot; /&gt;&lt;/p&gt;
 &lt;center&gt;
-Keil µVision4 + Proteus ISIS.
+Keil µVision3/4 + Proteus ISIS.
 &lt;/center&gt;
     
     </summary>
@@ -489,34 +513,6 @@ JSP+Servlet+MySQL实现图书管理系统。
       <category term="进程" scheme="http://mechanicalmind.cn/tags/%E8%BF%9B%E7%A8%8B/"/>
     
       <category term="死锁" scheme="http://mechanicalmind.cn/tags/%E6%AD%BB%E9%94%81/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>apk文件的反编译</title>
-    <link href="http://mechanicalmind.cn/posts/dca81ae.html"/>
-    <id>http://mechanicalmind.cn/posts/dca81ae.html</id>
-    <published>2019-12-22T11:06:10.000Z</published>
-    <updated>2019-12-22T11:06:10.000Z</updated>
-    
-    <content type="html"><![CDATA[<p><img src="" /></p><center>dex2jar、jd-GUI和apktool的简单介绍。</center><a id="more"></a><p>环境：</p><ul><li>Manjaro Linux 18.1.0</li><li>dex2jar 2.1</li><li>jd-GUI 1.6.5-min</li><li>apktool 2.4.1</li></ul><p>下载<a href="https://github.com/pxb1988/dex2jar" target="_blank" rel="noopener">dex2jar</a>，注意下载release版本，解压得一个文件夹，里面有许多<code>.sh</code>，对应不同功能。其中的<code>d2j-dex2jar.sh</code>可以由<code>.dex</code>文件反编译出<code>.jar</code>文件，即apk的源程序字节码。</p><p>解压apk，得到文件夹，里面的<code>.dex</code>丢到那堆<code>.sh</code>的同级目录下，<code>sh d2j-dex2jar.sh classes.dex</code>即可得到<code>.jar</code>。</p><p>下载<a href="http://java-decompiler.github.io/" target="_blank" rel="noopener">jd-GUI</a>（这个网站时好时坏经常404，网速也差，我下的1.6.5的min版），<code>java -jar jd-gui-1.6.5-min.jar</code>（要给权限）可以打开一个GUI，把<code>.jar</code>拖进去即可查看<code>.jar</code>对应的源代码。</p><p>源代码之外的配置文件和资源通过<a href="https://ibotpeaches.github.io/Apktool/install/" target="_blank" rel="noopener">apktool</a>查看，官网有详细教程。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;&quot; /&gt;&lt;/p&gt;
-&lt;center&gt;
-dex2jar、jd-GUI和apktool的简单介绍。
-&lt;/center&gt;
-    
-    </summary>
-    
-    
-      <category term="戏法" scheme="http://mechanicalmind.cn/categories/%E6%88%8F%E6%B3%95/"/>
-    
-    
-      <category term="Android" scheme="http://mechanicalmind.cn/tags/Android/"/>
-    
-      <category term="反编译" scheme="http://mechanicalmind.cn/tags/%E5%8F%8D%E7%BC%96%E8%AF%91/"/>
     
   </entry>
   
