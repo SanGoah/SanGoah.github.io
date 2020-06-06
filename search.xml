@@ -1,6 +1,392 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>第六章：51单片机串行接口</title>
+    <url>/posts/ac2899d7.html</url>
+    <content><![CDATA[<p><img src="" /></p>
+<center>
+</center>
+<a id="more"></a>
+]]></content>
+  </entry>
+  <entry>
+    <title>第五章：51单片机定时/计数器</title>
+    <url>/posts/a3394965.html</url>
+    <content><![CDATA[<p><img src="" /></p>
+<center>
+</center>
+<a id="more"></a>
+]]></content>
+  </entry>
+  <entry>
+    <title>第四章：51单片机中断系统</title>
+    <url>/posts/46009304.html</url>
+    <content><![CDATA[<p><img src="" /></p>
+<center>
+</center>
+<a id="more"></a>
+]]></content>
+  </entry>
+  <entry>
+    <title>第三章：51单片机I/O接口</title>
+    <url>/posts/d1e12d51.html</url>
+    <content><![CDATA[<p><img src="" /></p>
+<center>
+</center>
+<a id="more"></a>
+]]></content>
+  </entry>
+  <entry>
+    <title>第二章：51单片机指令系统</title>
+    <url>/posts/8e95d8ee.html</url>
+    <content><![CDATA[<p><img src="" /></p>
+<center>
+</center>
+<a id="more"></a>
+<p>开始之前，先约定如下符号的含义：</p>
+<ul>
+<li>Rn（n=0～7）：当前工作寄存器R0～R7中的一个；</li>
+<li>Ri（i=0|1）：R0和R1寄存器中的一个，用作间接寻址寄存器；</li>
+<li>dir：8位直接地址（片内 RAM 和 SFR）</li>
+<li>#data：8位立即数，即8位常数。可以为2进制（B）、10进制、16进制（H）、字符（''）；</li>
+<li>#data16：表示16位立即数，取值范围为#0000H～#0FFFFH；</li>
+<li>addr16：表示16位地址；</li>
+<li>addr11：表示11位地址；</li>
+<li>rel：相对偏移量（为1字节补码）用于相对转移指令中；</li>
+<li>bit：位地址，在位地址空间中；</li>
+<li>$：表示当前指令的地址；</li>
+<li>(XXH)：用于注释中表示存储单元的内容。</li>
+</ul>
+<p>与在电脑上进行编程不同，51系列单片机指令系统的特点是不同的存储空间寻址方式不同，适用的指令不同，必须进行区分——因此相比电脑上的汇编，51的更加恶心。</p>
+<h1 id="寻址方式">寻址方式</h1>
+<h2 id="立即寻址">立即寻址</h2>
+<p>指令中直接给出操作数的寻址方式称为立即寻址。51单片机中立即数前面要加<code>#</code>，如8位数（#30H）或16位数（#2000H）。</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MOV A   ,#30H  ;A←30H，执行后A&#x3D;30H</span></pre></td></tr><tr><td class="code"><pre><span class="line">MOV DPTR,#2000H;DPTR←2000H，执行后DPTR&#x3D;2000H</span></pre></td></tr></table></figure>
+<h2 id="直接寻址">直接寻址</h2>
+<p>操作数的地址直接出现在指令中。寻址对象：</p>
+<ul>
+<li>内部数据存贮器：使用它的地址。</li>
+<li>特殊功能寄存器：既可使用它的地址，也可以直接使用寄存器名。</li>
+</ul>
+<p>例如地址41H处存储有数据78H、40H处存储有数据56H：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MOV A,40H  ; （40H）→A，执行后A&#x3D;56H</span></pre></td></tr><tr><td class="code"><pre><span class="line">MOV P0,41H ; （41H）→P0，执行后（80H）&#x3D;（41H）&#x3D;78H（寄存器P0的地址为80H）</span></pre></td></tr></table></figure>
+<h2 id="寄存器寻址">寄存器寻址</h2>
+<p>操作数存放在寄存器中，寻址对象：A，B，DPTR，Rn。</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MOV A,R0  ;R0→A，此处A、R0均为寄存器寻址</span></pre></td></tr><tr><td class="code"><pre><span class="line">MUL A,B   ;A*B→B，A、B均为寄存器寻址</span></pre></td></tr></table></figure>
+<h2 id="寄存器间接寻址">寄存器间接寻址</h2>
+<p>操作数存放在以寄存器内容为地址的单元中。在寄存器前加前缀标志<code>@</code>。注意：<strong>只有Ri和DPTR可以作为间址寄存器</strong>（也就是说只有它们前面可以加“@”）。</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MOV  R0,#20H       ;R0存放地址号码</span></pre></td></tr><tr><td class="code"><pre><span class="line">MOV  @R0,A         ;A→(20H)，执行后地址为20H的RAM&#x3D;A</span></pre></td></tr><tr><td class="code"><pre><span class="line">MOV  DPTR,#3000H  </span></pre></td></tr><tr><td class="code"><pre><span class="line">MOVX @DPTR,A       ;A→(3000H)，执行后地址为3000H的外部RAM&#x3D;A</span></pre></td></tr></table></figure>
+<h2 id="变址寻址">变址寻址</h2>
+<p>以DPTR或PC的内容加上A的内容之和为地址寻找操作数的寻址方式。它只有两条针对程序存储器的操作指令:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MOVC A,@A+DPTR  ;（A+DPTR） → A</span></pre></td></tr><tr><td class="code"><pre><span class="line">MOVC A,@A+PC    ;（A+PC） → A</span></pre></td></tr></table></figure>
+<h2 id="相对寻址">相对寻址</h2>
+<p>以PC寄存器加上偏移量形成新的PC值作为转移地址的寻址方式，仅用于相对转移指令:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SJMP 08 ;08+PC→PC</span></pre></td></tr></table></figure>
+<h2 id="位寻址">位寻址</h2>
+<p>寻址对象为片内RAM中20H～2FH中的128个位或SFR中的可位寻址的位，形式与直接寻址相同，究竟是位寻址还是直接寻址，由另一个操作数决定。</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MOV C,20H ;位寻址，位地址为20H的内容送CY标志位（C&#x3D;CY）</span></pre></td></tr><tr><td class="code"><pre><span class="line">MOV A,20H ;直接寻址</span></pre></td></tr></table></figure>
+<h1 id="数据传送指令">数据传送指令</h1>
+<h2 id="mov指令内部ramsfr之间的传送">MOV指令：内部RAM、SFR之间的传送</h2>
+<ul>
+<li>MOV A,Rn/dir/<span class="citation" data-cites="Ri">@Ri</span>/#data（只能传8位的数据）</li>
+<li>MOV dir,A/Rn/dir/<span class="citation" data-cites="Ri">@Ri</span>/#data（dir间是可以直接互传的）</li>
+<li>MOV Rn,A/dir/#data（Rn之间不行）</li>
+<li>MOV <span class="citation" data-cites="Ri">@Ri</span>,A/dir/#data（Rn不行）</li>
+<li>MOV DPTR,#data16</li>
+</ul>
+<h2 id="movx指令外部存储器和累加器a之间的传送">MOVX指令：外部存储器和累加器A之间的传送</h2>
+<ul>
+<li>MOVX <span class="citation" data-cites="Ri">@Ri</span>,A</li>
+<li>MOVX <span class="citation" data-cites="DPTR">@DPTR</span>,A</li>
+<li>MOVX A,<span class="citation" data-cites="Ri">@Ri</span></li>
+<li>MOVX A,<span class="citation" data-cites="DPTR">@DPTR</span></li>
+</ul>
+<p>例如实现(2000H)→(2100H)，使用DPTR：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MOV   DPTR  , #2000H</span></pre></td></tr><tr><td class="code"><pre><span class="line">MOVX  A     , @DPTR</span></pre></td></tr><tr><td class="code"><pre><span class="line">MOV   DPTR  , #2100H</span></pre></td></tr><tr><td class="code"><pre><span class="line">MOVX  @DPTR , A</span></pre></td></tr></table></figure>
+<p>使用Ri（Ri只能存8位数据）：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MOV  P2，#20H  ;高位地址</span></pre></td></tr><tr><td class="code"><pre><span class="line">MOV  R0，#00   ;低位地址</span></pre></td></tr><tr><td class="code"><pre><span class="line">MOVX A，@R0    ;读片外RAM</span></pre></td></tr><tr><td class="code"><pre><span class="line">MOV  P2，#21H  ;改变高位地址</span></pre></td></tr><tr><td class="code"><pre><span class="line">MOVX @R0，A    ;写片外RAM</span></pre></td></tr></table></figure>
+<h2 id="movc访问程序存储器指令">MOVC：访问程序存储器指令</h2>
+<p>主要用于查表，只能从程序存储器读取数据到A累加器，只能使用变址间接寻址方式。</p>
+<ul>
+<li>MOVC A，<span class="citation" data-cites="A+DPTR">@A+DPTR</span> ;A←(A+DPTR)，范围为64KB程序存储器任意空间；</li>
+<li>MOVC A，<span class="citation" data-cites="A+PC">@A+PC</span> ;A←(A+PC)，范围为该指令后256B范围内。</li>
+</ul>
+<p>例如想查表格中的第二个数：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MOV  A,#01</span></pre></td></tr><tr><td class="code"><pre><span class="line">MOV  DPTR,#TAB</span></pre></td></tr><tr><td class="code"><pre><span class="line">MOVC A,@A+DPTR</span></pre></td></tr><tr><td class="code"><pre><span class="line">RET</span></pre></td></tr><tr><td class="code"><pre><span class="line">TAB：</span></pre></td></tr><tr><td class="code"><pre><span class="line">DB 66H, 77H, 88H,99H</span></pre></td></tr></table></figure>
+<p>或者：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MOV  A,#02</span></pre></td></tr><tr><td class="code"><pre><span class="line">MOVC A,@A+PC ;取完该指令后PC指向RET，RET占一个字节，所以要再往后移两字节是77H</span></pre></td></tr><tr><td class="code"><pre><span class="line">RET</span></pre></td></tr><tr><td class="code"><pre><span class="line">DB 66H, 77H, 88H,99H</span></pre></td></tr></table></figure>
+<h1 id="堆栈操作指令">堆栈操作指令</h1>
+<p>51单片机的堆栈设在内部RAM，SP为堆栈指针，初始化时SP指向07H，入栈时SP自动加1，出栈时SP自动减1。堆栈操作指令如下：</p>
+<ul>
+<li>入栈指令：PUSH dir ;SP←SP+1，(SP) ←(dir)</li>
+<li>出栈指令：POP dir ;(dir)←(SP)，SP←SP-1</li>
+</ul>
+<h1 id="数据交换指令">数据交换指令</h1>
+<h2 id="字节交换指令">字节交换指令</h2>
+<ul>
+<li>XCH A，Rn</li>
+<li>XCH A，<span class="citation" data-cites="Ri">@Ri</span></li>
+<li>XCH A，dir</li>
+</ul>
+<p>即XCH指令中一个操作数必须是A。</p>
+<h2 id="低半字节交换指令">低半字节交换指令</h2>
+<ul>
+<li>XCHD A，<span class="citation" data-cites="Ri">@Ri</span></li>
+</ul>
+<h2 id="a的高低半字节交换指令">A的高低半字节交换指令</h2>
+<ul>
+<li>SWAP A</li>
+</ul>
+<h1 id="算术运算指令与逻辑运算指令">算术运算指令与逻辑运算指令</h1>
+<h2 id="第一个操作数是a的">第一个操作数是A的</h2>
+<ul>
+<li>加：ADD</li>
+<li>进位加：ADDC</li>
+<li>借位减：SUBB</li>
+<li>与：ANL</li>
+<li>或：ORL</li>
+<li>异或：XRL</li>
+</ul>
+<p>第二个可以是Rn，<span class="citation" data-cites="Ri">@Ri</span>，#data，dir。</p>
+<p>除此之外，逻辑运算指令的第一个操作数还可以是dir，此时第二个操作数可以为A或#data。</p>
+<p>ADDC为两数相加后还需加进位位（CY）；</p>
+<p>SUBB为两数相减后还需减去进位位（CY），由于减指令没有SUB指令，所以在多字节减法程序中，最低位字节作减法时，注意要先清 CY。</p>
+<p>除CY外，加减运算指令影响标志位OV、AC。逻辑运算是按位进行的，因此不影响CY、OV、AC标志位。</p>
+<h2 id="自增自减">自增自减</h2>
+<ul>
+<li>加一：INC，操作数可以是Rn，<span class="citation" data-cites="Ri">@Ri</span>，DPTR，dir，A；</li>
+<li><p>减一：DEC，操作数可以是Rn，<span class="citation" data-cites="Ri">@Ri</span>，dir，A，不能是DPTR。</p>
+<p>4、凡是指令执行结果在A累加器中，运行结果“1”的奇、偶性反映在P标志位（包括前面的传送指令和后面的移位指令）。</p></li>
+</ul>
+<h2 id="十进制调整指令">十进制调整指令</h2>
+<p>单片机中ADD指令完成的是二进制加法，如果要实现十进制相加（即BCD码相加）并得到十进制结果，必须进行十进制调整（即BCD码调整），调整指令：DA A，将A中二进制相加的和调整成十进制数（BCD码）。</p>
+<p>调整方法：若和的低4位大于9或有半进位AC=1，则低4位加6；若和的高4位大于9或有进位CY=1，则高4位加6。</p>
+<p>该指令只对加法ADD指令的和调整，不能对减法结果进行调整。所以应紧跟在加指令之后，在加指令和该指令之间不能有影响标志位的指令。</p>
+<h2 id="专对a的指令">专对A的指令</h2>
+<ul>
+<li>A取反：CPL A</li>
+<li>A清零：CLR A</li>
+<li>循环右移：RR A</li>
+<li>循环左移：RL A</li>
+<li>向右到CY循环移：RLC A</li>
+<li>向左到CY循环移：RRC A</li>
+</ul>
+<h2 id="乘法指令-mul-ab">乘法指令 MUL AB</h2>
+<p>A、B中各放一8位无符号乘数，执行后16位积的高8位在B中，低8位在A中，使CY=0，当乘积大于255，OV置1。</p>
+<p>例如A=50H，B=A0H，指令执行后A=00H，B=32H，CY=0，OV=1。</p>
+<h2 id="除法指令-div-ab">除法指令 DIV AB</h2>
+<p>A中放一8位无符号被除数、B中放一8位无符号除数，商在A中，余数在B中，使CY=0，若除数B=00H，则OV=1，A，B内容不变。</p>
+<p>例如A=28H，B=12H，指令执行后，A=02H，B=04H,CY=0, OV=0。</p>
+<h1 id="控制转移指令">控制转移指令</h1>
+<p>这一类指令的功能是转到新的PC地址执行。</p>
+<h2 id="子程序调用">子程序调用</h2>
+<h3 id="长调用-lcall-addr16">长调用 LCALL addr16</h3>
+<p>可用于保护断点和将子程序的入口地址送PC，转子程序执行，子程序可在64KB地址空间的任一处。</p>
+<p>本指令的机器码为三字节。</p>
+<h3 id="短调用-acall-addr11">短调用 ACALL addr11</h3>
+<p>addr11→PC0～10,而PC11～15保持不变。因此地址范围2KB，如果用来调用子程序，子程序入口距当前PC不得超过2KB地址范围。</p>
+<p>本指令的机器码为二字节。</p>
+<h3 id="子程序返回指令">子程序返回指令</h3>
+<ul>
+<li>RET：从栈顶弹出断点到PC。</li>
+<li>RETI：从中断服务程序返回。</li>
+</ul>
+<h2 id="无条件转移">无条件转移</h2>
+<p>无条件转移到目的地址。</p>
+<h3 id="短转移-ajmp-addr11">短转移 AJMP addr11</h3>
+<p>类似ACALL。</p>
+<h3 id="长转移-ljmp-addr16">长转移 LJMP addr16</h3>
+<p>类似LCALL。</p>
+<h3 id="间接转移常用于多路转移">间接转移（常用于多路转移）</h3>
+<p>JMP <span class="citation" data-cites="A+DPTR">@A+DPTR</span>;A+DPTR→PC</p>
+<h3 id="无条件相对转移">无条件相对转移</h3>
+<p>SJMP rel;PC+rel→PC</p>
+<h2 id="条件转移">条件转移</h2>
+<p>满足条件转移到目的地址。</p>
+<h3 id="累加器为零非零转移">累加器为零（非零）转移</h3>
+<ul>
+<li>JZ rel;A=0则转移（PC+rel→PC）否则程序顺序执行</li>
+<li>JNZ rel;A≠0则转移（PC+rel→PC）否则程序顺序执行</li>
+</ul>
+<h3 id="减1不等于零转移">减1不等于零转移</h3>
+<ul>
+<li>DJNZ Rn,rel</li>
+<li>DJNZ dir,rel</li>
+</ul>
+<p>本指令有自动减1功能。</p>
+<h3 id="比较转移指令">比较转移指令</h3>
+<ul>
+<li>CJNE A , dir , rel</li>
+<li>CJNE A , #data , rel</li>
+<li>CJNE Rn , #data , rel</li>
+<li>CJNE <span class="citation" data-cites="Ri">@Ri</span> , #data , rel</li>
+</ul>
+<p>CJNE指令都是3字节指令，作减操作，不回送结果，影响CY标志。若第一操作数大于或等于第二操作数，则标志CY=0。若第一操作数小于第二操作数，则CY=1——因此这几条指令除实现两操作数相等与否的判断外，利用对CY的判断，还可完成两数大小的比较。</p>
+<h1 id="位操作指令">位操作指令</h1>
+<p>位操作指令的对象只能是C和直接位地址，共17条，位的逻辑运算指令的目的操作数只能是C，而位地址有多种表达方式，以下D4H、PSW.4、RS1和ABC表示相同的位：</p>
+<ul>
+<li>用直接位地址表示，如D4H。</li>
+<li>用“·”操作符号表示，如PSW.4，或D0H.4</li>
+<li>用位名称表示，如RS1。</li>
+<li>用BIT自定义名表示。如ABC BIT D4H，其中ABC定义为D4H位的位名。</li>
+</ul>
+<h2 id="位清零">位清零</h2>
+<ul>
+<li>CLR C</li>
+<li>CLR bit</li>
+</ul>
+<h2 id="位置壹">位置壹</h2>
+<ul>
+<li>SETB C</li>
+<li>SETB bit</li>
+</ul>
+<h2 id="位取反">位取反</h2>
+<ul>
+<li>CPL C</li>
+<li>CPL bit</li>
+</ul>
+<h2 id="位与">位与</h2>
+<ul>
+<li>ANL C，bit ;CY∧（bit）→CY</li>
+<li>ANL C，/bit ;CY∧（/bit）→CY</li>
+</ul>
+<h2 id="位或">位或</h2>
+<ul>
+<li>ORL C，bit ;CY∨（bit）→CY</li>
+<li>ORL C，/bit ;CY∨（/bit）→CY</li>
+</ul>
+<h2 id="位传送">位传送</h2>
+<ul>
+<li>MOV C，bit</li>
+<li>MOV bit,C</li>
+</ul>
+<h2 id="位转移">位转移</h2>
+<p>根据位的值决定转移，均为相对转移指令。</p>
+<ul>
+<li>JC rel;CY=1，则转移（PC+rel→PC），否则程序顺序执行</li>
+<li>JNC rel;CY=0,则转移（PC+rel→PC），否则程序顺序执行</li>
+<li>JB bit，rel;(bit)=1,则转移（PC+rel→PC），否则程序顺序执行</li>
+<li>JNB bit,rel;(bit)=0,则转移（PC+rel→PC），否则程序顺序执行</li>
+<li>JBC bit,rel;(bit)=1,则转移（PC+rel→PC）且该位清零，否则程序顺序执行</li>
+</ul>
+<p>注意，没有位异或，如果要用位操作指令实现X=X0⊕X1，设X为ACC.0，X0为P1.0，X1为P1.1。</p>
+<p>可以利用X0⊕X1=X0(/X1)+(/X0)X1：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">X   BIT  ACC.0</span></pre></td></tr><tr><td class="code"><pre><span class="line">X0  BIT   P1.0</span></pre></td></tr><tr><td class="code"><pre><span class="line">X1  BIT   P1.1</span></pre></td></tr><tr><td class="code"><pre><span class="line">MOV  C,   X0</span></pre></td></tr><tr><td class="code"><pre><span class="line">ANL  C,   &#x2F;X1</span></pre></td></tr><tr><td class="code"><pre><span class="line">MOV  20H, C</span></pre></td></tr><tr><td class="code"><pre><span class="line">MOV  C,   X1</span></pre></td></tr><tr><td class="code"><pre><span class="line">ANL  C,   &#x2F;X0 </span></pre></td></tr><tr><td class="code"><pre><span class="line">ORL  C,   20H</span></pre></td></tr><tr><td class="code"><pre><span class="line">MOV  X,   C</span></pre></td></tr><tr><td class="code"><pre><span class="line">SJMP $</span></pre></td></tr></table></figure>
+<p>或根据异或规则——一数与“0”异或值不变；与“1”异或值变反：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ORG   0000H</span></pre></td></tr><tr><td class="code"><pre><span class="line">MOV   C  , X0</span></pre></td></tr><tr><td class="code"><pre><span class="line">JNB   X1 , NCEX    ;X1&#x3D;0，X&#x3D;C&#x3D;X0</span></pre></td></tr><tr><td class="code"><pre><span class="line">CPL   C</span></pre></td></tr><tr><td class="code"><pre><span class="line">NCEX:</span></pre></td></tr><tr><td class="code"><pre><span class="line">MOV   X  , C       ;X1&#x3D;1，X&#x3D;C&#x3D;X0</span></pre></td></tr><tr><td class="code"><pre><span class="line">SJMP  $</span></pre></td></tr></table></figure>
+<h1 id="空操作指令-nop">空操作指令 NOP</h1>
+<p>机器码为00，该指令经取指、译码后不进行任何操作（空操作）而转到下一条指令，常用于生产一个机器周期的延时，或上机修改程序时作填充指令，以方便增减指令。</p>
+<h1 id="伪指令">伪指令</h1>
+<p>伪指令是为汇编程序（汇编器）提供信息的指令，它没有机器码，不被计算机执行。</p>
+<h2 id="起始指令">起始指令</h2>
+<p>ORG addr16</p>
+<p>定义程序或数据块的起始地址。指示后面的程序或数据块以addr16为起始地址，存放在程序存储器中。</p>
+<h2 id="字节定义">字节定义</h2>
+<p>标号： DB （字节常数，或字符或表达式）</p>
+<p>指示以标号为起始地址的单元里存放的数为字节数据 （8位二进制数）,例如<code>LN：DB  32，’C’，25H，-1</code>。</p>
+<h2 id="字定义">字定义</h2>
+<p>标号：DW （字常数或表达式）</p>
+<p>指示在以标号为起始地址的单元里存放的数为字数据 （16位二进制数），例如<code>GH：DW 1234H,5678H,08</code>。</p>
+<h2 id="保留字节">保留字节</h2>
+<p>标号：DS （数值表达式）</p>
+<p>指示在程序存储器中保留以标号为起始地址的若干字节单元，其单元个数由数值表达式指定，例如<code>L1：DS 32</code>：从L1地址开始保留32个存储单元。</p>
+<h2 id="等值指令">等值指令</h2>
+<p>标号 EQU （数值表达式）</p>
+<p>表示EQU两边的量等值，用于为标号或标识符赋值。</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">X1 EQU 2000H</span></pre></td></tr><tr><td class="code"><pre><span class="line">X2 EQU 0FH</span></pre></td></tr><tr><td class="code"><pre><span class="line">...</span></pre></td></tr><tr><td class="code"><pre><span class="line">MAIN:	</span></pre></td></tr><tr><td class="code"><pre><span class="line">MOV  DPTR，#X1  ;DPTR&#x3D;2000H</span></pre></td></tr><tr><td class="code"><pre><span class="line">ADD  A   ，#X2  ;A&#x3D;A+0FH</span></pre></td></tr></table></figure>
+<h2 id="位定义">位定义</h2>
+<p>标号 BIT [位地址]</p>
+<p>同EQU指令，不过定义的是位操作地址，前面用到过。</p>
+<h2 id="汇编结束-end">汇编结束 END</h2>
+<p>指示源程序段结束，放在程序的最后。</p>
+]]></content>
+      <categories>
+        <category>51单片机</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>第一章：51单片机基础</title>
+    <url>/posts/386c1aa8.html</url>
+    <content><![CDATA[<p><img src="" /></p>
+<center>
+51单片机型号介绍与内部结构。
+</center>
+<a id="more"></a>
+<h1 id="单片机">单片机</h1>
+<p>单片微型计算机(Single-Chip Microcomputer)，又称微控制器MCU(Micro Controller Unit)，是将计算机的基本部分微型化，使之集成在一块芯片上的微机。片内含有CPU、ROM、RAM、并行I/O、串行I/O、定时器/计数器、中断控制、系统时钟及系统总线等，它本身就是一个嵌入式系统。</p>
+<p>市场占有最高的是8051系列单片机。51单片机最早由Intel公司推出，称为MCS-51。</p>
+<p>51系列单片机有多种型号的产品，<strong>普通型主要有8031、 8051、8751、89C51、89S51</strong>等：</p>
+<ul>
+<li>8031片内没有ROM程序存储器(老产品，已被淘汰)；</li>
+<li>8051内部设有4KB的掩模ROM程序存储器；</li>
+<li>8751是将8051片内的ROM换成EPROM</li>
+<li>89C51则换成4KB的闪速EEPROM；</li>
+<li>89S51结构同89C51(可在线编程)；</li>
+</ul>
+<p>增强型的存储容量为普通型的一倍，名字是XXX52。</p>
+<h1 id="单片机内部结构">51单片机内部结构</h1>
+<ul>
+<li>一个8位的CPU：
+<ul>
+<li>运算器：可执行算术、逻辑、位运算，状态信息送PSW；</li>
+<li>计数器PC：16位自动加一寄存器，存放指令地址，执行指令时，PC内容的低8位经P0口输出，高8位经P2口输出；</li>
+<li>指令寄存器：从程序存储器读取指令代码至此；</li>
+</ul></li>
+<li>一个片内振荡器及时钟电路：
+<ul>
+<li>内部震荡方式：在引脚XTAL1和XTAL2外接晶体振荡器，由于单片机内部有一个高增益运算放大器，当外接晶振后，就构成了自激振荡器并产生振荡时钟脉冲；</li>
+<li>外部震荡方式：适宜用于使单片机的时钟与外部信号保持一致，外部信号接XTAL1即可，XTAL2悬空。</li>
+<li>注：单片机的时序单位有：
+<ul>
+<li>振荡周期：晶振的振荡周期，又称时钟周期，为最小的时序单位；</li>
+<li>机器周期（MC）：1个机器周期由12个振荡周期组成。是计算机执行一种基本操作的时间单位；</li>
+<li>指令周期：执行一条指令所需的时间。一个指令周期由1～4个机器周期组成，依据指令不同而不同。</li>
+</ul></li>
+</ul></li>
+<li>复位电路，初始化单片机，给复位引脚RST加5ms以上高电平时触发（如果系统不能工作，可尝试检查复位信号，若持续高电平则循环复位不执行），分为上电复位和开关复位，主要特殊功能寄存器复位状态归纳如下：
+<ul>
+<li>PC=0000H：表明程序从0000H地址单元开始执行（所以程序必须从0000H开始存放）。</li>
+<li>A=00H：表明累加器已被清零。</li>
+<li>PSW=00H：表明选寄存器0组为工作寄存器组。</li>
+<li>SP=07H：表明堆栈指针指向片内RAM07H单元，根据堆栈操作的先加后压法则，第一个被压入的数据被写入08H单元中。</li>
+<li>P0～P3=FFH：表明已向各端口线写入１，各端口既可用于输入又可用于输出。</li>
+</ul></li>
+<li>存储器（哈佛结构编址）：
+<ul>
+<li>统一编址的4KBROM程序存储器和64KB外部程序存储器（0000H-FFFFH，0000H从程序存储器开始还是从外部程序存储器取决于EA的电平，EA接高电平时这个0000H是片内开始算否则片外），其中一些地址有专门作用：
+<ul>
+<li>0000H：复位操作后的程序入口</li>
+<li>0003H：外部中断0服务程序入口</li>
+<li>000BH：定时器0中断服务程序入口</li>
+<li>0013H：外部中断1服务程序入口</li>
+<li>001BH：定时器1中断服务程序入口</li>
+<li>0023H：串行口中断服务程序入口</li>
+<li>002BH：定时器2中断服务程序入口（增强型）</li>
+</ul></li>
+<li>128BRAM数据存储器（00H-7FH，对于加强型，有256B，后半截使用寄存器间接寻址访问，直接寻址访问的是SFR），<strong>其中一些地址有专门作用</strong>：
+<ul>
+<li>00H-1FH：共四组通用寄存器R0-R7，其中R0、R1可做间址寄存器，使用时通过PSW的RS1和RS0选择一组使用，默认0组，其它组作为数据存储器使用；</li>
+<li>20H-2FH：可用于位寻址或字节寻址。</li>
+</ul></li>
+<li>64KB外部数据存储器（0000H-FFFFH，与外部I/O口统一编址，使用相同的控制信号、寄存器间址和MOVX指令）。</li>
+</ul></li>
+<li>特殊功能存储器SFR（Special Fuction Register），21个特殊功能寄存器不连续的分布在80H～FFH128个字节地址空间，对于加强型，使用直接寻址访问，间接寻址的话访问的是数据寄存器的后128B；</li>
+<li>32条可编程的I/O线（四个8位并行I/O端口）；</li>
+<li>两个16位定时器/计数器；</li>
+<li>一个可编程全双工串行口；</li>
+<li>五个中断源、两个优先级嵌套中断结构。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>51单片机</category>
+      </categories>
+  </entry>
+  <entry>
     <title>实验三：键盘与电子管</title>
     <url>/posts/5588866d.html</url>
     <content><![CDATA[<p><img src="" /></p>
